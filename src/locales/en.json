@@ -1,0 +1,155 @@
+{
+  "nav": {
+    "home": "Home",
+    "about": "About Us",
+    "programs": "Programs",
+    "impact": "Impact",
+    "contact": "Contact"
+  },
+  "hero": {
+    "title": "Building Smart Communities",
+    "subtitle": "Empowering communities through education, health, and social engagement",
+    "description": "Shomajgori Foundation 2022 is dedicated to creating sustainable, smart communities that thrive through collective action and shared responsibility.",
+    "cta": "Learn More",
+    "donate": "Support Us"
+  },
+  "about": {
+    "title": "About Shomajgori Foundation",
+    "mission": {
+      "title": "Our Mission",
+      "description": "To build smart communities that are sustainable, inclusive, and empowered through education, health, and social engagement. We believe that every community has the potential to thrive when equipped with the right tools, knowledge, and support."
+    },
+    "vision": {
+      "title": "Our Vision",
+      "description": "A world where every community has the tools, knowledge, and support to create positive change and sustainable development. We envision communities that are self-reliant, innovative, and connected, where every individual can contribute to and benefit from collective progress."
+    },
+    "values": {
+      "title": "Our Values",
+      "items": [
+        {
+          "title": "Community First",
+          "description": "Every decision is made with the community's best interests at heart"
+        },
+        {
+          "title": "Transparency",
+          "description": "Open communication and accountability in all our actions"
+        },
+        {
+          "title": "Innovation",
+          "description": "Embracing new ideas and technologies for better outcomes"
+        },
+        {
+          "title": "Collaboration",
+          "description": "Working together with partners, volunteers, and community members"
+        }
+      ]
+    },
+    "impact": {
+      "title": "Our Impact",
+      "stats": [
+        {
+          "number": "500+",
+          "label": "Families Served"
+        },
+        {
+          "number": "50+",
+          "label": "Community Programs"
+        },
+        {
+          "number": "1000+",
+          "label": "Lives Impacted"
+        },
+        {
+          "number": "15+",
+          "label": "Partner Organizations"
+        }
+      ]
+    }
+  },
+  "programs": {
+    "title": "Our Programs",
+    "subtitle": "Comprehensive initiatives designed to build smart, sustainable communities",
+    "education": {
+      "title": "Education & Digital Literacy",
+      "description": "Empowering communities with knowledge and digital skills for the modern world. We provide comprehensive educational programs that bridge the digital divide and prepare communities for the future.",
+      "features": [
+        "Digital literacy training programs for all ages",
+        "Computer and internet access in community centers",
+        "Educational workshops and seminars on technology",
+        "Skill development courses for employability",
+        "Online learning platforms and resources",
+        "Teacher training and capacity building"
+      ]
+    },
+    "health": {
+      "title": "Health & Wellness",
+      "description": "Promoting physical and mental well-being through comprehensive health programs. We focus on preventive care, health education, and accessible healthcare services.",
+      "features": [
+        "Health awareness campaigns and workshops",
+        "Mental health support and counseling services",
+        "Nutrition and wellness programs",
+        "Community health initiatives and screenings",
+        "Health education for families and children",
+        "Partnerships with local healthcare providers"
+      ]
+    },
+    "social": {
+      "title": "Social Engagement",
+      "description": "Building strong community bonds through social activities and civic participation. We create spaces for community members to connect, collaborate, and celebrate together.",
+      "features": [
+        "Community events and cultural festivals",
+        "Civic engagement and leadership programs",
+        "Social support networks and peer groups",
+        "Cultural preservation and heritage activities",
+        "Youth engagement and mentorship programs",
+        "Community organizing and advocacy training"
+      ]
+    },
+    "economic": {
+      "title": "Economic Opportunity",
+      "description": "Creating pathways to economic empowerment and sustainable livelihoods. We support community members in developing skills, starting businesses, and accessing economic opportunities.",
+      "features": [
+        "Entrepreneurship training and business development",
+        "Microfinance and small business support",
+        "Job placement assistance and career counseling",
+        "Skills training for market-relevant jobs",
+        "Financial literacy and money management",
+        "Partnerships with local businesses and employers"
+      ]
+    }
+  },
+  "impact": {
+    "title": "Impact Stories",
+    "subtitle": "Real stories of transformation and community empowerment",
+    "vogdaburi": {
+      "title": "Vogdaburi Community Center",
+      "description": "A beacon of hope and transformation in the heart of our community",
+      "story": "The Vogdaburi Community Center stands as a testament to what's possible when a community comes together. Through our comprehensive programs, we've created a space where families can access education, healthcare, and social support all under one roof.",
+      "achievements": [
+        "Established a fully functional community center",
+        "Provided digital literacy training to 200+ residents",
+        "Created a safe space for children and families",
+        "Facilitated community-led initiatives and programs"
+      ]
+    }
+  },
+  "contact": {
+    "title": "Get in Touch",
+    "subtitle": "Join us in building smart communities",
+    "address": "Vogdaburi Community Center, Dhaka, Bangladesh",
+    "email": "info@shomajgori.org",
+    "phone": "+880-XXX-XXXXXXX",
+    "cta": "Contact Us",
+    "volunteer": "Become a Volunteer"
+  },
+  "footer": {
+    "description": "Building smart communities through education, health, and social engagement",
+    "links": {
+      "about": "About Us",
+      "programs": "Programs",
+      "impact": "Impact",
+      "contact": "Contact"
+    },
+    "copyright": "© 2024 Shomajgori Foundation. All rights reserved."
+  }
+}

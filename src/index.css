@@ -1,0 +1,136 @@
+@import url('https://fonts.googleapis.com/css2?family=Ubuntu+Sans:ital,wght@0,100..800;1,100..800&display=swap');
+@import "tailwindcss";
+
+@font-face {
+  font-family: 'Bornomala';
+  src: url('/Bornomala-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Bornomala';
+  src: url('/Bornomala-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@theme {
+  --color-primary: rgba(47,170,160,1);
+  --color-secondary-teal: #0ea5e9;
+  --color-secondary-orange: #f97316;
+  --color-secondary-pink: #ec4899;
+
+  --color-bg: #ffffff;
+  --color-surface: #f8fafc;
+  --color-text: #1e293b;
+  --color-muted: #64748b;
+  --color-border: #e2e8f0;
+
+  --font-bengali: 'Bornomala', sans-serif;
+  --font-english: 'Ubuntu Sans', sans-serif;
+}
+
+* {
+  border-color: var(--color-border);
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: var(--font-english);
+  font-feature-settings: "rlig" 1, "calt" 1;
+  line-height: 1.6;
+}
+
+.bengali {
+  font-family: var(--font-bengali);
+}
+
+.english {
+  font-family: var(--font-english);
+}
+
+.btn-primary {
+  background-color: var(--color-primary);
+  color: white;
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.btn-primary:hover {
+  background-color: rgba(14, 165, 233, 0.9);
+  transform: translateY(-1px);
+}
+
+.btn-secondary {
+  background-color: transparent;
+  border: 2px solid var(--color-primary);
+  color: var(--color-primary);
+  padding: 0.75rem 1.5rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  transition: all 0.2s;
+}
+
+.btn-secondary:hover {
+  background-color: var(--color-primary);
+  color: white;
+}
+
+.section-padding {
+  padding: 4rem 1rem;
+}
+
+@media (min-width: 640px) {
+  .section-padding {
+    padding: 4rem 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .section-padding {
+    padding: 6rem 2rem;
+  }
+}
+
+.container-custom {
+  max-width: 80rem;
+  margin: 0 auto;
+  padding-left: 1rem;
+  padding-right: 1rem;
+}
+
+/* Video Play Button Animations */
+@keyframes ripple {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 0 0 rgba(14, 165, 233, 0.4);
+  }
+  50% {
+    box-shadow: 0 0 0 20px rgba(14, 165, 233, 0);
+  }
+}
+
+.video-play-button {
+  animation: pulse-glow 2s infinite;
+}
+
+.video-ripple {
+  animation: ripple 2s infinite;
+}
