@@ -8,6 +8,7 @@ export default {
     extend: {
       fontFamily: {
         'bengali': ['Bornomala', 'sans-serif'],
+        'bornomala': ['Bornomala', 'sans-serif'],
         'english': ['Ubuntu Sans', 'sans-serif'],
       },
       colors: {

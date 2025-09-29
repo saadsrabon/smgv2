@@ -3,47 +3,41 @@ import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { ArrowRight, Heart, Users, BookOpen, Shield, Lightbulb } from 'lucide-react';
 
+// Import local hero images
+import educationImg from '@/assets/hero/education-B1rO235h.jpeg';
+import photo1 from '@/assets/hero/PHOTO-2024-06-09-10-22-25.jpg';
+import photo2 from '@/assets/hero/PHOTO-2024-10-01-08-46-54.jpg';
+import tailorImg from '@/assets/hero/tailorMachin-CgXAI2ci.png';
+
 const Hero = () => {
   const { t, i18n } = useTranslation();
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  // Sample images - you can replace these with actual images
+  // Hero images with perfect masonry layout
   const images = [
     {
       id: 1,
-      src: 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=400&h=300&fit=crop',
-      title: 'Community Garden',
-      description: 'Empowering communities through sustainable agriculture'
+      src: educationImg,
+      title: i18n.language === 'bn' ? 'শিক্ষা কার্যক্রম' : 'Education Program',
+      description: i18n.language === 'bn' ? 'মানসম্মত শিক্ষার মাধ্যমে ভবিষ্যৎ গড়ে তুলি' : 'Building futures through quality education'
     },
     {
       id: 2,
-      src: 'https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?w=400&h=500&fit=crop',
-      title: 'Education Center',
-      description: 'Learning and growing together'
+      src: photo1,
+      title: i18n.language === 'bn' ? 'সম্প্রদায় উন্নয়ন' : 'Community Development',
+      description: i18n.language === 'bn' ? 'একসাথে কাজ করে সমৃদ্ধি আনি' : 'Working together for prosperity'
     },
     {
       id: 3,
-      src: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1f?w=400&h=400&fit=crop',
-      title: 'Health Camp',
-      description: 'Providing essential healthcare services'
+      src: photo2,
+      title: i18n.language === 'bn' ? 'সামাজিক কার্যক্রম' : 'Social Activities',
+      description: i18n.language === 'bn' ? 'সমাজের উন্নয়নে সক্রিয় অংশগ্রহণ' : 'Active participation in social development'
     },
     {
       id: 4,
-      src: 'https://images.unsplash.com/photo-1529156069898-49953e39b3ac?w=400&h=300&fit=crop',
-      title: 'Women Empowerment',
-      description: 'Building stronger communities together'
-    },
-    {
-      id: 5,
-      src: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&h=400&fit=crop',
-      title: 'Youth Development',
-      description: 'Investing in the next generation'
-    },
-    {
-      id: 6,
-      src: 'https://images.unsplash.com/photo-1559027615-cd4628902d4a?w=400&h=500&fit=crop',
-      title: 'Community Events',
-      description: 'Celebrating together, growing together'
+      src: tailorImg,
+      title: i18n.language === 'bn' ? 'দক্ষতা উন্নয়ন' : 'Skill Development',
+      description: i18n.language === 'bn' ? 'পেশাগত দক্ষতা বৃদ্ধির মাধ্যমে আত্মনির্ভরশীলতা' : 'Building self-reliance through skill development'
     }
   ];
 
@@ -58,7 +52,7 @@ const Hero = () => {
 
   return (
 
-    
+
     <section id="home" className="min-h-screen flex items-center bg-gradient-to-br from-light-bg via-light-surface to-light-bg relative overflow-hidden">
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
@@ -97,21 +91,21 @@ const Hero = () => {
 
             {/* Stats */}
             <div className="grid grid-cols-3 gap-8 pt-8">
-              <div className="text-center">
+              <div className="">
                 <div className="flex items-center justify-center w-12 h-12 bg-primary/20 rounded-full mb-2">
                   <Users className="w-6 h-6 text-primary" />
                 </div>
                 <div className="text-2xl font-bold text-light-text">500+</div>
                 <div className="text-sm text-light-muted">Families</div>
               </div>
-              <div className="text-center">
+              <div className="">
                 <div className="flex items-center justify-center w-12 h-12 bg-secondary-teal/20 rounded-full mb-2">
                   <BookOpen className="w-6 h-6 text-secondary-teal" />
                 </div>
                 <div className="text-2xl font-bold text-light-text">50+</div>
                 <div className="text-sm text-light-muted">Programs</div>
               </div>
-              <div className="text-center">
+              <div className="">
                 <div className="flex items-center justify-center w-12 h-12 bg-secondary-orange/20 rounded-full mb-2">
                   <Heart className="w-6 h-6 text-secondary-orange" />
                 </div>
@@ -121,72 +115,69 @@ const Hero = () => {
             </div>
           </div>
 
-          {/* Masonry/Bento Grid */}
+          {/* Perfect Masonry/Bento Grid */}
           <div className="relative">
-            <div className="grid grid-cols-3 gap-4 h-[600px]">
-              {/* Large image - top left */}
-              <div className="col-span-2 row-span-2 relative overflow-hidden rounded-2xl group">
+            <div className="masonry-grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 h-[400px] md:h-[600px] auto-rows-fr">
+              {/* Large featured image - spans 2 columns, 2 rows */}
+              <div className="col-span-2 row-span-2 relative overflow-hidden rounded-2xl group masonry-item">
                 <img
                   src={images[currentImageIndex].src}
                   alt={images[currentImageIndex].title}
-                  className="w-full h-full object-cover transition-all duration-500 group-hover:scale-105"
+                  className="masonry-image"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
                 <div className="absolute bottom-4 left-4 text-white">
-                  <h3 className="text-lg font-semibold">{images[currentImageIndex].title}</h3>
-                  <p className="text-sm opacity-90">{images[currentImageIndex].description}</p>
+                  <h3 className={`text-xl font-bold mb-2 ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
+                    {images[currentImageIndex].title}
+                  </h3>
+                  <p className={`text-sm opacity-90 ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
+                    {images[currentImageIndex].description}
+                  </p>
                 </div>
               </div>
 
-              {/* Small image - top right */}
-              <div className="col-span-1 row-span-1 relative overflow-hidden rounded-2xl group">
+              {/* Top right image */}
+              <div className="col-span-2 row-span-1 relative overflow-hidden rounded-2xl group masonry-item">
                 <img
                   src={images[(currentImageIndex + 1) % images.length].src}
                   alt={images[(currentImageIndex + 1) % images.length].title}
-                  className="w-full h-full object-cover transition-all duration-500 group-hover:scale-105"
+                  className="masonry-image"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                <div className="absolute bottom-2 left-2 text-white">
-                  <h4 className="text-sm font-semibold">{images[(currentImageIndex + 1) % images.length].title}</h4>
+                <div className="absolute bottom-3 left-3 text-white">
+                  <h4 className={`text-lg font-semibold ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
+                    {images[(currentImageIndex + 1) % images.length].title}
+                  </h4>
                 </div>
               </div>
 
-              {/* Medium image - middle right */}
-              <div className="col-span-1 row-span-1 relative overflow-hidden rounded-2xl group">
+              {/* Bottom left image */}
+              <div className="col-span-1 row-span-1 relative overflow-hidden rounded-2xl group masonry-item">
                 <img
                   src={images[(currentImageIndex + 2) % images.length].src}
                   alt={images[(currentImageIndex + 2) % images.length].title}
-                  className="w-full h-full object-cover transition-all duration-500 group-hover:scale-105"
+                  className="masonry-image"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 <div className="absolute bottom-2 left-2 text-white">
-                  <h4 className="text-sm font-semibold">{images[(currentImageIndex + 2) % images.length].title}</h4>
+                  <h4 className={`text-sm font-semibold ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
+                    {images[(currentImageIndex + 2) % images.length].title}
+                  </h4>
                 </div>
               </div>
 
-              {/* Small image - bottom left */}
-              <div className="col-span-1 row-span-1 relative overflow-hidden rounded-2xl group">
+              {/* Bottom right image */}
+              <div className="col-span-1 row-span-1 relative overflow-hidden rounded-2xl group masonry-item">
                 <img
                   src={images[(currentImageIndex + 3) % images.length].src}
                   alt={images[(currentImageIndex + 3) % images.length].title}
-                  className="w-full h-full object-cover transition-all duration-500 group-hover:scale-105"
+                  className="masonry-image"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                 <div className="absolute bottom-2 left-2 text-white">
-                  <h4 className="text-sm font-semibold">{images[(currentImageIndex + 3) % images.length].title}</h4>
-                </div>
-              </div>
-
-              {/* Small image - bottom right */}
-              <div className="col-span-1 row-span-1 relative overflow-hidden rounded-2xl group">
-                <img
-                  src={images[(currentImageIndex + 4) % images.length].src}
-                  alt={images[(currentImageIndex + 4) % images.length].title}
-                  className="w-full h-full object-cover transition-all duration-500 group-hover:scale-105"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                <div className="absolute bottom-2 left-2 text-white">
-                  <h4 className="text-sm font-semibold">{images[(currentImageIndex + 4) % images.length].title}</h4>
+                  <h4 className={`text-sm font-semibold ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
+                    {images[(currentImageIndex + 3) % images.length].title}
+                  </h4>
                 </div>
               </div>
             </div>

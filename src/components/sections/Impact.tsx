@@ -5,7 +5,7 @@ const Impact = () => {
   const { t, i18n } = useTranslation();
 
   return (
-    <section id="impact" className="bg-light-surface">
+    <section  id="impact" className="bg-light-surface">
       <div className="container-custom section-padding">
         <div className="text-center mb-16">
           <h2 className={`text-3xl md:text-4xl font-bold text-light-text mb-4 ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>

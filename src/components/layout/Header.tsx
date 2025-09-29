@@ -18,6 +18,7 @@ const Header = () => {
     { name: t('nav.programs'), href: '#programs' },
     { name: t('nav.impact'), href: '#impact' },
     { name: t('nav.contact'), href: '#contact' },
+    { name: i18n.language === 'bn' ? 'বিশ্লেষণ' : 'Analytics', href: '/analytics' },
   ];
 
   return (
