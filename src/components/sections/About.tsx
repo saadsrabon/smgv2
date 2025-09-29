@@ -75,7 +75,6 @@ const About = () => {
                   className="w-full h-full"
                   allowFullScreen
                   title={i18n.language === 'bn' ? 'আমাদের গল্প' : 'Our Story'}
-                  poster="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?w=800&h=450&fit=crop&crop=center"
                 />
               )}
             </div>

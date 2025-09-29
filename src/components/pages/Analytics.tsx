@@ -57,7 +57,7 @@ interface CumulativeStats {
 }
 
 const Analytics = () => {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const navigate = useNavigate();
   const [analyticsData, setAnalyticsData] = useState<AnalyticsData[]>([]);
   const [cumulativeStats, setCumulativeStats] = useState<CumulativeStats>({
@@ -101,9 +101,7 @@ const Analytics = () => {
   useEffect(() => {
     const handleHashNavigation = () => {
       const hash = window.location.hash;
-      console.log('Analytics: Hash detected:', hash);
       if (hash && hash !== '') {
-        console.log('Analytics: Redirecting to', `/${hash}`);
         // Redirect to main page with the same hash
         navigate(`/${hash}`);
       }

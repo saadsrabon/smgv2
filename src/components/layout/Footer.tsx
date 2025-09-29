@@ -1,5 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { Mail, Phone, MapPin, Heart } from 'lucide-react';
+import logo from '../../assets/LOGO-removebg-preview.png';
 
 const Footer = () => {
   const { t, i18n } = useTranslation();
@@ -11,8 +12,8 @@ const Footer = () => {
           {/* Foundation Info */}
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
-              <div className="w-8 h-8 bg-primary rounded-full flex items-center justify-center">
-                <span className="text-white font-bold text-sm">SG</span>
+              <div className="w-24 h-auto rounded-full flex items-center justify-center">
+                <img src={logo} alt="logo" className="w-full h-full" />
               </div>
               <h3 className={`text-xl font-bold text-light-text ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
                 {t('footer.description')}

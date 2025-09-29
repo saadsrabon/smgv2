@@ -35,14 +35,11 @@ function MainPage() {
   useEffect(() => {
     const handleHashNavigation = () => {
       const hash = window.location.hash;
-      console.log('MainPage: Hash detected:', hash);
       if (hash) {
         // Remove the # and scroll to the element
         const elementId = hash.substring(1);
-        console.log('MainPage: Looking for element with ID:', elementId);
         const element = document.getElementById(elementId);
         if (element) {
-          console.log('MainPage: Element found, scrolling to it');
           // Add a small delay to ensure the page is fully loaded
           setTimeout(() => {
             element.scrollIntoView({ 
@@ -50,8 +47,6 @@ function MainPage() {
               block: 'start'
             });
           }, 100);
-        } else {
-          console.log('MainPage: Element not found with ID:', elementId);
         }
       }
     };

@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Heart, Users, BookOpen, Shield, Lightbulb } from 'lucide-react';
+import { ArrowRight, Heart, Users, BookOpen } from 'lucide-react';
 
 // Import local hero images
 import educationImg from '@/assets/hero/education-B1rO235h.jpeg';
