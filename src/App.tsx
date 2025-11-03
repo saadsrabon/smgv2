@@ -6,8 +6,11 @@ import Hero from './components/sections/Hero';
 import About from './components/sections/About';
 import Programs from './components/sections/Programs';
 import Impact from './components/sections/Impact';
+import Photos from './components/sections/Photos';
+import OngoingActivities from './components/sections/OngoingActivities';
 import Contact from './components/sections/Contact';
 import Analytics from './components/pages/Analytics';
+import Gallery from './components/pages/Gallery';
 import FounderModal from './components/ui/FounderModal';
 import { useFounderModal } from './hooks/useFounderModal';
 import './lib/i18n'; // Import i18n configuration
@@ -22,6 +25,7 @@ function App() {
         <Routes>
           <Route path="/" element={<MainPage />} />
           <Route path="/analytics" element={<Analytics />} />
+          <Route path="/gallery" element={<Gallery />} />
         </Routes>
         <Footer />
         <FounderModal isOpen={isModalOpen} onClose={closeModal} />
@@ -68,6 +72,8 @@ function MainPage() {
       <About />
       <Programs />
       <Impact />
+      <Photos />
+      <OngoingActivities />
       <Contact />
     </main>
   );

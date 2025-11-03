@@ -13,14 +13,34 @@ interface AnalyticsData {
   volunteers: number;
 }
 
+interface ProgramMetrics {
+  year: string;
+  month: string;
+  preschoolEnrollment: number;
+  preschoolAttendance: number;
+  tutoringEnrollment: number;
+  studentImprovement: number;
+  digitalLiteracyParticipation: number;
+  digitalLiteracyImprovement: number;
+  mentoringParticipation: number;
+  mentoringImprovement: number;
+  totalProgramSessions: number;
+  communityLedSessions: number;
+  communitySatisfaction: number;
+  totalRespondents: number;
+  localRevenue: number;
+  maintenanceRequired: string;
+  incomeUtilization: string;
+}
+
 // Google Sheets API configuration
 const GOOGLE_SHEETS_API_KEY = import.meta.env.VITE_GOOGLE_SHEETS_API_KEY || '';
 const SPREADSHEET_ID = '1XTKAYoCk7MHTAYh5ot55LzoLzS5XBWDp';
-const SHEET_NAME = "'2025'"; // Change this to your actual sheet name
-const RANGE = 'A:V'; // Adjust range based on your data structure
+const SHEET_NAMES = ['2025', '2024', '2023']; // Multiple years
+const RANGE = 'A:AB'; // Full range based on your sheet structure
 
 /**
- * Fetches data from Google Sheets
+ * Fetches data from Google Sheets for multiple years
  * @returns Promise<AnalyticsData[]>
  */
 export const fetchGoogleSheetsData = async (): Promise<AnalyticsData[]> => {
@@ -31,18 +51,36 @@ export const fetchGoogleSheetsData = async (): Promise<AnalyticsData[]> => {
       return getMockData();
     }
 
-    const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${SHEET_NAME}!${RANGE}?key=${GOOGLE_SHEETS_API_KEY}`;
+    const allData: AnalyticsData[] = [];
     
-    const response = await fetch(url);
-    
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+    // Fetch data from all years
+    for (const sheetName of SHEET_NAMES) {
+      try {
+        // Quote and URL-encode sheet name for A1 notation (required for numeric sheet names)
+        const sheetA1 = encodeURIComponent(`'${sheetName}'`);
+        const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${sheetA1}!${RANGE}?key=${GOOGLE_SHEETS_API_KEY}&valueRenderOption=UNFORMATTED_VALUE`;
+        
+        const response = await fetch(url);
+        
+        if (!response.ok) {
+          console.warn(`Failed to fetch data from sheet ${sheetName}: ${response.status}`);
+          continue;
+        }
+        
+        const data: GoogleSheetsResponse = await response.json();
+        
+        // Convert Google Sheets data to AnalyticsData format
+        const yearData = convertSheetsDataToAnalytics(data.values, sheetName);
+        allData.push(...yearData);
+        
+      } catch (error) {
+        console.error(`Error fetching data from sheet ${sheetName}:`, error);
+        continue;
+      }
     }
     
-    const data: GoogleSheetsResponse = await response.json();
-    
-    // Convert Google Sheets data to AnalyticsData format
-    return convertSheetsDataToAnalytics(data.values);
+    // Sort by date and return
+    return allData.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
     
   } catch (error) {
     console.error('Error fetching Google Sheets data:', error);
@@ -54,26 +92,91 @@ export const fetchGoogleSheetsData = async (): Promise<AnalyticsData[]> => {
 /**
  * Converts Google Sheets data to AnalyticsData format
  * @param values Raw data from Google Sheets
+ * @param year Year of the data
  * @returns AnalyticsData[]
  */
-const convertSheetsDataToAnalytics = (values: string[][]): AnalyticsData[] => {
+const convertSheetsDataToAnalytics = (values: string[][], year: string): AnalyticsData[] => {
   if (!values || values.length < 2) {
-    return getMockData();
+    return [];
   }
 
-  // Skip header row and convert data
-  const dataRows = values.slice(1);
+  // Find the header row (look for "January" in the row)
+  let headerRowIndex = -1;
+  for (let i = 0; i < values.length; i++) {
+    if (values[i].some(cell => cell && cell.toLowerCase().includes('january'))) {
+      headerRowIndex = i;
+      break;
+    }
+  }
+
+  if (headerRowIndex === -1) {
+    console.warn(`No header row found in sheet ${year}`);
+    return [];
+  }
+
+  // Extract month columns (January through December)
+  const monthColumns = [];
+  const headerRow = values[headerRowIndex];
   
-  return dataRows.map((row, index) => {
-    // Assuming columns: Date, Beneficiaries, Programs, Donations, Volunteers
-    return {
-      date: row[0] || `2024-${String(index + 1).padStart(2, '0')}`,
-      beneficiaries: parseInt(row[1]) || 0,
-      programs: parseInt(row[2]) || 0,
-      donations: parseInt(row[3]) || 0,
-      volunteers: parseInt(row[4]) || 0,
-    };
-  }).filter(item => item.date); // Filter out empty rows
+  for (let i = 0; i < headerRow.length; i++) {
+    const cell = headerRow[i]?.toLowerCase();
+    if (cell && (cell.includes('january') || cell.includes('february') || cell.includes('march') || 
+                 cell.includes('april') || cell.includes('may') || cell.includes('june') ||
+                 cell.includes('july') || cell.includes('august') || cell.includes('september') ||
+                 cell.includes('october') || cell.includes('november') || cell.includes('december'))) {
+      monthColumns.push(i);
+    }
+  }
+
+  if (monthColumns.length === 0) {
+    console.warn(`No month columns found in sheet ${year}`);
+    return [];
+  }
+
+  // Process each program row
+  const analyticsData: AnalyticsData[] = [];
+  const months = ['January', 'February', 'March', 'April', 'May', 'June',
+                  'July', 'August', 'September', 'October', 'November', 'December'];
+
+  // Look for key metrics rows
+  for (let rowIndex = headerRowIndex + 1; rowIndex < values.length; rowIndex++) {
+    const row = values[rowIndex];
+    if (!row || row.length === 0) continue;
+
+    const program = row[0]?.toLowerCase() || '';
+    const metric = row[1]?.toLowerCase() || '';
+
+    // Focus on key metrics that represent beneficiaries and programs
+    if (program.includes('education') && (metric.includes('enrollment') || metric.includes('attendance'))) {
+      // Process each month column
+      monthColumns.forEach((colIndex, monthIndex) => {
+        if (monthIndex < months.length) {
+          const value = parseInt(row[colIndex]) || 0;
+          if (value > 0) {
+            const date = `${year}-${String(monthIndex + 1).padStart(2, '0')}`;
+            
+            // Find or create entry for this month
+            let existingEntry = analyticsData.find(item => item.date === date);
+            if (!existingEntry) {
+              existingEntry = {
+                date,
+                beneficiaries: 0,
+                programs: 0,
+                donations: 0,
+                volunteers: 0
+              };
+              analyticsData.push(existingEntry);
+            }
+            
+            existingEntry.beneficiaries += value;
+            existingEntry.programs += 1; // Count each program metric as a program
+          }
+        }
+      });
+    }
+  }
+
+  return analyticsData;
 };
 
 /**
@@ -135,6 +238,87 @@ export const calculateCumulativeStats = (data: AnalyticsData[]) => {
 };
 
 /**
+ * Fetches detailed program metrics from Google Sheets
+ * @returns Promise<ProgramMetrics[]>
+ */
+export const fetchProgramMetrics = async (): Promise<ProgramMetrics[]> => {
+  try {
+    if (!GOOGLE_SHEETS_API_KEY) {
+      console.warn('Google Sheets API key not found. Using mock data.');
+      return getMockProgramMetrics();
+    }
+
+    const allMetrics: ProgramMetrics[] = [];
+    
+    // Fetch data from all years
+    for (const sheetName of SHEET_NAMES) {
+      try {
+        // Quote and URL-encode sheet name for A1 notation (required for numeric sheet names)
+        const sheetA1 = encodeURIComponent(`'${sheetName}'`);
+        const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${sheetA1}!${RANGE}?key=${GOOGLE_SHEETS_API_KEY}&valueRenderOption=UNFORMATTED_VALUE`;
+        
+        const response = await fetch(url);
+        
+        if (!response.ok) {
+          console.warn(`Failed to fetch metrics from sheet ${sheetName}: ${response.status}`);
+          continue;
+        }
+        
+        // Convert to program metrics
+        const yearMetrics = convertToProgramMetrics();
+        allMetrics.push(...yearMetrics);
+        
+      } catch (error) {
+        console.error(`Error fetching metrics from sheet ${sheetName}:`, error);
+        continue;
+      }
+    }
+    
+    return allMetrics.sort((a, b) => new Date(`${a.year}-${a.month}`).getTime() - new Date(`${b.year}-${b.month}`).getTime());
+    
+  } catch (error) {
+    console.error('Error fetching program metrics:', error);
+    return getMockProgramMetrics();
+  }
+};
+
+/**
+ * Converts Google Sheets data to ProgramMetrics format
+ */
+const convertToProgramMetrics = (): ProgramMetrics[] => {
+  // This would parse the specific metrics from your sheet
+  // For now, return mock data
+  return getMockProgramMetrics();
+};
+
+/**
+ * Mock program metrics data
+ */
+const getMockProgramMetrics = (): ProgramMetrics[] => {
+  return [
+    {
+      year: '2025',
+      month: 'January',
+      preschoolEnrollment: 73,
+      preschoolAttendance: 58,
+      tutoringEnrollment: 37,
+      studentImprovement: 31,
+      digitalLiteracyParticipation: 25,
+      digitalLiteracyImprovement: 15,
+      mentoringParticipation: 0,
+      mentoringImprovement: 0,
+      totalProgramSessions: 8,
+      communityLedSessions: 2,
+      communitySatisfaction: 0,
+      totalRespondents: 0,
+      localRevenue: 25000,
+      maintenanceRequired: 'None',
+      incomeUtilization: 'Placeholder'
+    }
+  ];
+};
+
+/**
  * Setup instructions for Google Sheets API
  */
 export const getSetupInstructions = () => {
@@ -146,8 +330,9 @@ export const getSetupInstructions = () => {
       '4. Create credentials (API Key)',
       '5. Add the API key to your .env file as VITE_GOOGLE_SHEETS_API_KEY',
       '6. Make sure your Google Sheet is publicly readable or shared with the API key',
-      '7. Update SPREADSHEET_ID and SHEET_NAME in this file'
+      '7. The sheet should have tabs for 2025, 2024, and 2023',
+      '8. Each tab should have program metrics with monthly columns'
     ],
-    note: 'The sheet should have columns: Date, Beneficiaries, Programs, Donations, Volunteers'
+    note: 'The sheet contains program metrics for Education, Health, Social, and Leadership programs across multiple years'
   };
 };

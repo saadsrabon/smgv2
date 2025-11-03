@@ -26,6 +26,7 @@ import {
   Settings
 } from 'lucide-react';
 import { fetchGoogleSheetsData, calculateCumulativeStats, getSetupInstructions } from '@/lib/googleSheets';
+import { testGoogleSheetsIntegration } from '@/lib/testGoogleSheets';
 
 // Register Chart.js components
 ChartJS.register(
@@ -69,6 +70,8 @@ const Analytics = () => {
   });
   const [loading, setLoading] = useState(true);
   const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
+  const [testingSheets, setTestingSheets] = useState(false);
+  const [sheetsStatus, setSheetsStatus] = useState<string>('');
 
   // Fetch data from Google Sheets
   const fetchAnalyticsData = async () => {
@@ -96,6 +99,27 @@ const Analytics = () => {
     const interval = setInterval(fetchAnalyticsData, 5 * 60 * 1000);
     return () => clearInterval(interval);
   }, []);
+
+  // Test Google Sheets integration
+  const testSheetsIntegration = async () => {
+    setTestingSheets(true);
+    setSheetsStatus('Testing Google Sheets integration...');
+    
+    try {
+      const result = await testGoogleSheetsIntegration();
+      
+      if (result.success) {
+        setSheetsStatus(`✅ Success! Found ${result.analyticsData?.length || 0} analytics records and ${result.programMetrics?.length || 0} program metrics.`);
+        console.log('Google Sheets test result:', result);
+      } else {
+        setSheetsStatus(`❌ Error: ${result.error}`);
+      }
+    } catch (error) {
+      setSheetsStatus(`❌ Test failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+    } finally {
+      setTestingSheets(false);
+    }
+  };
 
   // Handle hash-based navigation
   useEffect(() => {
@@ -244,8 +268,8 @@ const Analytics = () => {
             }
           </p>
           
-          {/* Refresh Button */}
-          <div className="flex items-center justify-center mt-6 space-x-4">
+          {/* Action Buttons */}
+          <div className="flex flex-col sm:flex-row items-center justify-center mt-6 space-y-4 sm:space-y-0 sm:space-x-4">
             <button
               onClick={fetchAnalyticsData}
               disabled={loading}
@@ -256,6 +280,18 @@ const Analytics = () => {
                 {i18n.language === 'bn' ? 'রিফ্রেশ' : 'Refresh'}
               </span>
             </button>
+            
+            <button
+              onClick={testSheetsIntegration}
+              disabled={testingSheets}
+              className="flex items-center space-x-2 px-4 py-2 bg-secondary-teal text-white rounded-lg hover:bg-secondary-teal/90 transition-colors disabled:opacity-50"
+            >
+              <Settings className={`w-4 h-4 ${testingSheets ? 'animate-spin' : ''}`} />
+              <span className={i18n.language === 'bn' ? 'font-bengali' : 'font-english'}>
+                {i18n.language === 'bn' ? 'গুগল শীট টেস্ট' : 'Test Google Sheets'}
+              </span>
+            </button>
+            
             <div className="flex items-center space-x-2 text-light-muted text-sm">
               <Calendar className="w-4 h-4" />
               <span className={i18n.language === 'bn' ? 'font-bengali' : 'font-english'}>
@@ -263,6 +299,15 @@ const Analytics = () => {
               </span>
             </div>
           </div>
+          
+          {/* Google Sheets Status */}
+          {sheetsStatus && (
+            <div className="mt-4 p-4 bg-light-surface rounded-lg border border-light-border">
+              <div className={`text-sm ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
+                {sheetsStatus}
+              </div>
+            </div>
+          )}
         </div>
 
         {/* Cumulative Stats Cards */}
