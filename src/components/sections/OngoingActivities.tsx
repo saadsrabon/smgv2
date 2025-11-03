@@ -12,7 +12,7 @@ const OngoingActivities = () => {
         ? 'প্রতিদিন ৭৩ জন শিশুকে মানসম্মত প্রাথমিক শিক্ষা প্রদান করা হচ্ছে'
         : '73 children receive quality early education daily',
       location: i18n.language === 'bn' ? 'ভোগদাবুরি কমিউনিটি সেন্টার' : 'Vogdaburi Community Center',
-      schedule: i18n.language === 'bn' ? 'সোমবার - শুক্রবার, সকাল ৯টা - দুপুর ১২টা' : 'Monday - Friday, 9:00 AM - 12:00 PM',
+      schedule: i18n.language === 'bn' ? 'রবিবার - বৃহঃস্পতিবার, সকাল ৮টা - সকাল ১০টা' : 'Sunday - Wednesday, 8:00 AM - 10:00 AM',
       participants: 73,
       category: i18n.language === 'bn' ? 'শিক্ষা' : 'Education',
       color: 'primary'
@@ -24,7 +24,7 @@ const OngoingActivities = () => {
         ? 'শিক্ষার্থীদের একাডেমিক উন্নতির জন্য বিশেষ সহায়তা প্রদান'
         : 'Specialized academic support for student improvement',
       location: i18n.language === 'bn' ? 'ভোগদাবুরি কমিউনিটি সেন্টার' : 'Vogdaburi Community Center',
-      schedule: i18n.language === 'bn' ? 'প্রতিদিন, বিকাল ৩টা - সন্ধ্যা ৬টা' : 'Daily, 3:00 PM - 6:00 PM',
+      schedule: i18n.language === 'bn' ? 'শনিবার - বৃহঃস্পতিবার, বিকাল ৪টা - সন্ধ্যা ৬টা' : 'Saturday - Wednesday, 4:00 PM - 06:00 PM',
       participants: 57,
       category: i18n.language === 'bn' ? 'শিক্ষা' : 'Education',
       color: 'secondary-teal'
@@ -36,7 +36,7 @@ const OngoingActivities = () => {
         ? 'যুবকদের জন্য কম্পিউটার এবং ইন্টারনেট ব্যবহার প্রশিক্ষণ'
         : 'Computer and internet skills training for youth',
       location: i18n.language === 'bn' ? 'কম্পিউটার ল্যাব, ভোগদাবুরি' : 'Computer Lab, Vogdaburi',
-      schedule: i18n.language === 'bn' ? 'শনি - বৃহস্পতিবার, সকাল ১০টা - দুপুর ১টা' : 'Saturday - Thursday, 10:00 AM - 1:00 PM',
+      schedule: i18n.language === 'bn' ? 'শনি - বৃহস্পতিবার, সকাল ১০টা - বিকাল ৫টা' : 'Saturday - Thursday, 10:00 AM - 5:00 PM',
       participants: 25,
       category: i18n.language === 'bn' ? 'ডিজিটাল' : 'Digital',
       color: 'secondary-orange'
@@ -48,7 +48,7 @@ const OngoingActivities = () => {
         ? 'মাসিক স্বাস্থ্য পরীক্ষা এবং সচেতনতা কার্যক্রম'
         : 'Monthly health checkups and awareness programs',
       location: i18n.language === 'bn' ? 'ভোগদাবুরি কমিউনিটি সেন্টার' : 'Vogdaburi Community Center',
-      schedule: i18n.language === 'bn' ? 'প্রতি মাসের প্রথম শনিবার' : 'First Saturday of every month',
+      schedule: i18n.language === 'bn' ? 'প্রতিমাসের ২য় ,৩য় ও ৪র্থ সপ্তাহের প্রতি রবিবার  সকাল ০৯-০০ টা থেকে দুপুর ১২ঃ৩০ পর্যন্ত' : 'Every 2nd, 3rd, and 4th Sunday of each month, from 9:00 AM to 12:30 PM.',
       participants: 150,
       category: i18n.language === 'bn' ? 'স্বাস্থ্য' : 'Health',
       color: 'secondary-pink'
