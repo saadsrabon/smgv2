@@ -15,7 +15,7 @@ const Footer = () => {
               <div className="w-24 h-auto rounded-full flex items-center justify-center">
                 <img src={logo} alt="logo" className="w-full h-full" />
               </div>
-              <h3 className={`text-xl font-bold text-light-text ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
+              <h3 className={`text-xl font-bold text-light-text wrap-normal ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
                 {t('footer.name')}
               </h3>
             </div>
