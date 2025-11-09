@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { createPortal } from 'react-dom';
 import { X, Send, UserPlus } from 'lucide-react';
 
 interface VolunteerModalProps {
@@ -12,6 +13,25 @@ const VolunteerModal: React.FC<VolunteerModalProps> = ({ isOpen, onClose }) => {
   const [isVisible, setIsVisible] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  useEffect(() => {
+    if (!mounted) return;
+
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = '';
+    }
+
+    return () => {
+      document.body.style.overflow = '';
+    };
+  }, [isOpen, mounted]);
 
   useEffect(() => {
     if (isOpen) {
@@ -37,15 +57,15 @@ const VolunteerModal: React.FC<VolunteerModalProps> = ({ isOpen, onClose }) => {
     }, 1500);
   };
 
-  if (!isOpen) return null;
+  if (!isOpen || !mounted) return null;
 
   const isBengali = i18n.language === 'bn';
 
-  return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 overflow-y-auto">
+  return createPortal(
+    <div className="fixed inset-0 z-[1200] flex items-center justify-center p-4 overflow-y-auto">
       {/* Backdrop */}
       <div
-        className={`fixed inset-0 bg-black transition-opacity duration-300 ${
+        className={`absolute inset-0 bg-black transition-opacity duration-300 ${
           isVisible ? 'bg-opacity-50' : 'bg-opacity-0'
         }`}
         onClick={onClose}
@@ -200,7 +220,8 @@ const VolunteerModal: React.FC<VolunteerModalProps> = ({ isOpen, onClose }) => {
           )}
         </div>
       </div>
-    </div>
+    </div>,
+    document.body
   );
 };
 

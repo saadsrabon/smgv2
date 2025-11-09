@@ -50,10 +50,31 @@ const Hero = () => {
     return () => clearInterval(interval);
   }, [images.length]);
 
+  const scrollToSection = (id: string) => {
+    const section = document.getElementById(id);
+    if (section) {
+      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
+
+  const handleHeroCta = () => {
+    scrollToSection('about');
+    setTimeout(() => {
+      window.dispatchEvent(new Event('about:playVideo'));
+    }, 600);
+  };
+
+  const handleHeroDonate = () => {
+    alert(i18n.language === 'bn' ? 'আসছে শীঘ্রই' : 'Coming soon!');
+  };
+
   return (
 
 
-    <section id="home" className="min-h-screen flex items-center bg-gradient-to-br from-light-bg via-light-surface to-light-bg relative overflow-hidden">
+    <section
+      id="home"
+      className="min-h-screen flex items-center bg-gradient-to-br from-light-bg via-light-surface to-light-bg relative overflow-hidden scroll-mt-24 md:scroll-mt-32"
+    >
       {/* Background Pattern */}
       <div className="absolute inset-0 opacity-5">
         <div className="absolute inset-0" style={{
@@ -79,12 +100,17 @@ const Hero = () => {
 
             {/* CTA Buttons */}
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button size="lg" className="btn-primary">
+              <Button size="lg" className="btn-primary" onClick={handleHeroCta}>
                 {t('hero.cta')}
                 <ArrowRight className="ml-2 w-5 h-5" />
               </Button>
-              <Button size="lg" variant="outline" className="btn-secondary">
-                {t('hero.donate')}
+              <Button
+                size="lg"
+                variant="outline"
+                className="btn-secondary"
+                onClick={handleHeroDonate}
+              >
+                {i18n.language === 'bn' ? 'আসছে শীঘ্রই' : 'Coming Soon'}
                 <Heart className="ml-2 w-5 h-5" />
               </Button>
             </div>

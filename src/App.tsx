@@ -67,7 +67,7 @@ function MainPage() {
   }, []);
 
   return (
-    <main>
+    <main className="pt-24 md:pt-28">
       <Hero />
       <About />
       <Programs />

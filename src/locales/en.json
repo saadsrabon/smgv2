@@ -8,7 +8,7 @@
   },
   "hero": {
     "title": "Building Smart Communities",
-    "subtitle": "Empowering communities through education, health, and social engagement",
+    "subtitle": "Empowering communities through education, health, social engagement, and economic empowerment",
     "description": "Shomajgori Foundation 2022 is dedicated to creating sustainable, smart communities that thrive through collective action and shared responsibility.",
     "cta": "Learn More",
     "donate": "Support Us"
@@ -17,7 +17,7 @@
     "title": "About Shomajgori Foundation",
     "mission": {
       "title": "Our Mission",
-      "description": "To build smart communities that are sustainable, inclusive, and empowered through education, health, and social engagement. We believe that every community has the potential to thrive when equipped with the right tools, knowledge, and support."
+      "description": "To build smart communities that are sustainable, inclusive, and empowered through education, health, social engagement, and economic empowerment. We believe that every community has the potential to thrive when equipped with the right tools, knowledge, and support."
     },
     "vision": {
       "title": "Our Vision",
@@ -136,14 +136,14 @@
   "contact": {
     "title": "Get in Touch",
     "subtitle": "Join us in building smart communities",
-    "address": "Vogdaburi Community Center, Dhaka, Bangladesh",
-    "email": "info@shomajgori.org",
-    "phone": "+880-XXX-XXXXXXX",
+    "address": "Vogdaburi Community Center, BOP Bazar, Chilahati, Dhaka, Bangladesh",
+    "email": "shomajgorifoundationvcc@gmail.com",
+    "phone": "+880-1759273198",
     "cta": "Contact Us",
     "volunteer": "Become a Volunteer"
   },
   "footer": {
-    "description": "Building smart communities through education, health, and social engagement",
+    "description": "Empowering communities through education, health, social engagement, and economic empowerment",
     "links": {
       "about": "About Us",
       "programs": "Programs",

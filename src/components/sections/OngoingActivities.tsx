@@ -56,7 +56,7 @@ const OngoingActivities = () => {
   ];
 
   return (
-    <section id="activities" className="bg-light-bg">
+    <section id="activities" className="bg-light-bg scroll-mt-24 md:scroll-mt-32">
       <div className="container-custom section-padding">
         {/* Header */}
         <div className="text-center mb-12">
@@ -151,4 +151,5 @@ const OngoingActivities = () => {
 };
 
 export default OngoingActivities;
+
 

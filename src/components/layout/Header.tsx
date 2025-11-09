@@ -96,9 +96,10 @@ const Header = () => {
             <Button
               size="sm"
               className="btn-primary hidden lg:flex items-center space-x-2"
+              onClick={() => alert('Coming soon!')}
             >
               <Heart className="w-4 h-4" />
-              <span>{t('hero.donate')}</span>
+              <span>{i18n.language === 'bn' ? 'আসছে শীঘ্রই' : 'Coming Soon'}</span>
             </Button>
 
             {/* Mobile menu button */}
@@ -153,9 +154,10 @@ const Header = () => {
                 </Button>
                 <Button
                   className="btn-secondary w-full flex items-center justify-center space-x-2"
+                  onClick={() => alert('Coming soon!')}
                 >
                   <Heart className="w-4 h-4" />
-                  <span>{t('hero.donate')}</span>
+                  <span>{i18n.language === 'bn' ? 'আসছে শীঘ্রই' : 'Coming Soon'}</span>
                 </Button>
               </div>
             </nav>

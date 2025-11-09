@@ -1,6 +1,6 @@
 import { useTranslation } from 'react-i18next';
 import { Target, Eye, CheckCircle, Play } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
 const About = () => {
   const { t, i18n } = useTranslation();
@@ -15,8 +15,18 @@ const About = () => {
     setIsVideoPlaying(true);
   };
 
+  useEffect(() => {
+    const triggerVideoPlay = () => setIsVideoPlaying(true);
+
+    window.addEventListener('about:playVideo', triggerVideoPlay);
+
+    return () => {
+      window.removeEventListener('about:playVideo', triggerVideoPlay);
+    };
+  }, []);
+
   return (
-    <section id="about" className="bg-light-surface">
+    <section id="about" className="bg-light-surface scroll-mt-24 md:scroll-mt-32">
       <div className="container-custom section-padding">
         <div className="text-center mb-16">
           <h2 className={`text-3xl md:text-4xl font-bold text-light-text mb-4 ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>

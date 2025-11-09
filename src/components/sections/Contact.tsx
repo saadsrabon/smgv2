@@ -6,7 +6,7 @@ const Contact = () => {
   const { t, i18n } = useTranslation();
 
   return (
-    <section id="contact" className="bg-light-bg">
+    <section id="contact" className="bg-light-bg scroll-mt-24 md:scroll-mt-32">
       <div className="container-custom section-padding">
         <div className="text-center mb-16">
           <h2 className={`text-3xl md:text-4xl font-bold text-light-text mb-4 ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>

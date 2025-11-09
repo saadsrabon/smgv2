@@ -40,7 +40,7 @@ const Photos = () => {
   ];
 
   return (
-    <section id="photos" className="bg-light-surface">
+    <section id="photos" className="bg-light-surface scroll-mt-24 md:scroll-mt-32">
       <div className="container-custom section-padding">
         {/* Header */}
         <div className="text-center mb-12">
@@ -103,4 +103,5 @@ const Photos = () => {
 };
 
 export default Photos;
+
 
