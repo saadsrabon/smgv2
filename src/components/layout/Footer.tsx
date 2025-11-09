@@ -16,7 +16,7 @@ const Footer = () => {
                 <img src={logo} alt="logo" className="w-full h-full" />
               </div>
               <h3 className={`text-xl font-bold text-light-text ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
-                {t('footer.description')}
+                {t('footer.name')}
               </h3>
             </div>
             <p className={`text-light-muted text-sm leading-relaxed ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
