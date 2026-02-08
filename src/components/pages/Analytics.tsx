@@ -269,7 +269,7 @@ const Analytics = () => {
           </p>
           
           {/* Action Buttons */}
-          <div className="flex flex-col sm:flex-row items-center justify-center mt-6 space-y-4 sm:space-y-0 sm:space-x-4">
+          {/* <div className="flex flex-col sm:flex-row items-center justify-center mt-6 space-y-4 sm:space-y-0 sm:space-x-4">
             <button
               onClick={fetchAnalyticsData}
               disabled={loading}
@@ -298,20 +298,20 @@ const Analytics = () => {
                 {i18n.language === 'bn' ? 'সর্বশেষ আপডেট' : 'Last updated'}: {lastUpdated.toLocaleTimeString()}
               </span>
             </div>
-          </div>
+          </div> */}
           
           {/* Google Sheets Status */}
-          {sheetsStatus && (
+          {/* {sheetsStatus && (
             <div className="mt-4 p-4 bg-light-surface rounded-lg border border-light-border">
               <div className={`text-sm ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
                 {sheetsStatus}
               </div>
             </div>
-          )}
+          )} */}
         </div>
 
         {/* Cumulative Stats Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+        {/* <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
           <div className="bg-light-surface rounded-xl p-6 shadow-lg border border-light-border">
             <div className="flex items-center justify-between">
               <div>
@@ -369,41 +369,45 @@ const Analytics = () => {
               </div>
             </div>
           </div>
-        </div>
+        </div> */}
 
         {/* Charts Section */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
           {/* Line Chart */}
-          <div className="bg-light-surface rounded-xl p-6 shadow-lg border border-light-border">
+          {/* <div className="bg-light-surface rounded-xl p-6 shadow-lg border border-light-border">
             <h3 className={`text-xl font-bold text-light-text mb-4 ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
               {i18n.language === 'bn' ? 'মাসিক অগ্রগতি' : 'Monthly Progress'}
             </h3>
             <div className="h-80">
               <Line data={lineChartData} options={chartOptions} />
             </div>
-          </div>
+          </div> */}
 
           {/* Bar Chart */}
-          <div className="bg-light-surface rounded-xl p-6 shadow-lg border border-light-border">
+          {/* <div className="bg-light-surface rounded-xl p-6 shadow-lg border border-light-border">
             <h3 className={`text-xl font-bold text-light-text mb-4 ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
               {i18n.language === 'bn' ? 'মাসিক অনুদান' : 'Monthly Donations'}
             </h3>
             <div className="h-80">
               <Bar data={barChartData} options={chartOptions} />
             </div>
-          </div>
+          </div> */}
         </div>
 
         {/* Program Distribution */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
-          <div className="bg-light-surface rounded-xl p-6 shadow-lg border border-light-border">
+          {/* <div className="bg-light-surface rounded-xl p-6 shadow-lg border border-light-border">
             <h3 className={`text-xl font-bold text-light-text mb-4 ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
               {i18n.language === 'bn' ? 'প্রোগ্রাম বিতরণ' : 'Program Distribution'}
             </h3>
             <div className="h-80">
               <Doughnut data={doughnutChartData} options={chartOptions} />
             </div>
-          </div>
+          </div> */}
+           
+<div className='flex justify-center '>
+      <iframe width="1121" height="568" seamless frameBorder="0" scrolling="no" src="https://docs.google.com/spreadsheets/d/e/2PACX-1vSdXkCAqK0oUxU4lfay0EcgqpfcjqWwyrw1RHc1lH-M269fp_F1QhZTQvUpJoTgKtholmzeNroa8cKo/pubchart?oid=1470004999&amp;format=interactive"></iframe>
+    </div>
 
           {/* Key Achievements */}
           <div className="bg-light-surface rounded-xl p-6 shadow-lg border border-light-border">
@@ -471,7 +475,7 @@ const Analytics = () => {
           </div>
           
           {/* Setup Instructions */}
-          <details className="bg-light-bg rounded-lg p-4 border border-light-border">
+          {/* <details className="bg-light-bg rounded-lg p-4 border border-light-border">
             <summary className={`cursor-pointer font-semibold text-light-text flex items-center space-x-2 ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
               <Settings className="w-4 h-4" />
               <span>{i18n.language === 'bn' ? 'Google Sheets সেটআপ নির্দেশনা' : 'Google Sheets Setup Instructions'}</span>
@@ -486,10 +490,12 @@ const Analytics = () => {
                 {getSetupInstructions().note}
               </p>
             </div>
-          </details>
+          </details> */}
         </div>
       </div>
     </div>
+
+    
   );
 };
 
