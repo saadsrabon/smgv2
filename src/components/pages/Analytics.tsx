@@ -1,257 +1,258 @@
-import { useState, useEffect } from 'react';
+// import { useState, useEffect } from 'react';
+import { Award, Target, Users } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
-import { useNavigate } from 'react-router-dom';
-import {
-  Chart as ChartJS,
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  ArcElement,
-} from 'chart.js';
-import { Line, Bar, Doughnut } from 'react-chartjs-2';
-import { 
-  TrendingUp, 
-  Users, 
-  BookOpen, 
-  Heart, 
-  RefreshCw, 
-  Calendar,
-  Target,
-  Award,
-  Settings
-} from 'lucide-react';
-import { fetchGoogleSheetsData, calculateCumulativeStats, getSetupInstructions } from '@/lib/googleSheets';
-import { testGoogleSheetsIntegration } from '@/lib/testGoogleSheets';
+// import { useNavigate } from 'react-router-dom';
+// import {
+//   Chart as ChartJS,
+//   CategoryScale,
+//   LinearScale,
+//   PointElement,
+//   LineElement,
+//   BarElement,
+//   Title,
+//   Tooltip,
+//   Legend,
+//   ArcElement,
+// } from 'chart.js';
+// import { Line, Bar, Doughnut } from 'react-chartjs-2';
+// import { 
+//   TrendingUp, 
+//   Users, 
+//   BookOpen, 
+//   Heart, 
+//   RefreshCw, 
+//   Calendar,
+//   Target,
+//   Award,
+//   Settings
+// } from 'lucide-react';
+// import { fetchGoogleSheetsData, calculateCumulativeStats, getSetupInstructions } from '@/lib/googleSheets';
+// import { testGoogleSheetsIntegration } from '@/lib/testGoogleSheets';
 
-// Register Chart.js components
-ChartJS.register(
-  CategoryScale,
-  LinearScale,
-  PointElement,
-  LineElement,
-  BarElement,
-  Title,
-  Tooltip,
-  Legend,
-  ArcElement
-);
+// // Register Chart.js components
+// ChartJS.register(
+//   CategoryScale,
+//   LinearScale,
+//   PointElement,
+//   LineElement,
+//   BarElement,
+//   Title,
+//   Tooltip,
+//   Legend,
+//   ArcElement
+// );
 
-interface AnalyticsData {
-  date: string;
-  beneficiaries: number;
-  programs: number;
-  donations: number;
-  volunteers: number;
-}
+// interface AnalyticsData {
+//   date: string;
+//   beneficiaries: number;
+//   programs: number;
+//   donations: number;
+//   volunteers: number;
+// }
 
-interface CumulativeStats {
-  totalBeneficiaries: number;
-  totalPrograms: number;
-  totalDonations: number;
-  totalVolunteers: number;
-  monthlyGrowth: number;
-}
+// interface CumulativeStats {
+//   totalBeneficiaries: number;
+//   totalPrograms: number;
+//   totalDonations: number;
+//   totalVolunteers: number;
+//   monthlyGrowth: number;
+// }
 
 const Analytics = () => {
   const { i18n } = useTranslation();
-  const navigate = useNavigate();
-  const [analyticsData, setAnalyticsData] = useState<AnalyticsData[]>([]);
-  const [cumulativeStats, setCumulativeStats] = useState<CumulativeStats>({
-    totalBeneficiaries: 0,
-    totalPrograms: 0,
-    totalDonations: 0,
-    totalVolunteers: 0,
-    monthlyGrowth: 0
-  });
-  const [loading, setLoading] = useState(true);
-  const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
-  const [testingSheets, setTestingSheets] = useState(false);
-  const [sheetsStatus, setSheetsStatus] = useState<string>('');
+//   const navigate = useNavigate();
+//   const [analyticsData, setAnalyticsData] = useState<AnalyticsData[]>([]);
+//   const [cumulativeStats, setCumulativeStats] = useState<CumulativeStats>({
+//     totalBeneficiaries: 0,
+//     totalPrograms: 0,
+//     totalDonations: 0,
+//     totalVolunteers: 0,
+//     monthlyGrowth: 0
+//   });
+//   const [loading, setLoading] = useState(true);
+//   const [lastUpdated, setLastUpdated] = useState<Date>(new Date());
+//   const [testingSheets, setTestingSheets] = useState(false);
+//   const [sheetsStatus, setSheetsStatus] = useState<string>('');
 
   // Fetch data from Google Sheets
-  const fetchAnalyticsData = async () => {
-    setLoading(true);
-    try {
-      const data = await fetchGoogleSheetsData();
-      setAnalyticsData(data);
+  // const fetchAnalyticsData = async () => {
+  //   setLoading(true);
+  //   try {
+  //     const data = await fetchGoogleSheetsData();
+  //     setAnalyticsData(data);
       
-      // Calculate cumulative stats
-      const stats = calculateCumulativeStats(data);
-      setCumulativeStats(stats);
+  //     // Calculate cumulative stats
+  //     const stats = calculateCumulativeStats(data);
+  //     setCumulativeStats(stats);
       
-      setLastUpdated(new Date());
-    } catch (error) {
-      console.error('Error fetching analytics data:', error);
-    } finally {
-      setLoading(false);
-    }
-  };
+  //     setLastUpdated(new Date());
+  //   } catch (error) {
+  //     console.error('Error fetching analytics data:', error);
+  //   } finally {
+  //     setLoading(false);
+  //   }
+  // };
 
-  useEffect(() => {
-    fetchAnalyticsData();
+  // useEffect(() => {
+  //   fetchAnalyticsData();
     
-    // Auto-refresh every 5 minutes
-    const interval = setInterval(fetchAnalyticsData, 5 * 60 * 1000);
-    return () => clearInterval(interval);
-  }, []);
+  //   // Auto-refresh every 5 minutes
+  //   const interval = setInterval(fetchAnalyticsData, 5 * 60 * 1000);
+  //   return () => clearInterval(interval);
+  // }, []);
 
   // Test Google Sheets integration
-  const testSheetsIntegration = async () => {
-    setTestingSheets(true);
-    setSheetsStatus('Testing Google Sheets integration...');
+  // const testSheetsIntegration = async () => {
+  //   setTestingSheets(true);
+  //   setSheetsStatus('Testing Google Sheets integration...');
     
-    try {
-      const result = await testGoogleSheetsIntegration();
+  //   try {
+  //     const result = await testGoogleSheetsIntegration();
       
-      if (result.success) {
-        setSheetsStatus(`✅ Success! Found ${result.analyticsData?.length || 0} analytics records and ${result.programMetrics?.length || 0} program metrics.`);
-        console.log('Google Sheets test result:', result);
-      } else {
-        setSheetsStatus(`❌ Error: ${result.error}`);
-      }
-    } catch (error) {
-      setSheetsStatus(`❌ Test failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
-    } finally {
-      setTestingSheets(false);
-    }
-  };
+  //     if (result.success) {
+  //       setSheetsStatus(`✅ Success! Found ${result.analyticsData?.length || 0} analytics records and ${result.programMetrics?.length || 0} program metrics.`);
+  //       console.log('Google Sheets test result:', result);
+  //     } else {
+  //       setSheetsStatus(`❌ Error: ${result.error}`);
+  //     }
+  //   } catch (error) {
+  //     setSheetsStatus(`❌ Test failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+  //   } finally {
+  //     setTestingSheets(false);
+  //   }
+  // };
 
-  // Handle hash-based navigation
-  useEffect(() => {
-    const handleHashNavigation = () => {
-      const hash = window.location.hash;
-      if (hash && hash !== '') {
-        // Redirect to main page with the same hash
-        navigate(`/${hash}`);
-      }
-    };
+  // // Handle hash-based navigation
+  // useEffect(() => {
+  //   const handleHashNavigation = () => {
+  //     const hash = window.location.hash;
+  //     if (hash && hash !== '') {
+  //       // Redirect to main page with the same hash
+  //       navigate(`/${hash}`);
+  //     }
+  //   };
 
-    // Check for hash on component mount
-    handleHashNavigation();
+  //   // Check for hash on component mount
+  //   handleHashNavigation();
 
-    // Listen for hash changes
-    window.addEventListener('hashchange', handleHashNavigation);
+  //   // Listen for hash changes
+  //   window.addEventListener('hashchange', handleHashNavigation);
     
-    return () => {
-      window.removeEventListener('hashchange', handleHashNavigation);
-    };
-  }, [navigate]);
+  //   return () => {
+  //     window.removeEventListener('hashchange', handleHashNavigation);
+  //   };
+  // }, [navigate]);
 
-  // Chart configurations
-  const lineChartData = {
-    labels: analyticsData.map(item => item.date),
-    datasets: [
-      {
-        label: i18n.language === 'bn' ? 'সুবিধাভোগী' : 'Beneficiaries',
-        data: analyticsData.map(item => item.beneficiaries),
-        borderColor: 'rgb(14, 165, 233)',
-        backgroundColor: 'rgba(14, 165, 233, 0.1)',
-        tension: 0.4,
-      },
-      {
-        label: i18n.language === 'bn' ? 'প্রোগ্রাম' : 'Programs',
-        data: analyticsData.map(item => item.programs),
-        borderColor: 'rgb(20, 184, 166)',
-        backgroundColor: 'rgba(20, 184, 166, 0.1)',
-        tension: 0.4,
-      },
-    ],
-  };
+  // // Chart configurations
+  // const lineChartData = {
+  //   labels: analyticsData.map(item => item.date),
+  //   datasets: [
+  //     {
+  //       label: i18n.language === 'bn' ? 'সুবিধাভোগী' : 'Beneficiaries',
+  //       data: analyticsData.map(item => item.beneficiaries),
+  //       borderColor: 'rgb(14, 165, 233)',
+  //       backgroundColor: 'rgba(14, 165, 233, 0.1)',
+  //       tension: 0.4,
+  //     },
+  //     {
+  //       label: i18n.language === 'bn' ? 'প্রোগ্রাম' : 'Programs',
+  //       data: analyticsData.map(item => item.programs),
+  //       borderColor: 'rgb(20, 184, 166)',
+  //       backgroundColor: 'rgba(20, 184, 166, 0.1)',
+  //       tension: 0.4,
+  //     },
+  //   ],
+  // };
 
-  const barChartData = {
-    labels: analyticsData.map(item => item.date),
-    datasets: [
-      {
-        label: i18n.language === 'bn' ? 'অনুদান (টাকা)' : 'Donations (BDT)',
-        data: analyticsData.map(item => item.donations),
-        backgroundColor: 'rgba(249, 115, 22, 0.8)',
-        borderColor: 'rgb(249, 115, 22)',
-        borderWidth: 1,
-      },
-    ],
-  };
+  // const barChartData = {
+  //   labels: analyticsData.map(item => item.date),
+  //   datasets: [
+  //     {
+  //       label: i18n.language === 'bn' ? 'অনুদান (টাকা)' : 'Donations (BDT)',
+  //       data: analyticsData.map(item => item.donations),
+  //       backgroundColor: 'rgba(249, 115, 22, 0.8)',
+  //       borderColor: 'rgb(249, 115, 22)',
+  //       borderWidth: 1,
+  //     },
+  //   ],
+  // };
 
-  const doughnutChartData = {
-    labels: [
-      i18n.language === 'bn' ? 'শিক্ষা' : 'Education',
-      i18n.language === 'bn' ? 'স্বাস্থ্য' : 'Health',
-      i18n.language === 'bn' ? 'সামাজিক' : 'Social',
-      i18n.language === 'bn' ? 'অর্থনৈতিক' : 'Economic'
-    ],
-    datasets: [
-      {
-        data: [35, 25, 20, 20],
-        backgroundColor: [
-          'rgba(14, 165, 233, 0.8)',
-          'rgba(20, 184, 166, 0.8)',
-          'rgba(249, 115, 22, 0.8)',
-          'rgba(236, 72, 153, 0.8)',
-        ],
-        borderColor: [
-          'rgb(14, 165, 233)',
-          'rgb(20, 184, 166)',
-          'rgb(249, 115, 22)',
-          'rgb(236, 72, 153)',
-        ],
-        borderWidth: 2,
-      },
-    ],
-  };
+  // const doughnutChartData = {
+  //   labels: [
+  //     i18n.language === 'bn' ? 'শিক্ষা' : 'Education',
+  //     i18n.language === 'bn' ? 'স্বাস্থ্য' : 'Health',
+  //     i18n.language === 'bn' ? 'সামাজিক' : 'Social',
+  //     i18n.language === 'bn' ? 'অর্থনৈতিক' : 'Economic'
+  //   ],
+  //   datasets: [
+  //     {
+  //       data: [35, 25, 20, 20],
+  //       backgroundColor: [
+  //         'rgba(14, 165, 233, 0.8)',
+  //         'rgba(20, 184, 166, 0.8)',
+  //         'rgba(249, 115, 22, 0.8)',
+  //         'rgba(236, 72, 153, 0.8)',
+  //       ],
+  //       borderColor: [
+  //         'rgb(14, 165, 233)',
+  //         'rgb(20, 184, 166)',
+  //         'rgb(249, 115, 22)',
+  //         'rgb(236, 72, 153)',
+  //       ],
+  //       borderWidth: 2,
+  //     },
+  //   ],
+  // };
 
-  const chartOptions = {
-    responsive: true,
-    maintainAspectRatio: false,
-    plugins: {
-      legend: {
-        position: 'top' as const,
-        labels: {
-          font: {
-            family: i18n.language === 'bn' ? 'Bornomala' : 'Ubuntu Sans',
-          },
-        },
-      },
-      title: {
-        display: true,
-        font: {
-          family: i18n.language === 'bn' ? 'Bornomala' : 'Ubuntu Sans',
-        },
-      },
-    },
-    scales: {
-      y: {
-        beginAtZero: true,
-        ticks: {
-          font: {
-            family: i18n.language === 'bn' ? 'Bornomala' : 'Ubuntu Sans',
-          },
-        },
-      },
-      x: {
-        ticks: {
-          font: {
-            family: i18n.language === 'bn' ? 'Bornomala' : 'Ubuntu Sans',
-          },
-        },
-      },
-    },
-  };
+  // const chartOptions = {
+  //   responsive: true,
+  //   maintainAspectRatio: false,
+  //   plugins: {
+  //     legend: {
+  //       position: 'top' as const,
+  //       labels: {
+  //         font: {
+  //           family: i18n.language === 'bn' ? 'Bornomala' : 'Ubuntu Sans',
+  //         },
+  //       },
+  //     },
+  //     title: {
+  //       display: true,
+  //       font: {
+  //         family: i18n.language === 'bn' ? 'Bornomala' : 'Ubuntu Sans',
+  //       },
+  //     },
+  //   },
+  //   scales: {
+  //     y: {
+  //       beginAtZero: true,
+  //       ticks: {
+  //         font: {
+  //           family: i18n.language === 'bn' ? 'Bornomala' : 'Ubuntu Sans',
+  //         },
+  //       },
+  //     },
+  //     x: {
+  //       ticks: {
+  //         font: {
+  //           family: i18n.language === 'bn' ? 'Bornomala' : 'Ubuntu Sans',
+  //         },
+  //       },
+  //     },
+  //   },
+  // };
 
-  const formatNumber = (num: number) => {
-    return new Intl.NumberFormat('en-BD').format(num);
-  };
+  // const formatNumber = (num: number) => {
+  //   return new Intl.NumberFormat('en-BD').format(num);
+  // };
 
-  const formatCurrency = (num: number) => {
-    return new Intl.NumberFormat('en-BD', {
-      style: 'currency',
-      currency: 'BDT',
-      minimumFractionDigits: 0,
-    }).format(num);
-  };
+  // const formatCurrency = (num: number) => {
+  //   return new Intl.NumberFormat('en-BD', {
+  //     style: 'currency',
+  //     currency: 'BDT',
+  //     minimumFractionDigits: 0,
+  //   }).format(num);
+  // };
 
   return (
     <div className="min-h-screen bg-light-bg pt-24">
@@ -395,7 +396,7 @@ const Analytics = () => {
         </div>
 
         {/* Program Distribution */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+        <div className="grid grid-cols-1 lg:grid-cols-1 gap-8 mb-12">
           {/* <div className="bg-light-surface rounded-xl p-6 shadow-lg border border-light-border">
             <h3 className={`text-xl font-bold text-light-text mb-4 ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
               {i18n.language === 'bn' ? 'প্রোগ্রাম বিতরণ' : 'Program Distribution'}
