@@ -40,7 +40,7 @@ const Gallery = () => {
       id: 2,
       type: 'photo',
       src: photo1,
-      title: i18n.language === 'bn' ? 'সম্প্রদায় উন্নয়ন' : 'Community Development',
+      title: i18n.language === 'bn' ? 'সম্প্রদায় উন্নয়ন' : 'Economic Empowerment',
       description: i18n.language === 'bn' ? 'কমিউনিটি সদস্যদের সাথে আলোচনা' : 'Discussion with community members',
       category: i18n.language === 'bn' ? 'সামাজিক' : 'social',
       date: '2024-06-09'
