@@ -38,7 +38,7 @@ ChartJS.register(
 type ViewMode = 'summary' | 'detailed';
 
 const Analytics = () => {
-  const { i18n, t } = useTranslation();
+  const { i18n } = useTranslation();
   const [viewMode, setViewMode] = useState<ViewMode>('summary');
   const [impactMetrics, setImpactMetrics] = useState<ImpactMetric[]>([]);
   const [publicMetrics, setPublicMetrics] = useState<PublicImpactMetrics | null>(null);
@@ -68,7 +68,7 @@ const Analytics = () => {
       }
     } catch (err) {
       console.error('Error fetching metrics:', err);
-      setError('Failed to fetch data from Google Sheets');
+      setError(i18n.language === 'bn' ? 'Google Sheets থেকে ডেটা আনতে ব্যর্থ' : 'Failed to fetch data from Google Sheets');
     } finally {
       setLoading(false);
     }
@@ -493,6 +493,13 @@ const Analytics = () => {
             </div>
           </div>
         </div>
+
+        {/* show error message if something went wrong */}
+        {error && (
+          <div className="mb-6 px-6 py-4 bg-red-100 text-red-700 rounded-lg text-center font-semibold">
+            {error}
+          </div>
+        )}
 
         <AnimatePresence mode="wait">
           {viewMode === 'summary' ? (
