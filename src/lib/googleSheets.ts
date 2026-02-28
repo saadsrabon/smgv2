@@ -13,7 +13,29 @@ interface AnalyticsData {
   volunteers: number;
 }
 
-interface ProgramMetrics {
+export interface ImpactMetric {
+  domain: string;
+  metric: string;
+  monthlyActuals: number[]; // Jan to Dec (index 0-11)
+  annualTarget: number;
+  quarterlyAchievement: number[]; // Q1 to Q4 (percentage)
+  annualAchievement: number; // percentage
+}
+
+export interface PublicImpactMetrics {
+  familiesServed: string;
+  tutoringEnrollment: string;
+  studentImprovement: string;
+  youthMentored: string;
+  localLeadersEmpowered: string;
+  roleplaySessions: string;
+  healthParticipants: string;
+  communityPrograms: string;
+  financialSustainability: string;
+  livesImpacted: string;
+}
+
+export interface ProgramMetrics {
   year: string;
   month: string;
   preschoolEnrollment: number;
@@ -35,9 +57,11 @@ interface ProgramMetrics {
 
 // Google Sheets API configuration
 const GOOGLE_SHEETS_API_KEY = import.meta.env.VITE_GOOGLE_SHEETS_API_KEY || '';
-const SPREADSHEET_ID = '1XTKAYoCk7MHTAYh5ot55LzoLzS5XBWDp';
-const SHEET_NAMES = ['2025', '2024', '2023']; // Multiple years
-const RANGE = 'A:AB'; // Full range based on your sheet structure
+const SPREADSHEET_ID = '1zrfoXlfTI3V0JdXYNfpVxPxO-8fb46wo5h_Po4BuugQ';
+const PUBLIC_SPREADSHEET_ID = '1n85NDtgjfOl-gMjEOP3efSsVO9wdGEFx2Mxf-j-W4kg';
+const SHEET_NAMES = ['2025', '2024', '2023'];
+const RANGE = 'A1:AB100';
+const PUBLIC_RANGE = 'forWebsite!C2:C11';
 
 /**
  * Fetches data from Google Sheets for multiple years
@@ -289,6 +313,157 @@ const convertToProgramMetrics = (): ProgramMetrics[] => {
   // This would parse the specific metrics from your sheet
   // For now, return mock data
   return getMockProgramMetrics();
+};
+
+/**
+ * Fetches impact metrics from Google Sheets
+ * @param year The year to fetch metrics for (e.g., '2025')
+ * @returns Promise<ImpactMetric[]>
+ */
+export const fetchImpactMetrics = async (year: string = '2025'): Promise<ImpactMetric[]> => {
+  try {
+    if (!GOOGLE_SHEETS_API_KEY) {
+      console.warn('Google Sheets API key not found. Using mock impact metrics.');
+      return getMockImpactMetrics();
+    }
+
+    const sheetA1 = encodeURIComponent(`'${year}'`);
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${SPREADSHEET_ID}/values/${sheetA1}!${RANGE}?key=${GOOGLE_SHEETS_API_KEY}&valueRenderOption=UNFORMATTED_VALUE`;
+    
+    const response = await fetch(url);
+    if (!response.ok) {
+      throw new Error(`Failed to fetch impact metrics for ${year}: ${response.status}`);
+    }
+    
+    const data: GoogleSheetsResponse = await response.json();
+    const values = data.values;
+
+    if (!values || values.length < 4) {
+      return [];
+    }
+
+    // Header is on Row 3 (index 2), Data starts from Row 4 (index 3)
+    const metrics: ImpactMetric[] = [];
+    
+    for (let i = 3; i < values.length; i++) {
+      const row = values[i];
+      if (!row || row.length < 2 || !row[1]) continue; // Skip empty rows or rows without metric name
+
+      const domain = row[0] || '';
+      const metricName = row[1] || '';
+      
+      // Monthly actuals (Col D-O, indices 3-14)
+      const monthlyActuals: number[] = [];
+      for (let j = 3; j <= 14; j++) {
+        monthlyActuals.push(parseFloat(row[j]) || 0);
+      }
+
+      // Annual Target (Col R, index 17)
+      const annualTarget = parseFloat(row[17]) || 0;
+
+      // Quarterly Achievement (Col S-V, indices 18-21)
+      const quarterlyAchievement: number[] = [];
+      for (let j = 18; j <= 21; j++) {
+        // Handle percentages (0.61 -> 61)
+        let val = parseFloat(row[j]) || 0;
+        if (val <= 2 && val > 0) val = val * 100; // Likely a decimal percentage
+        quarterlyAchievement.push(Math.round(val));
+      }
+
+      // Annual Achievement (Col W, index 22)
+      let annualAchievement = parseFloat(row[22]) || 0;
+      if (annualAchievement <= 2 && annualAchievement > 0) annualAchievement = annualAchievement * 100;
+      annualAchievement = Math.round(annualAchievement);
+
+      metrics.push({
+        domain,
+        metric: metricName,
+        monthlyActuals,
+        annualTarget,
+        quarterlyAchievement,
+        annualAchievement
+      });
+    }
+
+    return metrics;
+    
+  } catch (error) {
+    console.error(`Error fetching impact metrics for ${year}:`, error);
+    return getMockImpactMetrics();
+  }
+};
+
+/**
+ * Fetches public-facing impact metrics from a separate summary spreadsheet
+ */
+export async function fetchPublicImpactMetrics(): Promise<PublicImpactMetrics> {
+  if (!GOOGLE_SHEETS_API_KEY) {
+    console.warn('Google Sheets API key not found. Returning mock public metrics.');
+    return {
+      familiesServed: '900',
+      tutoringEnrollment: '169',
+      studentImprovement: '100%',
+      youthMentored: '7',
+      localLeadersEmpowered: '0',
+      roleplaySessions: '0',
+      healthParticipants: '347',
+      communityPrograms: '702',
+      financialSustainability: '27%',
+      livesImpacted: '3,870'
+    };
+  }
+
+  try {
+    const url = `https://sheets.googleapis.com/v4/spreadsheets/${PUBLIC_SPREADSHEET_ID}/values/${encodeURIComponent(PUBLIC_RANGE)}?key=${GOOGLE_SHEETS_API_KEY}`;
+    const response = await fetch(url);
+    const data = await response.json();
+
+    if (!data.values) {
+      throw new Error('No data found in public spreadsheet');
+    }
+
+    const values = data.values.map((row: any[]) => row[0]);
+
+    return {
+      familiesServed: values[0] || '0',
+      tutoringEnrollment: values[1] || '0',
+      studentImprovement: values[2] || '0%',
+      youthMentored: values[3] || '0',
+      localLeadersEmpowered: values[4] || '0',
+      roleplaySessions: values[5] || '0',
+      healthParticipants: values[6] || '0',
+      communityPrograms: values[7] || '0',
+      financialSustainability: values[8] || '0%',
+      livesImpacted: values[9] || '0',
+    };
+  } catch (error) {
+    console.error('Error fetching public impact metrics:', error);
+    throw error;
+  }
+}
+
+/**
+ * Mock impact metrics data
+ */
+const getMockImpactMetrics = (): ImpactMetric[] => {
+  return [
+    {
+      domain: 'Leadership & Ownership',
+      metric: '% of program sessions led by community members',
+      monthlyActuals: [2, 3, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      annualTarget: 10,
+      quarterlyAchievement: [60, 0, 0, 0],
+      annualAchievement: 60
+    },
+    {
+      domain: 'Education',
+      metric: 'Preschool Enrollment',
+      monthlyActuals: [73, 73, 75, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+      annualTarget: 80,
+      quarterlyAchievement: [92, 0, 0, 0],
+      annualAchievement: 92
+    }
+  ];
 };
 
 /**
