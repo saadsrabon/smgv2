@@ -1,5 +1,5 @@
 import { useTranslation } from 'react-i18next';
-import { Target, Eye, CheckCircle, Play } from 'lucide-react';
+import { Target, Eye, CheckCircle, Play, ShieldCheck, Globe, Mail } from 'lucide-react';
 import { useEffect, useState } from 'react';
 
 const About = () => {
@@ -32,6 +32,53 @@ const About = () => {
           <h2 className={`text-3xl md:text-4xl font-bold text-light-text mb-4 ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
             {t('about.title')}
           </h2>
+        </div>
+
+        {/* Official Website / Organization Identity */}
+        <div id="official" className="mb-16 scroll-mt-24 md:scroll-mt-32">
+          <div className="max-w-3xl mx-auto rounded-2xl border border-light-border bg-light-bg/60 px-6 py-8 sm:px-10 sm:py-10">
+            <div className={`inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 mb-5 ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
+              <ShieldCheck className="w-4 h-4 text-primary" />
+              <span className="text-xs font-medium tracking-wide text-primary uppercase">
+                {t('about.official.title')}
+              </span>
+            </div>
+
+            <p className={`text-lg sm:text-xl text-light-text leading-relaxed mb-8 ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
+              {t('about.official.statement')}
+            </p>
+
+            <dl className="divide-y divide-light-border border-t border-light-border">
+              <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 py-3">
+                <dt className={`w-40 text-sm text-light-muted ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
+                  {t('about.official.legalNameLabel')}
+                </dt>
+                <dd className="font-semibold text-light-text">{t('about.official.legalName')}</dd>
+              </div>
+              <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 py-3">
+                <dt className={`w-40 flex items-center gap-2 text-sm text-light-muted ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
+                  <Globe className="w-4 h-4 text-primary" />
+                  {t('about.official.domainLabel')}
+                </dt>
+                <dd>
+                  <a href="https://shomajgori.org" className="font-semibold text-primary hover:underline">
+                    {t('about.official.domain')}
+                  </a>
+                </dd>
+              </div>
+              <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 py-3">
+                <dt className={`w-40 flex items-center gap-2 text-sm text-light-muted ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
+                  <Mail className="w-4 h-4 text-primary" />
+                  {t('about.official.emailLabel')}
+                </dt>
+                <dd>
+                  <a href={`mailto:${t('about.official.email')}`} className="font-semibold text-primary hover:underline break-all">
+                    {t('about.official.email')}
+                  </a>
+                </dd>
+              </div>
+            </dl>
+          </div>
         </div>
 
         {/* Video Section */}

@@ -15,6 +15,16 @@
   },
   "about": {
     "title": "About Shomajgori Foundation",
+    "official": {
+      "title": "Official Website",
+      "statement": "SHOMAJGORI FOUNDATION is a U.S.-registered nonprofit organization. This website, shomajgori.org, is the official website of SHOMAJGORI FOUNDATION and is operated by the organization for its programs, communications, and community development initiatives.",
+      "legalNameLabel": "Legal name",
+      "legalName": "SHOMAJGORI FOUNDATION",
+      "domainLabel": "Official domain",
+      "domain": "shomajgori.org",
+      "emailLabel": "Official email",
+      "email": "info@shomajgori.org"
+    },
     "mission": {
       "title": "Our Mission",
       "description": "To build smart communities that are sustainable, inclusive, and empowered through education, health, social engagement, and economic empowerment. We believe that every community has the potential to thrive when equipped with the right tools, knowledge, and support."

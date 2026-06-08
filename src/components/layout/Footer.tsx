@@ -22,6 +22,17 @@ const Footer = () => {
             <p className={`text-light-muted text-sm leading-relaxed ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
               {t('footer.description')}
             </p>
+            <p className="text-light-muted text-sm leading-relaxed">
+              {t('about.official.legalName')} &middot;{' '}
+              <a href="https://shomajgori.org" className="text-primary hover:underline">
+                {t('about.official.domain')}
+              </a>
+            </p>
+            <p className="text-light-muted text-sm leading-relaxed">
+              <a href={`mailto:${t('about.official.email')}`} className="text-primary hover:underline">
+                {t('about.official.email')}
+              </a>
+            </p>
           </div>
 
           {/* Quick Links */}
