@@ -17,13 +17,19 @@
     "title": "About Shomajgori Foundation",
     "official": {
       "title": "Official Website",
-      "statement": "SHOMAJGORI FOUNDATION is a U.S.-registered nonprofit organization. This website, shomajgori.org, is the official website of SHOMAJGORI FOUNDATION and is operated by the organization for its programs, communications, and community development initiatives.",
-      "legalNameLabel": "Legal name",
+      "badge": "IRS 501(c)(3) Nonprofit",
+      "statement": "SHOMAJGORI FOUNDATION is a U.S.-registered nonprofit organization recognized under IRS Section 501(c)(3).",
+      "purpose": "This website, shomajgori.org, is the official website and primary online presence of SHOMAJGORI FOUNDATION. The website is owned and operated by the organization and is used for its programs, communications, volunteer engagement, partnerships, fundraising activities, and community development initiatives.",
+      "legalNameLabel": "Legal Name",
       "legalName": "SHOMAJGORI FOUNDATION",
-      "domainLabel": "Official domain",
+      "domainLabel": "Official Domain",
       "domain": "shomajgori.org",
-      "emailLabel": "Official email",
-      "email": "info@shomajgori.org"
+      "emailLabel": "Official Email",
+      "email": "info@shomajgori.org",
+      "history": {
+        "title": "Website History",
+        "body": "Prior to launching this official website, SHOMAJGORI FOUNDATION used a temporary project website during the organization's early development phase to document planning activities and progress. That temporary website was used only during the foundation's development period.\n\nThe official website of SHOMAJGORI FOUNDATION is https://shomajgori.org, which serves as the organization's primary web presence and official domain."
+      }
     },
     "mission": {
       "title": "Our Mission",
@@ -147,7 +153,7 @@
     "title": "Get in Touch",
     "subtitle": "Join us in building smart communities",
     "address": "Vogdaburi Community Center, BOP Bazar, Chilahati, Nilphamari, Bangladesh",
-    "email": "shomajgorifoundationvcc@gmail.com",
+    "email": "info@shomajgori.org",
     "phone": "+880-1759213198",
     "cta": "Contact Us",
     "volunteer": "Become a Volunteer"

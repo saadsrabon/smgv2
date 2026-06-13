@@ -40,23 +40,28 @@ const About = () => {
             <div className={`inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 mb-5 ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
               <ShieldCheck className="w-4 h-4 text-primary" />
               <span className="text-xs font-medium tracking-wide text-primary uppercase">
-                {t('about.official.title')}
+                {t('about.official.badge')}
               </span>
             </div>
 
-            <p className={`text-lg sm:text-xl text-light-text leading-relaxed mb-8 ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
-              {t('about.official.statement')}
-            </p>
+            <h3 className={`text-xl font-bold text-light-text mb-4 ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
+              {t('about.official.title')}
+            </h3>
 
-            <dl className="divide-y divide-light-border border-t border-light-border">
+            <div className={`space-y-4 text-light-text leading-relaxed mb-8 ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
+              <p>{t('about.official.statement')}</p>
+              <p className="text-light-muted">{t('about.official.purpose')}</p>
+            </div>
+
+            <dl className="divide-y divide-light-border border-t border-light-border mb-8">
               <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 py-3">
-                <dt className={`w-40 text-sm text-light-muted ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
+                <dt className={`w-44 shrink-0 text-sm text-light-muted ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
                   {t('about.official.legalNameLabel')}
                 </dt>
                 <dd className="font-semibold text-light-text">{t('about.official.legalName')}</dd>
               </div>
               <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 py-3">
-                <dt className={`w-40 flex items-center gap-2 text-sm text-light-muted ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
+                <dt className={`w-44 shrink-0 flex items-center gap-2 text-sm text-light-muted ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
                   <Globe className="w-4 h-4 text-primary" />
                   {t('about.official.domainLabel')}
                 </dt>
@@ -67,7 +72,7 @@ const About = () => {
                 </dd>
               </div>
               <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 py-3">
-                <dt className={`w-40 flex items-center gap-2 text-sm text-light-muted ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
+                <dt className={`w-44 shrink-0 flex items-center gap-2 text-sm text-light-muted ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
                   <Mail className="w-4 h-4 text-primary" />
                   {t('about.official.emailLabel')}
                 </dt>
@@ -78,6 +83,29 @@ const About = () => {
                 </dd>
               </div>
             </dl>
+
+            <div className="border-t border-light-border pt-6">
+              <h4 className={`text-lg font-semibold text-light-text mb-3 ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
+                {t('about.official.history.title')}
+              </h4>
+              <div className={`space-y-4 text-light-muted leading-relaxed whitespace-pre-line ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
+                {t('about.official.history.body').split('\n\n').map((paragraph, index) => (
+                  <p key={index}>
+                    {paragraph.includes('https://shomajgori.org') ? (
+                      <>
+                        {paragraph.split('https://shomajgori.org')[0]}
+                        <a href="https://shomajgori.org" className="text-primary font-medium hover:underline">
+                          https://shomajgori.org
+                        </a>
+                        {paragraph.split('https://shomajgori.org')[1]}
+                      </>
+                    ) : (
+                      paragraph
+                    )}
+                  </p>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
 
