@@ -14,72 +14,16 @@
     "donate": "Support Us"
   },
   "about": {
-    "title": "About Shomajgori Foundation",
+    "title": "About Us",
     "official": {
-      "title": "Official Website",
-      "badge": "IRS 501(c)(3) Nonprofit",
       "statement": "SHOMAJGORI FOUNDATION is a U.S.-registered nonprofit organization recognized under IRS Section 501(c)(3).",
       "purpose": "This website, shomajgori.org, is the official website and primary online presence of SHOMAJGORI FOUNDATION. The website is owned and operated by the organization and is used for its programs, communications, volunteer engagement, partnerships, fundraising activities, and community development initiatives.",
-      "legalNameLabel": "Legal Name",
+      "legalNameLabel": "Legal Name:",
       "legalName": "SHOMAJGORI FOUNDATION",
-      "domainLabel": "Official Domain",
+      "domainLabel": "Official Domain:",
       "domain": "shomajgori.org",
-      "emailLabel": "Official Email",
-      "email": "info@shomajgori.org",
-      "history": {
-        "title": "Website History",
-        "body": "Prior to launching this official website, SHOMAJGORI FOUNDATION used a temporary project website during the organization's early development phase to document planning activities and progress. That temporary website was used only during the foundation's development period.\n\nThe official website of SHOMAJGORI FOUNDATION is https://shomajgori.org, which serves as the organization's primary web presence and official domain."
-      }
-    },
-    "mission": {
-      "title": "Our Mission",
-      "description": "To build smart communities that are sustainable, inclusive, and empowered through education, health, social engagement, and economic empowerment. We believe that every community has the potential to thrive when equipped with the right tools, knowledge, and support."
-    },
-    "vision": {
-      "title": "Our Vision",
-      "description": "A world where every community has the tools, knowledge, and support to create positive change and sustainable development. We envision communities that are self-reliant, innovative, and connected, where every individual can contribute to and benefit from collective progress."
-    },
-    "values": {
-      "title": "Our Values",
-      "items": [
-        {
-          "title": "Community First",
-          "description": "Every decision is made with the community's best interests at heart"
-        },
-        {
-          "title": "Transparency",
-          "description": "Open communication and accountability in all our actions"
-        },
-        {
-          "title": "Innovation",
-          "description": "Embracing new ideas and technologies for better outcomes"
-        },
-        {
-          "title": "Collaboration",
-          "description": "Working together with partners, volunteers, and community members"
-        }
-      ]
-    },
-    "impact": {
-      "title": "Our Impact",
-      "stats": [
-        {
-          "number": "500+",
-          "label": "Families Served"
-        },
-        {
-          "number": "50+",
-          "label": "Community Programs"
-        },
-        {
-          "number": "1000+",
-          "label": "Lives Impacted"
-        },
-        {
-          "number": "15+",
-          "label": "Partner Organizations"
-        }
-      ]
+      "emailLabel": "Official Email:",
+      "email": "info@shomajgori.org"
     }
   },
   "programs": {

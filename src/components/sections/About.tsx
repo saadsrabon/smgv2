@@ -1,230 +1,44 @@
 import { useTranslation } from 'react-i18next';
-import { Target, Eye, CheckCircle, Play, ShieldCheck, Globe, Mail } from 'lucide-react';
-import { useEffect, useState } from 'react';
 
 const About = () => {
   const { t, i18n } = useTranslation();
-  const [isVideoPlaying, setIsVideoPlaying] = useState(false);
-
-  // Video URLs based on language - using YouTube embed format
-  const videoUrl = i18n.language === 'bn' 
-    ? 'https://www.youtube.com/embed/DWB6Bzk9IuQ?autoplay=1&rel=0&modestbranding=1'
-    : 'https://www.youtube.com/embed/ToLHHAl9KVk?autoplay=1&rel=0&modestbranding=1';
-
-  const handlePlayVideo = () => {
-    setIsVideoPlaying(true);
-  };
-
-  useEffect(() => {
-    const triggerVideoPlay = () => setIsVideoPlaying(true);
-
-    window.addEventListener('about:playVideo', triggerVideoPlay);
-
-    return () => {
-      window.removeEventListener('about:playVideo', triggerVideoPlay);
-    };
-  }, []);
+  const fontClass = i18n.language === 'bn' ? 'font-bengali' : 'font-english';
 
   return (
     <section id="about" className="bg-light-surface scroll-mt-24 md:scroll-mt-32">
       <div className="container-custom section-padding">
-        <div className="text-center mb-16">
-          <h2 className={`text-3xl md:text-4xl font-bold text-light-text mb-4 ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
+        <div className="max-w-3xl mx-auto">
+          <h2 className={`text-3xl md:text-4xl font-bold text-light-text mb-8 ${fontClass}`}>
             {t('about.title')}
           </h2>
-        </div>
 
-        {/* Official Website / Organization Identity */}
-        <div id="official" className="mb-16 scroll-mt-24 md:scroll-mt-32">
-          <div className="max-w-3xl mx-auto rounded-2xl border border-light-border bg-light-bg/60 px-6 py-8 sm:px-10 sm:py-10">
-            <div className={`inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 mb-5 ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
-              <ShieldCheck className="w-4 h-4 text-primary" />
-              <span className="text-xs font-medium tracking-wide text-primary uppercase">
-                {t('about.official.badge')}
-              </span>
-            </div>
-
-            <h3 className={`text-xl font-bold text-light-text mb-4 ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
-              {t('about.official.title')}
-            </h3>
-
-            <div className={`space-y-4 text-light-text leading-relaxed mb-8 ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
-              <p>{t('about.official.statement')}</p>
-              <p className="text-light-muted">{t('about.official.purpose')}</p>
-            </div>
-
-            <dl className="divide-y divide-light-border border-t border-light-border mb-8">
-              <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 py-3">
-                <dt className={`w-44 shrink-0 text-sm text-light-muted ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
-                  {t('about.official.legalNameLabel')}
-                </dt>
-                <dd className="font-semibold text-light-text">{t('about.official.legalName')}</dd>
-              </div>
-              <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 py-3">
-                <dt className={`w-44 shrink-0 flex items-center gap-2 text-sm text-light-muted ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
-                  <Globe className="w-4 h-4 text-primary" />
-                  {t('about.official.domainLabel')}
-                </dt>
-                <dd>
-                  <a href="https://shomajgori.org" className="font-semibold text-primary hover:underline">
-                    {t('about.official.domain')}
-                  </a>
-                </dd>
-              </div>
-              <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-4 py-3">
-                <dt className={`w-44 shrink-0 flex items-center gap-2 text-sm text-light-muted ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
-                  <Mail className="w-4 h-4 text-primary" />
-                  {t('about.official.emailLabel')}
-                </dt>
-                <dd>
-                  <a href={`mailto:${t('about.official.email')}`} className="font-semibold text-primary hover:underline break-all">
-                    {t('about.official.email')}
-                  </a>
-                </dd>
-              </div>
-            </dl>
-
-            <div className="border-t border-light-border pt-6">
-              <h4 className={`text-lg font-semibold text-light-text mb-3 ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
-                {t('about.official.history.title')}
-              </h4>
-              <div className={`space-y-4 text-light-muted leading-relaxed whitespace-pre-line ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
-                {t('about.official.history.body').split('\n\n').map((paragraph, index) => (
-                  <p key={index}>
-                    {paragraph.includes('https://shomajgori.org') ? (
-                      <>
-                        {paragraph.split('https://shomajgori.org')[0]}
-                        <a href="https://shomajgori.org" className="text-primary font-medium hover:underline">
-                          https://shomajgori.org
-                        </a>
-                        {paragraph.split('https://shomajgori.org')[1]}
-                      </>
-                    ) : (
-                      paragraph
-                    )}
-                  </p>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Video Section */}
-        <div className="mb-16">
-          <div className="relative max-w-4xl mx-auto">
-            <div className="relative aspect-video rounded-2xl overflow-hidden shadow-2xl bg-gradient-to-br from-primary/20 to-secondary-teal/20">
-              {!isVideoPlaying ? (
-                <div className="relative w-full h-full flex items-center justify-center">
-                  {/* Video Poster Image */}
-                  <img 
-                    src="https://images.unsplash.com/photo-1582213782179-e0d53f98f2ca?w=800&h=450&fit=crop&crop=center" 
-                    alt="Shomajgori Foundation Video Poster"
-                    className="absolute inset-0 w-full h-full object-cover"
-                  />
-                  {/* Video Thumbnail/Background Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/30 to-secondary-teal/30"></div>
-                  
-                  {/* Play Button with Ripple Effect */}
-                  <button
-                    onClick={handlePlayVideo}
-                    className="relative z-10 group"
-                  >
-                    <div className="relative">
-                      {/* Ripple Effect Container */}
-                      <div className="absolute inset-0 rounded-full bg-primary/30 video-ripple"></div>
-                      <div className="absolute inset-2 rounded-full bg-primary/20 animate-pulse"></div>
-                      
-                      {/* Main Play Button */}
-                      <div className="relative w-20 h-20 bg-primary rounded-full flex items-center justify-center shadow-2xl transform transition-all duration-300 group-hover:scale-110 group-hover:shadow-3xl video-play-button">
-                        <Play className="w-8 h-8 text-white ml-1" fill="currentColor" />
-                      </div>
-                    </div>
-                  </button>
-                  
-                  {/* Video Title Overlay */}
-                  <div className="absolute bottom-6 left-6 right-6">
-                    <h3 className={`text-white text-xl font-bold mb-2 ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
-                      {i18n.language === 'bn' ? 'আমাদের গল্প' : 'Our Story'}
-                    </h3>
-                    <p className={`text-white/90 text-sm ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
-                      {i18n.language === 'bn' 
-                        ? 'সমাজ গড়ি ফাউন্ডেশনের কাজের গল্প দেখুন' 
-                        : 'Watch the story of Shomajgori Foundation\'s work'
-                      }
-                    </p>
-                  </div>
-                </div>
-              ) : (
-                <iframe
-                  src={videoUrl}
-                  className="w-full h-full"
-                  allowFullScreen
-                  title={i18n.language === 'bn' ? 'আমাদের গল্প' : 'Our Story'}
-                />
-              )}
-            </div>
-          </div>
-        </div>
-
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 mb-16">
-          {/* Mission */}
-          <div className="space-y-6">
-            <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center">
-                <Target className="w-6 h-6 text-primary" />
-              </div>
-              <h3 className={`text-2xl font-bold text-light-text ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>{t('about.mission.title')}</h3>
-            </div>
-            <p className={`text-lg text-light-muted leading-relaxed ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
-              {t('about.mission.description')}
-            </p>
+          <div className={`space-y-5 text-light-text leading-relaxed ${fontClass}`}>
+            <p>{t('about.official.statement')}</p>
+            <p>{t('about.official.purpose')}</p>
           </div>
 
-          {/* Vision */}
-          <div className="space-y-6">
-            <div className="flex items-center space-x-3">
-              <div className="w-12 h-12 bg-secondary-teal/20 rounded-full flex items-center justify-center">
-                <Eye className="w-6 h-6 text-secondary-teal" />
-              </div>
-              <h3 className={`text-2xl font-bold text-light-text ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>{t('about.vision.title')}</h3>
+          <dl className={`mt-8 space-y-3 text-light-text ${fontClass}`}>
+            <div>
+              <dt className="font-semibold">{t('about.official.legalNameLabel')}</dt>
+              <dd>{t('about.official.legalName')}</dd>
             </div>
-            <p className={`text-lg text-light-muted leading-relaxed ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
-              {t('about.vision.description')}
-            </p>
-          </div>
-        </div>
-
-        {/* Values */}
-        <div className="mb-16">
-          <h3 className={`text-2xl font-bold text-light-text mb-8 text-center ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
-            {t('about.values.title')}
-          </h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {(t('about.values.items', { returnObjects: true }) as Array<{title: string, description: string}>).map((value, index: number) => (
-              <div key={index} className="bg-light-bg rounded-xl p-6 text-center shadow-lg border border-light-border">
-                <div className="w-16 h-16 bg-primary/20 rounded-full mx-auto mb-4 flex items-center justify-center">
-                  <CheckCircle className="w-8 h-8 text-primary" />
-                </div>
-                <h4 className={`text-lg font-semibold text-light-text mb-2 ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>{value.title}</h4>
-                <p className={`text-light-muted text-sm ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>{value.description}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Impact Stats */}
-        <div className="bg-gradient-to-r from-primary/10 to-secondary-teal/10 rounded-2xl p-8">
-          <h3 className={`text-2xl font-bold text-light-text mb-8 text-center ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
-            {t('about.impact.title')}
-          </h3>
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {(t('about.impact.stats', { returnObjects: true }) as Array<{number: string, label: string}>).map((stat, index: number) => (
-              <div key={index} className="text-center">
-                <div className="text-4xl font-bold text-primary mb-2">{stat.number}</div>
-                <div className={`text-light-muted ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>{stat.label}</div>
-              </div>
-            ))}
-          </div>
+            <div>
+              <dt className="font-semibold">{t('about.official.domainLabel')}</dt>
+              <dd>
+                <a href="https://shomajgori.org" className="text-primary hover:underline">
+                  {t('about.official.domain')}
+                </a>
+              </dd>
+            </div>
+            <div>
+              <dt className="font-semibold">{t('about.official.emailLabel')}</dt>
+              <dd>
+                <a href={`mailto:${t('about.official.email')}`} className="text-primary hover:underline">
+                  {t('about.official.email')}
+                </a>
+              </dd>
+            </div>
+          </dl>
         </div>
       </div>
     </section>

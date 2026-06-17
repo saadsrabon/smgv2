@@ -59,9 +59,6 @@ const Hero = () => {
 
   const handleHeroCta = () => {
     scrollToSection('about');
-    setTimeout(() => {
-      window.dispatchEvent(new Event('about:playVideo'));
-    }, 600);
   };
 
   const handleHeroDonate = () => {
