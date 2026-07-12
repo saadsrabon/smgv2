@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, Video, X, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useDocumentMeta } from '@/hooks/useDocumentMeta';
 
 // Import local images
 import educationImg from '@/assets/hero/education-B1rO235h.jpeg';
@@ -21,6 +22,14 @@ interface MediaItem {
 
 const Gallery = () => {
   const { i18n } = useTranslation();
+  useDocumentMeta({
+    title: i18n.language === 'bn'
+      ? 'গ্যালারি | Shomajgori Foundation'
+      : 'Gallery | Shomajgori Foundation',
+    description: i18n.language === 'bn'
+      ? 'সমাজ গড়ি ফাউন্ডেশনের শিক্ষা, সামাজিক ও কমিউনিটি উন্নয়ন কার্যক্রমের ছবি ও ভিডিও।'
+      : 'Photos and videos from Shomajgori Foundation education, social, and community development programs.',
+  });
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [selectedMedia, setSelectedMedia] = useState<MediaItem | null>(null);

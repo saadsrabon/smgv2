@@ -1,8 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
-import { Menu, X, Globe, Heart, UserPlus } from 'lucide-react';
+import { Menu, X, Globe, UserPlus } from 'lucide-react';
 import VolunteerModal from '@/components/ui/VolunteerModal';
 import logo from '@/assets/LOGO-removebg-preview.png';
 
@@ -10,6 +10,12 @@ const Header = () => {
   const { t, i18n } = useTranslation();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isVolunteerModalOpen, setIsVolunteerModalOpen] = useState(false);
+
+  useEffect(() => {
+    const handleOpenVolunteer = () => setIsVolunteerModalOpen(true);
+    window.addEventListener('volunteer:open', handleOpenVolunteer);
+    return () => window.removeEventListener('volunteer:open', handleOpenVolunteer);
+  }, []);
 
   const toggleLanguage = () => {
     const newLang = i18n.language === 'en' ? 'bn' : 'en';
@@ -31,21 +37,14 @@ const Header = () => {
     <header className="fixed top-0 w-full bg-light-bg/95 backdrop-blur-sm border-b border-light-border z-50 shadow-sm">
       <div className="container-custom">
         <div className="flex items-center justify-between h-24">
-          {/* Logo */}
           <div className="flex items-center space-x-3">
             <div className="w-24 h-auto rounded-full flex items-center justify-center">
-              <img src={logo} alt="logo" className="w-full h-full" />
+              <img src={logo} alt="Shomajgori Foundation logo" className="w-full h-full" />
             </div>
-            {/* <div className="hidden sm:block">
-              <h1 className={`text-xl font-bold text-light-text ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
-                {i18n.language === 'bn' ? 'সমাজ গড়ি ফাউন্ডেশন' : 'Shomajgori Foundation'}
-              </h1>
-            </div> */}
           </div>
 
-          {/* Desktop Navigation */}
           <nav className="hidden lg:flex items-center space-x-6">
-            {navigation.map((item) => (
+            {navigation.map((item) =>
               item.type === 'route' ? (
                 <Link
                   key={item.name}
@@ -53,7 +52,7 @@ const Header = () => {
                   className={`text-light-text hover:text-primary transition-colors font-medium relative group ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}
                 >
                   {item.name}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
                 </Link>
               ) : (
                 <a
@@ -62,13 +61,12 @@ const Header = () => {
                   className={`text-light-text hover:text-primary transition-colors font-medium relative group ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}
                 >
                   {item.name}
-                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+                  <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full" />
                 </a>
               )
-            ))}
+            )}
           </nav>
 
-          {/* Language Toggle & CTA & Mobile Menu */}
           <div className="flex items-center space-x-4">
             <Button
               variant="outline"
@@ -80,7 +78,6 @@ const Header = () => {
               <span>{i18n.language === 'en' ? 'বাংলা' : 'English'}</span>
             </Button>
 
-            {/* Volunteer Button */}
             <Button
               size="sm"
               onClick={() => setIsVolunteerModalOpen(true)}
@@ -92,17 +89,6 @@ const Header = () => {
               </span>
             </Button>
 
-            {/* Donate Button */}
-            <Button
-              size="sm"
-              className="btn-primary hidden lg:flex items-center space-x-2"
-              onClick={() => alert('Coming soon!')}
-            >
-              <Heart className="w-4 h-4" />
-              <span>{i18n.language === 'bn' ? 'আসছে শীঘ্রই' : 'Coming Soon'}</span>
-            </Button>
-
-            {/* Mobile menu button */}
             <Button
               variant="ghost"
               size="sm"
@@ -114,11 +100,10 @@ const Header = () => {
           </div>
         </div>
 
-        {/* Mobile Navigation */}
         {isMenuOpen && (
           <div className="lg:hidden border-t border-light-border">
             <nav className="py-4 space-y-4">
-              {navigation.map((item) => (
+              {navigation.map((item) =>
                 item.type === 'route' ? (
                   <Link
                     key={item.name}
@@ -138,8 +123,8 @@ const Header = () => {
                     {item.name}
                   </a>
                 )
-              ))}
-              <div className="pt-4 border-t border-light-border space-y-3">
+              )}
+              <div className="pt-4 border-t border-light-border">
                 <Button
                   onClick={() => {
                     setIsVolunteerModalOpen(true);
@@ -152,23 +137,15 @@ const Header = () => {
                     {i18n.language === 'bn' ? 'স্বেচ্ছাসেবক হন' : 'Join as Volunteer'}
                   </span>
                 </Button>
-                <Button
-                  className="btn-secondary w-full flex items-center justify-center space-x-2"
-                  onClick={() => alert('Coming soon!')}
-                >
-                  <Heart className="w-4 h-4" />
-                  <span>{i18n.language === 'bn' ? 'আসছে শীঘ্রই' : 'Coming Soon'}</span>
-                </Button>
               </div>
             </nav>
           </div>
         )}
       </div>
-      
-      {/* Volunteer Modal */}
-      <VolunteerModal 
-        isOpen={isVolunteerModalOpen} 
-        onClose={() => setIsVolunteerModalOpen(false)} 
+
+      <VolunteerModal
+        isOpen={isVolunteerModalOpen}
+        onClose={() => setIsVolunteerModalOpen(false)}
       />
     </header>
   );

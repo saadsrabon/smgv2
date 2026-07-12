@@ -1,0 +1,21 @@
+{
+  "name": "Shomajgori Foundation",
+  "short_name": "Shomajgori",
+  "description": "SHOMAJGORI FOUNDATION is a U.S.-registered 501(c)(3) nonprofit empowering communities through education, health, and social programs.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#2faaa0",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

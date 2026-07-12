@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { createPortal } from 'react-dom';
+import { sendVolunteerEmail } from '@/lib/emailjs';
 import { X, Send, UserPlus } from 'lucide-react';
 
 interface VolunteerModalProps {
@@ -46,15 +47,27 @@ const VolunteerModal: React.FC<VolunteerModalProps> = ({ isOpen, onClose }) => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setSubmitStatus('idle');
 
-    // Simulate form submission
-    setTimeout(() => {
-      setIsSubmitting(false);
+    const form = new FormData(e.currentTarget);
+
+    try {
+      await sendVolunteerEmail({
+        name: String(form.get('name') ?? ''),
+        email: String(form.get('email') ?? ''),
+        phone: String(form.get('phone') ?? ''),
+        interest: String(form.get('interest') ?? ''),
+        availability: String(form.get('availability') ?? ''),
+        message: String(form.get('message') ?? ''),
+      });
       setSubmitStatus('success');
-      setTimeout(() => {
-        onClose();
-      }, 2000);
-    }, 1500);
+      setTimeout(onClose, 2000);
+    } catch (error) {
+      console.error('Volunteer form error:', error);
+      setSubmitStatus('error');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   if (!isOpen || !mounted) return null;
@@ -113,6 +126,21 @@ const VolunteerModal: React.FC<VolunteerModalProps> = ({ isOpen, onClose }) => {
                   : 'Your application has been submitted successfully. We will contact you soon.'}
               </p>
             </div>
+          ) : submitStatus === 'error' ? (
+            <div className="text-center py-8">
+              <p className={`text-red-600 mb-4 ${isBengali ? 'font-bornomala' : 'font-sans'}`}>
+                {isBengali
+                  ? 'আবেদন পাঠাতে সমস্যা হয়েছে। আবার চেষ্টা করুন বা সরাসরি ইমেইল করুন।'
+                  : 'Failed to submit your application. Please try again or email us directly.'}
+              </p>
+              <button
+                type="button"
+                onClick={() => setSubmitStatus('idle')}
+                className="btn-primary"
+              >
+                {isBengali ? 'আবার চেষ্টা করুন' : 'Try Again'}
+              </button>
+            </div>
           ) : (
             <form onSubmit={handleSubmit} className="space-y-5">
               {/* Name */}
@@ -122,6 +150,7 @@ const VolunteerModal: React.FC<VolunteerModalProps> = ({ isOpen, onClose }) => {
                 </label>
                 <input
                   type="text"
+                  name="name"
                   required
                   className="w-full px-4 py-3 bg-light-bg border border-light-border rounded-lg text-light-text placeholder-light-muted focus:outline-none focus:ring-2 focus:ring-primary"
                   placeholder={isBengali ? 'আপনার নাম লিখুন' : 'Enter your name'}
@@ -135,6 +164,7 @@ const VolunteerModal: React.FC<VolunteerModalProps> = ({ isOpen, onClose }) => {
                 </label>
                 <input
                   type="email"
+                  name="email"
                   required
                   className="w-full px-4 py-3 bg-light-bg border border-light-border rounded-lg text-light-text placeholder-light-muted focus:outline-none focus:ring-2 focus:ring-primary"
                   placeholder={isBengali ? 'আপনার ইমেইল লিখুন' : 'Enter your email'}
@@ -148,6 +178,7 @@ const VolunteerModal: React.FC<VolunteerModalProps> = ({ isOpen, onClose }) => {
                 </label>
                 <input
                   type="tel"
+                  name="phone"
                   required
                   className="w-full px-4 py-3 bg-light-bg border border-light-border rounded-lg text-light-text placeholder-light-muted focus:outline-none focus:ring-2 focus:ring-primary"
                   placeholder={isBengali ? 'আপনার ফোন নম্বর লিখুন' : 'Enter your phone number'}
@@ -160,6 +191,7 @@ const VolunteerModal: React.FC<VolunteerModalProps> = ({ isOpen, onClose }) => {
                   {isBengali ? 'আগ্রহের ক্ষেত্র' : 'Area of Interest'} <span className="text-red-500">*</span>
                 </label>
                 <select
+                  name="interest"
                   required
                   className="w-full px-4 py-3 bg-light-bg border border-light-border rounded-lg text-light-text focus:outline-none focus:ring-2 focus:ring-primary"
                 >
@@ -178,6 +210,7 @@ const VolunteerModal: React.FC<VolunteerModalProps> = ({ isOpen, onClose }) => {
                   {isBengali ? 'সময় পাওয়া যায়' : 'Availability'}
                 </label>
                 <select
+                  name="availability"
                   className="w-full px-4 py-3 bg-light-bg border border-light-border rounded-lg text-light-text focus:outline-none focus:ring-2 focus:ring-primary"
                 >
                   <option value="weekdays">{isBengali ? 'সপ্তাহের দিন' : 'Weekdays'}</option>
@@ -192,6 +225,7 @@ const VolunteerModal: React.FC<VolunteerModalProps> = ({ isOpen, onClose }) => {
                   {isBengali ? 'বার্তা (ঐচ্ছিক)' : 'Message (Optional)'}
                 </label>
                 <textarea
+                  name="message"
                   rows={4}
                   className="w-full px-4 py-3 bg-light-bg border border-light-border rounded-lg text-light-text placeholder-light-muted focus:outline-none focus:ring-2 focus:ring-primary resize-none"
                   placeholder={isBengali ? 'কেন আপনি স্বেচ্ছাসেবক হতে চান?' : 'Why do you want to volunteer?'}

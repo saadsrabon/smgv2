@@ -13,7 +13,7 @@ const Footer = () => {
           <div className="space-y-4">
             <div className="flex items-center space-x-2">
               <div className="w-24 h-auto rounded-full flex items-center justify-center">
-                <img src={logo} alt="logo" className="w-full h-full" />
+                <img src={logo} alt="Shomajgori Foundation logo" className="w-full h-full" />
               </div>
               <h3 className={`text-xl font-bold text-light-text wrap-normal ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
                 {t('footer.name')}

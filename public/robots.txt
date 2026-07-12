@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+# Public pages
+Allow: /gallery
+Allow: /analytics
+
+Sitemap: https://shomajgori.org/sitemap.xml

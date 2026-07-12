@@ -1,5 +1,5 @@
 {
   "rewrites": [
-    { "source": "/((?!assets/).*)", "destination": "/index.html" }
+    { "source": "/((?!assets/|robots\\.txt|sitemap\\.xml|site\\.webmanifest|favicon|icon-|apple-touch|logo\\.png|og-image|social-share|Bornomala|white\\.jpg|_redirects).*)", "destination": "/index.html" }
   ]
 }

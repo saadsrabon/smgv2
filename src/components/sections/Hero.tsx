@@ -61,8 +61,8 @@ const Hero = () => {
     scrollToSection('about');
   };
 
-  const handleHeroDonate = () => {
-    alert(i18n.language === 'bn' ? 'আসছে শীঘ্রই' : 'Coming soon!');
+  const handleHeroContact = () => {
+    scrollToSection('contact');
   };
 
   return (
@@ -105,10 +105,9 @@ const Hero = () => {
                 size="lg"
                 variant="outline"
                 className="btn-secondary"
-                onClick={handleHeroDonate}
+                onClick={handleHeroContact}
               >
-                {i18n.language === 'bn' ? 'আসছে শীঘ্রই' : 'Coming Soon'}
-                <Heart className="ml-2 w-5 h-5" />
+                {t('contact.cta')}
               </Button>
             </div>
 

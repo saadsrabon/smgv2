@@ -23,7 +23,7 @@
       "domainLabel": "অফিসিয়াল ডোমেইন:",
       "domain": "shomajgori.org",
       "emailLabel": "অফিসিয়াল ইমেইল:",
-      "email": "info@shomajgori.org"
+      "email": "shomajgorifoundationvcc@gmail.com"
     }
   },
   "programs": {
@@ -96,11 +96,14 @@
   "contact": {
     "title": "যোগাযোগ করুন",
     "subtitle": "স্মার্ট কমিউনিটি গড়ে তুলতে আমাদের সাথে যোগ দিন",
+    "nonprofitNote": "SHOMAJGORI FOUNDATION — যুক্তরাষ্ট্রের অলাভজনক সংস্থা (IRS 501(c)(3))",
     "address": "ভোগডাবুরী কমিউনিটি সেন্টার, বিওপি বাজার , চিলাহাটি ",
-    "email": "info@shomajgori.org",
+    "email": "shomajgorifoundationvcc@gmail.com",
     "phone": "+৮৮০-১৭৫৯২১৩১৯৮",
     "cta": "যোগাযোগ করুন",
-    "volunteer": "স্বেচ্ছাসেবক হন"
+    "volunteer": "স্বেচ্ছাসেবক হন",
+    "formSuccess": "আপনার বার্তা সফলভাবে পাঠানো হয়েছে। আমরা শীঘ্রই আপনার সাথে যোগাযোগ করব।",
+    "formError": "বার্তা পাঠাতে সমস্যা হয়েছে। আবার চেষ্টা করুন বা সরাসরি ইমেইল করুন।"
   },
   "footer": {
     "name": "সমাজ গড়ি ফাউন্ডেশন",

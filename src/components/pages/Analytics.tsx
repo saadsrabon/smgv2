@@ -5,6 +5,7 @@ import {
   DollarSign, Heart, ChevronRight, ArrowLeft
 } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
+import { useDocumentMeta } from '@/hooks/useDocumentMeta';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Chart as ChartJS,
@@ -39,6 +40,14 @@ type ViewMode = 'summary' | 'detailed';
 
 const Analytics = () => {
   const { i18n } = useTranslation();
+  useDocumentMeta({
+    title: i18n.language === 'bn'
+      ? 'বিশ্লেষণ | Shomajgori Foundation'
+      : 'Analytics | Shomajgori Foundation',
+    description: i18n.language === 'bn'
+      ? 'সমাজ গড়ি ফাউন্ডেশনের প্রভাব, কার্যক্রম ও কমিউনিটি উন্নয়নের পরিসংখ্যান।'
+      : 'Impact metrics and community development statistics from Shomajgori Foundation.',
+  });
   const [viewMode, setViewMode] = useState<ViewMode>('summary');
   const [impactMetrics, setImpactMetrics] = useState<ImpactMetric[]>([]);
   const [publicMetrics, setPublicMetrics] = useState<PublicImpactMetrics | null>(null);
