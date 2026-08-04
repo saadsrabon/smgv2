@@ -1,22 +1,22 @@
 import { useTranslation } from 'react-i18next';
-import { BookOpen, Heart, Users, TrendingUp, CheckCircle } from 'lucide-react';
+import { CheckCircle } from 'lucide-react';
+import {
+  EconomicProgramIcon,
+  EducationProgramIcon,
+  HealthProgramIcon,
+  IconTile,
+  SocialProgramIcon,
+} from '@/components/icons/FoundationIcons';
+
+const programConfig = {
+  education: { Icon: EducationProgramIcon, accent: '#0ea5e9' },
+  health: { Icon: HealthProgramIcon, accent: '#14b8a6' },
+  social: { Icon: SocialProgramIcon, accent: '#f97316' },
+  economic: { Icon: EconomicProgramIcon, accent: '#ec4899' },
+} as const;
 
 const Programs = () => {
   const { t, i18n } = useTranslation();
-
-  const programIcons = {
-    education: BookOpen,
-    health: Heart,
-    social: Users,
-    economic: TrendingUp,
-  };
-
-  const programColors = {
-    education: 'primary',
-    health: 'secondary-teal',
-    social: 'secondary-orange',
-    economic: 'secondary-pink',
-  };
 
   const scrollToSection = (id: string) => {
     const section = document.getElementById(id);
@@ -38,16 +38,20 @@ const Programs = () => {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {Object.entries(programIcons).map(([key, Icon]) => {
-            const program = t(`programs.${key}`, { returnObjects: true }) as {title: string, description: string, features: string[]};
-            const color = programColors[key as keyof typeof programColors];
-            
+          {(Object.keys(programConfig) as (keyof typeof programConfig)[]).map((key) => {
+            const program = t(`programs.${key}`, { returnObjects: true }) as {
+              title: string;
+              description: string;
+              features: string[];
+            };
+            const { Icon, accent } = programConfig[key];
+
             return (
               <div key={key} className="bg-light-surface text-light-text rounded-2xl p-8 hover:shadow-lg transition-shadow border border-light-border">
                 <div className="flex items-start space-x-4">
-                  <div className={`w-16 h-16 bg-${color}/20 rounded-xl flex items-center justify-center flex-shrink-0`}>
-                    <Icon className={`w-8 h-8 text-${color}`} />
-                  </div>
+                  <IconTile>
+                    <Icon className="h-full w-full" accent={accent} />
+                  </IconTile>
                   <div className="flex-1">
                     <h3 className={`text-2xl font-bold text-light-text mb-3 ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
                       {program.title}

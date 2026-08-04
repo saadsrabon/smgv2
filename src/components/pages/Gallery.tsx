@@ -17,7 +17,9 @@ interface MediaItem {
   title: string;
   description: string;
   category: string;
+  categoryId: string;
   date: string;
+  bentoClass: string;
 }
 
 const Gallery = () => {
@@ -42,8 +44,10 @@ const Gallery = () => {
       src: educationImg,
       title: i18n.language === 'bn' ? 'শিক্ষা কার্যক্রম' : 'Education Program',
       description: i18n.language === 'bn' ? 'প্রিস্কুল শিক্ষা কার্যক্রমের একটি মুহূর্ত' : 'A moment from our preschool education program',
-      category: i18n.language === 'bn' ? 'শিক্ষা' : 'education',
-      date: '2024-10-15'
+      category: i18n.language === 'bn' ? 'শিক্ষা' : 'Education',
+      categoryId: 'education',
+      date: '2024-10-15',
+      bentoClass: 'lg:col-start-1 lg:row-start-1 lg:col-span-2 lg:row-span-2',
     },
     {
       id: 2,
@@ -51,8 +55,10 @@ const Gallery = () => {
       src: photo1,
       title: i18n.language === 'bn' ? 'সম্প্রদায় উন্নয়ন' : 'Economic Empowerment',
       description: i18n.language === 'bn' ? 'কমিউনিটি সদস্যদের সাথে আলোচনা' : 'Discussion with community members',
-      category: i18n.language === 'bn' ? 'সামাজিক' : 'social',
-      date: '2024-06-09'
+      category: i18n.language === 'bn' ? 'সামাজিক' : 'Social',
+      categoryId: 'social',
+      date: '2024-06-09',
+      bentoClass: 'lg:col-start-1 lg:row-start-3 lg:col-span-1 lg:row-span-1',
     },
     {
       id: 3,
@@ -60,8 +66,10 @@ const Gallery = () => {
       src: photo2,
       title: i18n.language === 'bn' ? 'সামাজিক কার্যক্রম' : 'Social Activities',
       description: i18n.language === 'bn' ? 'সামাজিক সম্পৃক্ততা কার্যক্রম' : 'Social engagement activities',
-      category: i18n.language === 'bn' ? 'সামাজিক' : 'social',
-      date: '2024-10-01'
+      category: i18n.language === 'bn' ? 'সামাজিক' : 'Social',
+      categoryId: 'social',
+      date: '2024-10-01',
+      bentoClass: 'lg:col-start-2 lg:row-start-3 lg:col-span-1 lg:row-span-1',
     },
     {
       id: 4,
@@ -69,27 +77,22 @@ const Gallery = () => {
       src: tailorImg,
       title: i18n.language === 'bn' ? 'দক্ষতা উন্নয়ন' : 'Skills Development',
       description: i18n.language === 'bn' ? 'সেলাই প্রশিক্ষণ কার্যক্রম' : 'Tailoring training program',
-      category: i18n.language === 'bn' ? 'অর্থনৈতিক' : 'economic',
-      date: '2024-09-20'
+      category: i18n.language === 'bn' ? 'অর্থনৈতিক' : 'Economic',
+      categoryId: 'economic',
+      date: '2024-09-20',
+      bentoClass: 'lg:col-start-3 lg:row-start-3 lg:col-span-2 lg:row-span-1',
     },
     {
       id: 5,
       type: 'video',
-      src: educationImg, // Thumbnail
+      src: educationImg,
       videoUrl: 'https://www.youtube.com/embed/DWB6Bzk9IuQ',
       title: i18n.language === 'bn' ? 'কমিউনিটি সেন্টার উদ্বোধন' : 'Community Center Inauguration',
       description: i18n.language === 'bn' ? 'ভোগদাবুরি কমিউনিটি সেন্টারের উদ্বোধনী অনুষ্ঠান' : 'Vogdaburi Community Center inauguration ceremony',
-      category: i18n.language === 'bn' ? 'সামাজিক' : 'social',
-      date: '2025-02-01'
-    },
-    {
-      id: 6,
-      type: 'photo',
-      src: photo1,
-      title: i18n.language === 'bn' ? 'স্বাস্থ্য ক্যাম্প' : 'Health Camp',
-      description: i18n.language === 'bn' ? 'মাসিক স্বাস্থ্য পরীক্ষা কার্যক্রম' : 'Monthly health checkup program',
-      category: i18n.language === 'bn' ? 'স্বাস্থ্য' : 'health',
-      date: '2024-11-05'
+      category: i18n.language === 'bn' ? 'সামাজিক' : 'Social',
+      categoryId: 'social',
+      date: '2025-02-01',
+      bentoClass: 'lg:col-start-3 lg:row-start-1 lg:col-span-2 lg:row-span-2',
     },
   ];
 
@@ -103,7 +106,9 @@ const Gallery = () => {
 
   const filteredMedia = selectedCategory === 'all'
     ? mediaItems
-    : mediaItems.filter(item => item.category === selectedCategory || item.category === categories.find(c => c.id === selectedCategory)?.label);
+    : mediaItems.filter((item) => item.categoryId === selectedCategory);
+
+  const useBentoLayout = selectedCategory === 'all' && filteredMedia.length === mediaItems.length;
 
   const openLightbox = (media: MediaItem, index: number) => {
     setSelectedMedia(media);
@@ -160,23 +165,31 @@ const Gallery = () => {
           ))}
         </div>
 
-        {/* Gallery Grid - Masonry Layout */}
-        <div className="columns-1 sm:columns-2 lg:columns-3 gap-6 space-y-6">
+        {/* Gallery — bento grid (full) or uniform grid (filtered) */}
+        <div
+          className={
+            useBentoLayout
+              ? 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 lg:grid-rows-3 lg:h-[min(72vh,640px)]'
+              : 'grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 auto-rows-[220px]'
+          }
+        >
           {filteredMedia.map((item, index) => (
             <div
               key={item.id}
-              className="break-inside-avoid group relative overflow-hidden rounded-xl bg-light-surface shadow-lg hover:shadow-2xl transition-all duration-300 cursor-pointer"
+              className={`group relative h-full min-h-[200px] overflow-hidden rounded-xl bg-light-surface shadow-lg hover:shadow-2xl transition-shadow duration-300 cursor-pointer ${
+                useBentoLayout ? item.bentoClass : ''
+              } ${useBentoLayout ? '' : 'sm:min-h-[220px]'}`}
               onClick={() => openLightbox(item, index)}
             >
-              <div className="relative">
+              <div className="relative h-full w-full min-h-[inherit]">
                 <img
                   src={item.src}
                   alt={item.title}
-                  className="w-full h-auto transform group-hover:scale-105 transition-transform duration-500"
+                  className="absolute inset-0 h-full w-full object-cover transform group-hover:scale-105 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
                 />
-                
+
                 {/* Media Type Badge */}
-                <div className="absolute top-3 right-3">
+                <div className="absolute top-3 right-3 z-10">
                   {item.type === 'video' ? (
                     <div className="bg-black/70 text-white p-2 rounded-full">
                       <Video className="w-5 h-5" />
@@ -188,13 +201,13 @@ const Gallery = () => {
                   )}
                 </div>
 
-                {/* Overlay */}
-                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                {/* Overlay — always show title strip on mobile; full overlay on hover */}
+                <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300">
                   <div className="absolute bottom-0 left-0 right-0 p-4">
                     <h3 className={`text-white font-bold text-lg mb-1 ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
                       {item.title}
                     </h3>
-                    <p className={`text-gray-200 text-sm ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
+                    <p className={`text-gray-200 text-sm line-clamp-2 ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
                       {item.description}
                     </p>
                   </div>

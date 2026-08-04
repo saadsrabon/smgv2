@@ -65,7 +65,21 @@ const Contact = () => {
                   </div>
                   <div>
                     <h4 className={`font-semibold text-light-text mb-1 ${fontClass}`}>
-                      {i18n.language === 'bn' ? 'ঠিকানা' : 'Address'}
+                      {t('contact.usOfficeTitle')}
+                    </h4>
+                    <p className={`text-light-muted whitespace-pre-line ${fontClass}`}>
+                      {t('contact.usOfficeAddress')}
+                    </p>
+                  </div>
+                </div>
+
+                <div className="flex items-start space-x-4">
+                  <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
+                    <MapPin className="w-6 h-6 text-primary" />
+                  </div>
+                  <div>
+                    <h4 className={`font-semibold text-light-text mb-1 ${fontClass}`}>
+                      {t('contact.bangladeshAddressLabel')}
                     </h4>
                     <p className={`text-light-muted ${fontClass}`}>{t('contact.address')}</p>
                   </div>
@@ -91,7 +105,7 @@ const Contact = () => {
                   </div>
                   <div>
                     <h4 className={`font-semibold text-light-text mb-1 ${fontClass}`}>
-                      {i18n.language === 'bn' ? 'ফোন' : 'Phone'}
+                      {t('contact.bangladeshPhoneLabel')}
                     </h4>
                     <a href={`tel:${t('contact.phone').replace(/[^\d+]/g, '')}`} className={`text-light-muted hover:text-primary ${fontClass}`}>
                       {t('contact.phone')}

@@ -1,8 +1,48 @@
 import { useTranslation } from 'react-i18next';
-import { Building, Users, BookOpen, Heart, CheckCircle, Star } from 'lucide-react';
+import { CheckCircle, Star } from 'lucide-react';
+import {
+  CommunityCenterIcon,
+  FamiliesImpactIcon,
+  IconTile,
+  LivesImpactIcon,
+  PartnersImpactIcon,
+  StudentsImpactIcon,
+} from '@/components/icons/FoundationIcons';
+
+const impactMetrics = [
+  {
+    value: '500+',
+    labelBn: 'পরিবার সেবা',
+    labelEn: 'Families Served',
+    Icon: FamiliesImpactIcon,
+    accent: '#0ea5e9',
+  },
+  {
+    value: '200+',
+    labelBn: 'শিক্ষার্থী',
+    labelEn: 'Students Trained',
+    Icon: StudentsImpactIcon,
+    accent: '#14b8a6',
+  },
+  {
+    value: '1000+',
+    labelBn: 'জীবন প্রভাবিত',
+    labelEn: 'Lives Impacted',
+    Icon: LivesImpactIcon,
+    accent: '#f97316',
+  },
+  {
+    value: '15+',
+    labelBn: 'অংশীদার',
+    labelEn: 'Partners',
+    Icon: PartnersImpactIcon,
+    accent: '#ec4899',
+  },
+] as const;
 
 const Impact = () => {
   const { t, i18n } = useTranslation();
+  const fontClass = i18n.language === 'bn' ? 'font-bengali' : 'font-english';
 
   return (
     <section id="impact" className="bg-light-surface scroll-mt-24 md:scroll-mt-32">
@@ -21,9 +61,9 @@ const Impact = () => {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
               <div className="flex items-center space-x-3">
-                <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center">
-                  <Building className="w-6 h-6 text-primary" />
-                </div>
+                <IconTile variant="round" size="sm">
+                  <CommunityCenterIcon className="h-full w-full" accent="#0ea5e9" />
+                </IconTile>
                 <h3 className={`text-2xl font-bold text-light-text ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
                   {t('impact.vogdaburi.title')}
                 </h3>
@@ -54,45 +94,22 @@ const Impact = () => {
 
         {/* Impact Metrics */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
-          <div className="bg-light-bg rounded-xl p-6 text-center shadow-lg border border-light-border">
-            <div className="w-16 h-16 bg-primary/20 rounded-full mx-auto mb-4 flex items-center justify-center">
-              <Users className="w-8 h-8 text-primary" />
+          {impactMetrics.map((metric) => (
+            <div
+              key={metric.labelEn}
+              className="bg-light-bg rounded-xl p-6 text-center shadow-lg border border-light-border"
+            >
+              <div className="mx-auto mb-4 flex justify-center">
+                <IconTile variant="round">
+                  <metric.Icon className="h-full w-full" accent={metric.accent} />
+                </IconTile>
+              </div>
+              <div className="text-3xl font-bold text-light-text mb-2">{metric.value}</div>
+              <div className={`text-light-muted ${fontClass}`}>
+                {i18n.language === 'bn' ? metric.labelBn : metric.labelEn}
+              </div>
             </div>
-            <div className="text-3xl font-bold text-light-text mb-2">500+</div>
-            <div className={`text-light-muted ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
-              {i18n.language === 'bn' ? 'পরিবার সেবা' : 'Families Served'}
-            </div>
-          </div>
-
-          <div className="bg-light-bg rounded-xl p-6 text-center shadow-lg border border-light-border">
-            <div className="w-16 h-16 bg-secondary-teal/20 rounded-full mx-auto mb-4 flex items-center justify-center">
-              <BookOpen className="w-8 h-8 text-secondary-teal" />
-            </div>
-            <div className="text-3xl font-bold text-light-text mb-2">200+</div>
-            <div className={`text-light-muted ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
-              {i18n.language === 'bn' ? 'শিক্ষার্থী' : 'Students Trained'}
-            </div>
-          </div>
-
-          <div className="bg-light-bg rounded-xl p-6 text-center shadow-lg border border-light-border">
-            <div className="w-16 h-16 bg-secondary-orange/20 rounded-full mx-auto mb-4 flex items-center justify-center">
-              <Heart className="w-8 h-8 text-secondary-orange" />
-            </div>
-            <div className="text-3xl font-bold text-light-text mb-2">1000+</div>
-            <div className={`text-light-muted ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
-              {i18n.language === 'bn' ? 'জীবন প্রভাবিত' : 'Lives Impacted'}
-            </div>
-          </div>
-
-          <div className="bg-light-bg rounded-xl p-6 text-center shadow-lg border border-light-border">
-            <div className="w-16 h-16 bg-secondary-pink/20 rounded-full mx-auto mb-4 flex items-center justify-center">
-              <Star className="w-8 h-8 text-secondary-pink" />
-            </div>
-            <div className="text-3xl font-bold text-light-text mb-2">15+</div>
-            <div className={`text-light-muted ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
-              {i18n.language === 'bn' ? 'অংশীদার' : 'Partners'}
-            </div>
-          </div>
+          ))}
         </div>
 
         {/* Testimonial */}
