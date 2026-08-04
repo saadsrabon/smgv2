@@ -1,9 +1,9 @@
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
-import { Mail, Phone, MapPin, Send, Users } from 'lucide-react';
+import { Mail, Phone, MapPin, Send } from 'lucide-react';
 import { sendContactEmail } from '@/lib/emailjs';
-import { openVolunteerModal } from '@/hooks/useVolunteerModal';
+import { Reveal, SectionHeader } from '@/components/ui/Reveal';
 
 const Contact = () => {
   const { t, i18n } = useTranslation();
@@ -36,107 +36,61 @@ const Contact = () => {
   };
 
   return (
-    <section id="contact" className="bg-light-bg scroll-mt-24 md:scroll-mt-32">
+    <section id="contact" className="bg-light-bg scroll-mt-20 md:scroll-mt-20">
       <div className="container-custom section-padding">
-        <div className="text-center mb-16">
-          <h2 className={`text-3xl md:text-4xl font-bold text-light-text mb-4 ${fontClass}`}>
-            {t('contact.title')}
-          </h2>
-          <p className={`text-lg text-light-muted max-w-3xl mx-auto ${fontClass}`}>
-            {t('contact.subtitle')}
-          </p>
-        </div>
+        <Reveal>
+          <SectionHeader
+            fontClass={fontClass}
+            eyebrow={i18n.language === 'bn' ? 'যোগাযোগ' : 'Contact'}
+            title={t('contact.title')}
+            description={t('contact.subtitle')}
+          />
+        </Reveal>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-          <div className="space-y-8">
-            <div className="bg-light-surface rounded-2xl p-8 shadow-lg border border-light-border">
-              <p className={`text-sm font-medium text-primary mb-6 ${fontClass}`}>
-                {t('contact.nonprofitNote')}
-              </p>
-
-              <h3 className={`text-2xl font-bold text-light-text mb-6 ${fontClass}`}>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 max-w-6xl mx-auto">
+          <Reveal className="card-editorial p-8 lg:p-10">
+              <p className={`text-sm font-semibold text-primary mb-4 ${fontClass}`}>{t('contact.nonprofitNote')}</p>
+              <h3 className={`text-xl font-bold text-light-text mb-6 ${fontClass}`}>
                 {i18n.language === 'bn' ? 'যোগাযোগের তথ্য' : 'Contact Information'}
               </h3>
 
-              <div className="space-y-6">
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
-                    <MapPin className="w-6 h-6 text-primary" />
+              <dl className={`space-y-5 ${fontClass}`}>
+                {[
+                  { icon: MapPin, label: t('contact.usOfficeTitle'), value: t('contact.usOfficeAddress'), multiline: true },
+                  { icon: MapPin, label: t('contact.bangladeshAddressLabel'), value: t('contact.address') },
+                  {
+                    icon: Mail,
+                    label: i18n.language === 'bn' ? 'ইমেইল' : 'Email',
+                    value: t('contact.email'),
+                    href: `mailto:${t('contact.email')}`,
+                  },
+                  {
+                    icon: Phone,
+                    label: t('contact.bangladeshPhoneLabel'),
+                    value: t('contact.phone'),
+                    href: `tel:${t('contact.phone').replace(/[^\d+]/g, '')}`,
+                  },
+                ].map((row) => (
+                  <div key={row.label} className="flex gap-3 border-b border-light-border pb-5 last:border-0 last:pb-0">
+                    <row.icon className="w-5 h-5 text-primary shrink-0 mt-0.5" aria-hidden />
+                    <div>
+                      <dt className="font-semibold text-light-text text-sm">{row.label}</dt>
+                      <dd className={`text-light-muted mt-1 ${row.multiline ? 'whitespace-pre-line' : ''}`}>
+                        {'href' in row && row.href ? (
+                          <a href={row.href} className="text-primary hover:underline">
+                            {row.value}
+                          </a>
+                        ) : (
+                          row.value
+                        )}
+                      </dd>
+                    </div>
                   </div>
-                  <div>
-                    <h4 className={`font-semibold text-light-text mb-1 ${fontClass}`}>
-                      {t('contact.usOfficeTitle')}
-                    </h4>
-                    <p className={`text-light-muted whitespace-pre-line ${fontClass}`}>
-                      {t('contact.usOfficeAddress')}
-                    </p>
-                  </div>
-                </div>
+                ))}
+              </dl>
+          </Reveal>
 
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
-                    <MapPin className="w-6 h-6 text-primary" />
-                  </div>
-                  <div>
-                    <h4 className={`font-semibold text-light-text mb-1 ${fontClass}`}>
-                      {t('contact.bangladeshAddressLabel')}
-                    </h4>
-                    <p className={`text-light-muted ${fontClass}`}>{t('contact.address')}</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Mail className="w-6 h-6 text-primary" />
-                  </div>
-                  <div>
-                    <h4 className={`font-semibold text-light-text mb-1 ${fontClass}`}>
-                      {i18n.language === 'bn' ? 'ইমেইল' : 'Email'}
-                    </h4>
-                    <a href={`mailto:${t('contact.email')}`} className={`text-primary hover:underline ${fontClass}`}>
-                      {t('contact.email')}
-                    </a>
-                  </div>
-                </div>
-
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-primary/20 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Phone className="w-6 h-6 text-primary" />
-                  </div>
-                  <div>
-                    <h4 className={`font-semibold text-light-text mb-1 ${fontClass}`}>
-                      {t('contact.bangladeshPhoneLabel')}
-                    </h4>
-                    <a href={`tel:${t('contact.phone').replace(/[^\d+]/g, '')}`} className={`text-light-muted hover:text-primary ${fontClass}`}>
-                      {t('contact.phone')}
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="bg-light-surface rounded-2xl p-8 border border-light-border">
-              <div className="text-center">
-                <div className="w-16 h-16 bg-primary/20 rounded-full mx-auto mb-4 flex items-center justify-center">
-                  <Users className="w-8 h-8 text-primary" />
-                </div>
-                <h3 className={`text-xl font-bold text-light-text mb-4 ${fontClass}`}>
-                  {i18n.language === 'bn' ? 'আমাদের সাথে যোগ দিন' : 'Join Our Community'}
-                </h3>
-                <p className={`text-light-muted mb-6 ${fontClass}`}>
-                  {i18n.language === 'bn'
-                    ? 'আপনার কমিউনিটির উন্নয়নে অংশগ্রহণ করুন এবং ইতিবাচক পরিবর্তন আনুন।'
-                    : "Be part of your community's development and bring positive change."}
-                </p>
-                <Button size="lg" className="btn-primary" onClick={openVolunteerModal}>
-                  {t('contact.volunteer')}
-                  <Users className="ml-2 w-5 h-5" />
-                </Button>
-              </div>
-            </div>
-          </div>
-
-          <div className="bg-light-surface rounded-2xl p-8 shadow-lg border border-light-border">
+          <Reveal delay="md" className="card-editorial p-8 lg:p-10">
             <h3 className={`text-2xl font-bold text-light-text mb-6 ${fontClass}`}>
               {i18n.language === 'bn' ? 'আমাদের সাথে যোগাযোগ করুন' : 'Get in Touch'}
             </h3>
@@ -222,7 +176,7 @@ const Contact = () => {
                 <Send className="ml-2 w-5 h-5" />
               </Button>
             </form>
-          </div>
+          </Reveal>
         </div>
       </div>
     </section>

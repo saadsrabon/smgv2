@@ -134,7 +134,7 @@ const Gallery = () => {
   };
 
   return (
-    <div className="min-h-screen bg-light-bg pt-24">
+    <div className="min-h-screen bg-light-bg pt-[5.25rem]">
       <div className="container-custom section-padding">
         {/* Header */}
         <div className="text-center mb-12">

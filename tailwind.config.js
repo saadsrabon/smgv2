@@ -12,7 +12,7 @@ export default {
         'english': ['Ubuntu Sans', 'sans-serif'],
       },
       colors: {
-        primary: '#0ea5e9',
+        primary: '#2faaa0',
         secondary: {
           teal: '#14b8a6',
           orange: '#f97316',

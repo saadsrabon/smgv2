@@ -1,220 +1,165 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { ArrowRight, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { ArrowRight, Heart, Users, BookOpen } from 'lucide-react';
 
-// Import local hero images
 import educationImg from '@/assets/hero/education-B1rO235h.jpeg';
 import photo1 from '@/assets/hero/PHOTO-2024-06-09-10-22-25.jpg';
 import photo2 from '@/assets/hero/PHOTO-2024-10-01-08-46-54.jpg';
-import tailorImg from '@/assets/hero/tailorMachin-CgXAI2ci.png';
+
+function HeroHeadline({ language, title }: { language: string; title: string }) {
+  const fontClass = language === 'bn' ? 'font-bengali' : 'font-english hero-headline-en';
+
+  const highlight = (before: string, word: string, after: string) => (
+    <h1
+      className={`text-[2.25rem] sm:text-[2.65rem] lg:text-[3.125rem] font-bold leading-[1.12] tracking-tight text-light-text ${fontClass}`}
+    >
+      {before}
+      <span className="relative inline-block text-primary">
+        {word}
+        <span className="absolute -bottom-0.5 left-0 right-0 h-0.5 bg-primary rounded-full" aria-hidden />
+      </span>
+      {after}
+    </h1>
+  );
+
+  if (language === 'en') {
+    const m = title.match(/^(.*?\b)(Smart)(\b.*)$/i);
+    if (m) return highlight(m[1], m[2], m[3]);
+  }
+  if (language === 'bn' && title.includes('স্মার্ট')) {
+    const [before, after] = title.split('স্মার্ট');
+    return highlight(before, 'স্মার্ট', after);
+  }
+
+  return (
+    <h1
+      className={`text-[2.25rem] sm:text-[2.65rem] lg:text-[3.125rem] font-bold leading-[1.12] text-light-text ${fontClass}`}
+    >
+      {title}
+    </h1>
+  );
+}
 
 const Hero = () => {
   const { t, i18n } = useTranslation();
+  const fontClass = i18n.language === 'bn' ? 'font-bengali' : 'font-english';
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  // Hero images with perfect masonry layout
-  const images = [
-    {
-      id: 1,
-      src: educationImg,
-      title: i18n.language === 'bn' ? 'শিক্ষা কার্যক্রম' : 'Education Program',
-      description: i18n.language === 'bn' ? 'মানসম্মত শিক্ষার মাধ্যমে ভবিষ্যৎ গড়ে তুলি' : 'Building futures through quality education'
-    },
-    {
-      id: 2,
-      src: photo1,
-      title: i18n.language === 'bn' ? 'সম্প্রদায় উন্নয়ন' : 'Community Development',
-      description: i18n.language === 'bn' ? 'একসাথে কাজ করে সমৃদ্ধি আনি' : 'Working together for prosperity'
-    },
-    {
-      id: 3,
-      src: photo2,
-      title: i18n.language === 'bn' ? 'সামাজিক কার্যক্রম' : 'Social Activities',
-      description: i18n.language === 'bn' ? 'সমাজের উন্নয়নে সক্রিয় অংশগ্রহণ' : 'Active participation in social development'
-    },
-    {
-      id: 4,
-      src: tailorImg,
-      title: i18n.language === 'bn' ? 'দক্ষতা উন্নয়ন' : 'Skill Development',
-      description: i18n.language === 'bn' ? 'পেশাগত দক্ষতা বৃদ্ধির মাধ্যমে আত্মনির্ভরশীলতা' : 'Building self-reliance through skill development'
-    }
+  const slides = [
+    { src: educationImg, label: i18n.language === 'bn' ? 'শিক্ষা' : 'Education' },
+    { src: photo1, label: i18n.language === 'bn' ? 'কমিউনিটি' : 'Community' },
+    { src: photo2, label: i18n.language === 'bn' ? 'সম্পৃক্ততা' : 'Engagement' },
   ];
 
-  // Auto-rotate images every 4 seconds
   useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentImageIndex((prev) => (prev + 1) % images.length);
-    }, 4000);
+    const id = window.setInterval(() => {
+      setCurrentImageIndex((i) => (i + 1) % slides.length);
+    }, 5500);
+    return () => window.clearInterval(id);
+  }, [slides.length]);
 
-    return () => clearInterval(interval);
-  }, [images.length]);
-
-  const scrollToSection = (id: string) => {
-    const section = document.getElementById(id);
-    if (section) {
-      section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
+  const scrollTo = (id: string) => {
+    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
-  const handleHeroCta = () => {
-    scrollToSection('about');
+  const watchStory = () => {
+    scrollTo('about');
+    window.setTimeout(() => window.dispatchEvent(new Event('about:playVideo')), 650);
   };
 
-  const handleHeroContact = () => {
-    scrollToSection('contact');
-  };
+  const stats = [
+    { v: '500+', l: i18n.language === 'bn' ? 'পরিবার' : 'Families' },
+    { v: '50+', l: i18n.language === 'bn' ? 'কার্যক্রম' : 'Programs' },
+    { v: '1000+', l: i18n.language === 'bn' ? 'প্রভাব' : 'Lives touched' },
+  ];
 
   return (
-
-
     <section
       id="home"
-      className="min-h-screen flex items-center bg-gradient-to-br from-light-bg via-light-surface to-light-bg relative overflow-hidden scroll-mt-24 md:scroll-mt-32"
+      className="scroll-mt-[5.25rem] relative overflow-hidden bg-light-bg pt-[5.25rem]"
     >
-      {/* Background Pattern */}
-      <div className="absolute inset-0 opacity-5">
-        <div className="absolute inset-0" style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.1'%3E%3Ccircle cx='30' cy='30' r='4'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-        }} />
-      </div>
+      <div className="hero-bg-illustration pointer-events-none absolute inset-0" aria-hidden />
 
-      <div className="container-custom section-padding relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Content */}
-          <div className="space-y-8">
-            <div className="space-y-4">
-              <h1 className={`text-4xl md:text-6xl font-bold text-light-text leading-tight ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
-                {t('hero.title')}
-              </h1>
-              <p className="text-xl text-primary font-semibold">
-                {t('hero.subtitle')}
-              </p>
-              <p className="text-lg text-light-muted leading-relaxed">
-                {t('hero.description')}
-              </p>
-            </div>
+      <div className="container-custom relative z-10 py-10 md:py-12 lg:py-14">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6 items-center">
+          <div className="lg:col-span-6 space-y-5">
+            <HeroHeadline language={i18n.language} title={t('hero.title')} />
 
-            {/* CTA Buttons */}
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button size="lg" className="btn-primary" onClick={handleHeroCta}>
-                {t('hero.cta')}
-                <ArrowRight className="ml-2 w-5 h-5" />
-              </Button>
+            <p className={`text-lg md:text-xl text-light-muted leading-relaxed max-w-md ${fontClass}`}>{t('hero.subtitle')}</p>
+
+            <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3 pt-1">
               <Button
                 size="lg"
-                variant="outline"
-                className="btn-secondary"
-                onClick={handleHeroContact}
+                className={`btn-primary rounded-full px-6 w-full sm:w-auto justify-center ${fontClass}`}
+                onClick={() => scrollTo('about')}
               >
-                {t('contact.cta')}
+                {t('hero.cta')}
+                <ArrowRight className="ml-2 h-4 w-4 shrink-0" aria-hidden />
               </Button>
+              <button
+                type="button"
+                onClick={watchStory}
+                className={`btn-hero-video w-full sm:w-auto ${fontClass}`}
+              >
+                <span className="btn-hero-video-icon" aria-hidden>
+                  <Play className="h-4 w-4 fill-current ml-0.5" />
+                </span>
+                <span className="text-left leading-snug">
+                  {i18n.language === 'bn' ? 'আমাদের গল্প দেখুন' : 'Watch our story'}
+                </span>
+              </button>
             </div>
 
-            {/* Stats */}
-            <div className="grid grid-cols-3 gap-8 pt-8">
-              <div className="">
-                <div className="flex items-center justify-center w-12 h-12 bg-primary/20 rounded-full mb-2">
-                  <Users className="w-6 h-6 text-primary" />
+            <div className="flex gap-6 pt-3 border-t border-light-border/80">
+              {stats.map((s) => (
+                <div key={s.l}>
+                  <div className="text-xl font-bold text-light-text tabular-nums">{s.v}</div>
+                  <div className={`text-xs text-light-muted ${fontClass}`}>{s.l}</div>
                 </div>
-                <div className="text-2xl font-bold text-light-text">500+</div>
-                <div className="text-sm text-light-muted">Families</div>
-              </div>
-              <div className="">
-                <div className="flex items-center justify-center w-12 h-12 bg-secondary-teal/20 rounded-full mb-2">
-                  <BookOpen className="w-6 h-6 text-secondary-teal" />
-                </div>
-                <div className="text-2xl font-bold text-light-text">50+</div>
-                <div className="text-sm text-light-muted">Programs</div>
-              </div>
-              <div className="">
-                <div className="flex items-center justify-center w-12 h-12 bg-secondary-orange/20 rounded-full mb-2">
-                  <Heart className="w-6 h-6 text-secondary-orange" />
-                </div>
-                <div className="text-2xl font-bold text-light-text">1000+</div>
-                <div className="text-sm text-light-muted">Lives</div>
-              </div>
+              ))}
             </div>
           </div>
 
-          {/* Perfect Masonry/Bento Grid */}
-          <div className="relative">
-            <div className="masonry-grid grid-cols-2 md:grid-cols-4 gap-3 md:gap-4 h-[400px] md:h-[600px] auto-rows-fr">
-              {/* Large featured image - spans 2 columns, 2 rows */}
-              <div className="col-span-2 row-span-2 relative overflow-hidden rounded-2xl group masonry-item">
-                <img
-                  src={images[currentImageIndex].src}
-                  alt={images[currentImageIndex].title}
-                  className="masonry-image"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent" />
-                <div className="absolute bottom-4 left-4 text-white">
-                  <h3 className={`text-xl font-bold mb-2 ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
-                    {images[currentImageIndex].title}
-                  </h3>
-                  <p className={`text-sm opacity-90 ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
-                    {images[currentImageIndex].description}
-                  </p>
+          <div className="lg:col-span-6 relative pb-10 lg:pb-12">
+            <div className="relative mx-auto max-w-lg lg:max-w-none lg:ml-auto">
+              <div className="hero-photo-main relative aspect-[5/4] max-h-[min(54vh,420px)] overflow-hidden rounded-2xl border border-light-border shadow-[0_12px_40px_rgba(47,170,160,0.12)]">
+                {slides.map((slide, i) => (
+                  <img
+                    key={slide.src}
+                    src={slide.src}
+                    alt=""
+                    className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
+                      i === currentImageIndex ? 'opacity-100' : 'opacity-0'
+                    }`}
+                    loading={i === 0 ? 'eager' : 'lazy'}
+                  />
+                ))}
+                <div
+                  className={`absolute bottom-3 left-3 rounded-full bg-light-bg/95 px-3 py-1 text-xs font-semibold text-primary border border-primary/20 ${fontClass}`}
+                >
+                  {slides[currentImageIndex].label}
                 </div>
               </div>
 
-              {/* Top right image */}
-              <div className="col-span-2 row-span-1 relative overflow-hidden rounded-2xl group masonry-item">
-                <img
-                  src={images[(currentImageIndex + 1) % images.length].src}
-                  alt={images[(currentImageIndex + 1) % images.length].title}
-                  className="masonry-image"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                <div className="absolute bottom-3 left-3 text-white">
-                  <h4 className={`text-lg font-semibold ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
-                    {images[(currentImageIndex + 1) % images.length].title}
-                  </h4>
-                </div>
+              {/* Thumbnail strip — brand ring on active */}
+              <div className="absolute -bottom-3 right-4 flex gap-2 lg:-bottom-4 lg:right-6">
+                {slides.map((slide, i) => (
+                  <button
+                    key={slide.src}
+                    type="button"
+                    onClick={() => setCurrentImageIndex(i)}
+                    className={`h-14 w-14 overflow-hidden rounded-xl border-2 transition-all ${
+                      i === currentImageIndex
+                        ? 'border-primary scale-105 shadow-md'
+                        : 'border-light-border opacity-80 hover:opacity-100'
+                    }`}
+                    aria-label={slide.label}
+                  >
+                    <img src={slide.src} alt="" className="h-full w-full object-cover" />
+                  </button>
+                ))}
               </div>
-
-              {/* Bottom left image */}
-              <div className="col-span-1 row-span-1 relative overflow-hidden rounded-2xl group masonry-item">
-                <img
-                  src={images[(currentImageIndex + 2) % images.length].src}
-                  alt={images[(currentImageIndex + 2) % images.length].title}
-                  className="masonry-image"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                <div className="absolute bottom-2 left-2 text-white">
-                  <h4 className={`text-sm font-semibold ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
-                    {images[(currentImageIndex + 2) % images.length].title}
-                  </h4>
-                </div>
-              </div>
-
-              {/* Bottom right image */}
-              <div className="col-span-1 row-span-1 relative overflow-hidden rounded-2xl group masonry-item">
-                <img
-                  src={images[(currentImageIndex + 3) % images.length].src}
-                  alt={images[(currentImageIndex + 3) % images.length].title}
-                  className="masonry-image"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
-                <div className="absolute bottom-2 left-2 text-white">
-                  <h4 className={`text-sm font-semibold ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
-                    {images[(currentImageIndex + 3) % images.length].title}
-                  </h4>
-                </div>
-              </div>
-            </div>
-
-            {/* Image indicators */}
-            <div className="flex justify-center mt-6 space-x-2">
-              {images.map((_, index) => (
-                <button
-                  key={index}
-                  onClick={() => setCurrentImageIndex(index)}
-                  className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                    index === currentImageIndex ? 'bg-primary w-8' : 'bg-light-muted'
-                  }`}
-                />
-              ))}
             </div>
           </div>
         </div>

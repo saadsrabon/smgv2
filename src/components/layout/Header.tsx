@@ -34,14 +34,12 @@ const Header = () => {
   ];
 
   return (
-    <header className="fixed top-0 w-full bg-light-bg/95 backdrop-blur-sm border-b border-light-border z-50 shadow-sm">
+    <header className="fixed top-0 w-full bg-light-bg/98 border-b border-light-border z-50">
       <div className="container-custom">
-        <div className="flex items-center justify-between h-24">
-          <div className="flex items-center space-x-3">
-            <div className="w-24 h-auto rounded-full flex items-center justify-center">
-              <img src={logo} alt="Shomajgori Foundation logo" className="w-full h-full" />
-            </div>
-          </div>
+        <div className="flex items-center justify-between min-h-[5.25rem] h-[5.25rem]">
+          <Link to="/" className="flex items-center shrink-0" aria-label="Shomajgori Foundation home">
+            <img src={logo} alt="" className="h-[4.75rem] w-auto" />
+          </Link>
 
           <nav className="hidden lg:flex items-center space-x-6">
             {navigation.map((item) =>

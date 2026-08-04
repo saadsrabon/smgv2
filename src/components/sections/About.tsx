@@ -1,7 +1,9 @@
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Play } from 'lucide-react';
-import educationImg from '@/assets/hero/education-B1rO235h.jpeg';
+import { Reveal, SectionHeader } from '@/components/ui/Reveal';
+
+const aboutVideoPreview = '/about-video-preview.png';
 
 const About = () => {
   const { t, i18n } = useTranslation();
@@ -24,89 +26,92 @@ const About = () => {
   }, [i18n.language]);
 
   return (
-    <section id="about" className="bg-light-surface scroll-mt-24 md:scroll-mt-32">
+    <section id="about" className="section-band-alt scroll-mt-24 md:scroll-mt-32">
       <div className="container-custom section-padding">
-        <h2 className={`text-center text-3xl md:text-4xl font-bold text-light-text mb-10 md:mb-12 ${fontClass}`}>
-          {t('about.title')}
-        </h2>
+        <SectionHeader
+          align="center"
+          fontClass={fontClass}
+          eyebrow={i18n.language === 'bn' ? 'আমাদের পরিচয়' : 'Who we are'}
+          title={t('about.title')}
+        />
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-start">
-          <div className={`space-y-5 text-light-text leading-relaxed ${fontClass}`}>
-            <p>{t('about.official.statement')}</p>
-            <p>{t('about.official.purpose')}</p>
-
-            <dl className="mt-8 space-y-3 pt-6 border-t border-light-border">
-              <div>
-                <dt className="font-semibold">{t('about.official.legalNameLabel')}</dt>
-                <dd>{t('about.official.legalName')}</dd>
-              </div>
-              <div>
-                <dt className="font-semibold">{t('about.official.domainLabel')}</dt>
-                <dd>
-                  <a href="https://shomajgori.org" className="text-primary hover:underline">
-                    {t('about.official.domain')}
-                  </a>
-                </dd>
-              </div>
-              <div>
-                <dt className="font-semibold">{t('about.official.emailLabel')}</dt>
-                <dd>
-                  <a href={`mailto:${t('about.official.email')}`} className="text-primary hover:underline break-all">
-                    {t('about.official.email')}
-                  </a>
-                </dd>
-              </div>
-            </dl>
-          </div>
-
-          <div className="relative w-full lg:sticky lg:top-28">
-            <div className="relative aspect-video rounded-2xl overflow-hidden shadow-2xl bg-light-bg border border-light-border">
+        <div className="max-w-7xl mx-auto space-y-10 lg:space-y-12">
+          <Reveal className="mx-auto w-full max-w-4xl">
+            <div className="about-video-frame media-frame relative w-full aspect-video sm:aspect-[16/10] shadow-[0_16px_48px_rgba(15,23,42,0.12)]">
               {!isVideoPlaying ? (
-                <div className="relative flex h-full w-full items-center justify-center">
+                <div className="absolute inset-0 flex items-center justify-center bg-light-bg">
                   <img
-                    src={educationImg}
-                    alt={i18n.language === 'bn' ? 'সমাজ গড়ি ফাউন্ডেশন ভিডিও' : 'Shomajgori Foundation video'}
-                    className="absolute inset-0 h-full w-full object-cover"
+                    src={aboutVideoPreview}
+                    alt={i18n.language === 'bn' ? 'আমাদের গল্প — ভিডিও প্রিভিউ' : 'Our Story — video preview'}
+                    className="absolute inset-0 h-full w-full object-cover object-center"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-br from-primary/35 to-secondary-teal/35" />
-
+                  <div className="absolute inset-0 bg-light-text/5 transition-colors group-hover:bg-light-text/10 pointer-events-none" aria-hidden />
                   <button
                     type="button"
                     onClick={() => setIsVideoPlaying(true)}
                     className="relative z-10 group"
                     aria-label={i18n.language === 'bn' ? 'ভিডিও চালান' : 'Play video'}
                   >
-                    <div className="relative">
-                      <div className="absolute inset-0 rounded-full bg-primary/30 video-ripple" />
-                      <div className="absolute inset-2 rounded-full bg-primary/20 animate-pulse" />
-                      <div className="relative flex h-20 w-20 items-center justify-center rounded-full bg-primary shadow-2xl transition-transform duration-300 group-hover:scale-110 video-play-button">
-                        <Play className="ml-1 h-8 w-8 text-white" fill="currentColor" />
-                      </div>
+                    <div className="relative flex h-[4.25rem] w-[4.25rem] sm:h-[4.75rem] sm:w-[4.75rem] items-center justify-center rounded-full bg-primary text-white shadow-lg ring-4 ring-white/40 video-play-button transition-transform group-hover:scale-105">
+                      <Play className="ml-1 h-8 w-8 sm:h-9 sm:w-9" fill="currentColor" aria-hidden />
                     </div>
                   </button>
-
-                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-5">
-                    <h3 className={`text-lg font-bold text-white mb-1 ${fontClass}`}>
-                      {i18n.language === 'bn' ? 'আমাদের গল্প' : 'Our Story'}
-                    </h3>
-                    <p className={`text-sm text-white/90 ${fontClass}`}>
-                      {i18n.language === 'bn'
-                        ? 'সমাজ গড়ি ফাউন্ডেশনের কাজের গল্প দেখুন'
-                        : "Watch the story of Shomajgori Foundation's work"}
-                    </p>
-                  </div>
+                  {i18n.language === 'en' && (
+                    <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-light-text/50 to-transparent px-5 py-4 pointer-events-none">
+                      <p className={`text-sm font-semibold text-white drop-shadow-sm ${fontClass}`}>Our Story</p>
+                    </div>
+                  )}
                 </div>
               ) : (
                 <iframe
                   src={videoUrl}
-                  className="h-full w-full"
+                  className="absolute inset-0 h-full w-full border-0"
                   allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                   allowFullScreen
                   title={i18n.language === 'bn' ? 'আমাদের গল্প' : 'Our Story'}
                 />
               )}
             </div>
+          </Reveal>
+
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
+            <Reveal delay="sm" className={`prose-ngo text-light-text ${fontClass}`}>
+              <p>{t('about.official.statement')}</p>
+            </Reveal>
+            <Reveal delay="md" className={`prose-ngo text-light-text ${fontClass}`}>
+              <p>{t('about.official.purpose')}</p>
+            </Reveal>
           </div>
+
+          <Reveal delay="lg">
+            <dl
+              className={`grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 pt-8 border-t border-light-border text-light-text ${fontClass}`}
+            >
+              <div>
+                <dt className="text-sm font-semibold text-light-muted">{t('about.official.legalNameLabel')}</dt>
+                <dd className="mt-1 font-medium">{t('about.official.legalName')}</dd>
+              </div>
+              <div>
+                <dt className="text-sm font-semibold text-light-muted">{t('about.official.domainLabel')}</dt>
+                <dd className="mt-1">
+                  <a href="https://shomajgori.org" className="text-primary hover:underline font-medium">
+                    {t('about.official.domain')}
+                  </a>
+                </dd>
+              </div>
+              <div>
+                <dt className="text-sm font-semibold text-light-muted">{t('about.official.emailLabel')}</dt>
+                <dd className="mt-1">
+                  <a
+                    href={`mailto:${t('about.official.email')}`}
+                    className="text-primary hover:underline font-medium break-all"
+                  >
+                    {t('about.official.email')}
+                  </a>
+                </dd>
+              </div>
+            </dl>
+          </Reveal>
         </div>
       </div>
     </section>

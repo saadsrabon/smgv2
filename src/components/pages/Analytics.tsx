@@ -469,7 +469,7 @@ const Analytics = () => {
   );
 
   return (
-    <div className="min-h-screen bg-light-bg pt-24 pb-12">
+    <div className="min-h-screen bg-light-bg pt-[5.25rem] pb-12">
       <div className="container-custom section-padding">
         {/* Header */}
         <div className="text-center mb-10">
