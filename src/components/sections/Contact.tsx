@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Button } from '@/components/ui/button';
 import { Mail, Phone, MapPin, Send } from 'lucide-react';
-import { sendContactEmail } from '@/lib/emailjs';
+import { sendContactEmail, getEmailJsErrorMessage } from '@/lib/emailjs';
 import { Reveal, SectionHeader } from '@/components/ui/Reveal';
 
 const Contact = () => {
@@ -28,7 +28,8 @@ const Contact = () => {
       setStatus('success');
       e.currentTarget.reset();
     } catch (error) {
-      console.error('Contact form error:', error);
+      const detail = getEmailJsErrorMessage(error);
+      console.error('Contact form error:', detail, error);
       setStatus('error');
     } finally {
       setIsSubmitting(false);

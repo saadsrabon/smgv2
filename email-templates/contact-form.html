@@ -5,13 +5,13 @@
   Required template variables (must match exactly):
   {{from_name}} {{from_email}} {{reply_to}} {{subject}} {{message}} {{form_type}}
 
-  Map to .env (contact account only):
+  Map to .env / Netlify (contact account — public key only in browser):
   VITE_EMAILJS_CONTACT_PUBLIC_KEY
-  VITE_EMAILJS_CONTACT_PRIVATE_KEY
   VITE_EMAILJS_CONTACT_SERVICE_ID
   VITE_EMAILJS_CONTACT_TEMPLATE_ID
 
-  Suggested Email Settings in EmailJS:
+  EmailJS → Account → Security → Allowed origins must include:
+  http://localhost:5173 and https://shomajgori.org
   - To Email: shomajgorifoundationvcc@gmail.com (or your inbox)
   - From Name: Shomajgori Website
   - Reply To: {{reply_to}}
