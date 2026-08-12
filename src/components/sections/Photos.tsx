@@ -3,22 +3,38 @@ import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Reveal, SectionHeader } from '@/components/ui/Reveal';
+import { useCmsSection } from '@/lib/cms/useHomepageContent';
+import { getImageUrl } from '@/lib/cms/helpers';
 
 import educationImg from '@/assets/hero/education-B1rO235h.jpeg';
 import photo1 from '@/assets/hero/PHOTO-2024-06-09-10-22-25.jpg';
 import photo2 from '@/assets/hero/PHOTO-2024-10-01-08-46-54.jpg';
 import tailorImg from '@/assets/hero/tailorMachin-CgXAI2ci.png';
 
+type PhotoItem = { title: string; category: string };
+
 const Photos = () => {
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
+  const photosCms = useCmsSection('photos');
   const fontClass = i18n.language === 'bn' ? 'font-bengali' : 'font-english';
 
-  const photos = [
-    { id: 1, src: educationImg, title: i18n.language === 'bn' ? 'শিক্ষা কার্যক্রম' : 'Education Program', category: i18n.language === 'bn' ? 'শিক্ষা' : 'Education' },
-    { id: 2, src: photo1, title: i18n.language === 'bn' ? 'সম্প্রদায় উন্নয়ন' : 'Community Development', category: i18n.language === 'bn' ? 'সামাজিক' : 'Social' },
-    { id: 3, src: photo2, title: i18n.language === 'bn' ? 'সামাজিক কার্যক্রম' : 'Social Activities', category: i18n.language === 'bn' ? 'সামাজিক' : 'Social' },
-    { id: 4, src: tailorImg, title: i18n.language === 'bn' ? 'দক্ষতা উন্নয়ন' : 'Skills Development', category: i18n.language === 'bn' ? 'অর্থনৈতিক' : 'Economic' },
-  ];
+  const localeItems = t('photos.items', { returnObjects: true }) as PhotoItem[];
+  const fallbacks = [educationImg, photo1, photo2, tailorImg];
+
+  const photos = fallbacks.map((fb, i) => {
+    const item = localeItems[i] ?? { title: '', category: '' };
+    return {
+      id: i + 1,
+      src: getImageUrl(photosCms, `photo-${i}`, fb),
+      title: item.title,
+      category: item.category,
+    };
+  });
+
+  const eyebrow = String(photosCms.eyebrow || t('photos.eyebrow'));
+  const title = String(photosCms.title || t('photos.title'));
+  const subtitle = String(photosCms.subtitle || t('photos.subtitle'));
+  const viewGallery = String(photosCms.viewGalleryText || t('photos.viewGallery'));
 
   return (
     <section id="photos" className="bg-light-bg scroll-mt-24 md:scroll-mt-32">
@@ -26,13 +42,9 @@ const Photos = () => {
         <Reveal>
           <SectionHeader
             fontClass={fontClass}
-            eyebrow={i18n.language === 'bn' ? 'গ্যালারি' : 'In the field'}
-            title={i18n.language === 'bn' ? 'আমাদের কার্যক্রমের ছবি' : 'Our Programs in Pictures'}
-            description={
-              i18n.language === 'bn'
-                ? 'ভোগদাবুরিতে আমাদের সম্প্রদায় উন্নয়ন কার্যক্রমের কিছু মুহূর্ত'
-                : 'Glimpses of our community development programs in Vogdaburi'
-            }
+            eyebrow={eyebrow}
+            title={title}
+            description={subtitle}
           />
         </Reveal>
 
@@ -72,7 +84,7 @@ const Photos = () => {
         <Reveal className="text-center">
           <Link to="/gallery">
             <Button size="lg" className={`btn-primary ${fontClass}`}>
-              {i18n.language === 'bn' ? 'সব ছবি দেখুন' : 'View Full Gallery'}
+              {viewGallery}
               <ArrowRight className="ml-2 w-5 h-5" aria-hidden />
             </Button>
           </Link>

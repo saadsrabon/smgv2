@@ -1,0 +1,78 @@
+<!--
+  EmailJS — Contact Form Template (separate EmailJS account)
+  Paste into your CONTACT EmailJS account → Email Templates → Create New Template
+
+  Required template variables (must match exactly):
+  {{from_name}} {{from_email}} {{reply_to}} {{subject}} {{message}} {{form_type}}
+
+  Map to .env (contact account only):
+  VITE_EMAILJS_CONTACT_PUBLIC_KEY
+  VITE_EMAILJS_CONTACT_PRIVATE_KEY
+  VITE_EMAILJS_CONTACT_SERVICE_ID
+  VITE_EMAILJS_CONTACT_TEMPLATE_ID
+
+  Suggested Email Settings in EmailJS:
+  - To Email: shomajgorifoundationvcc@gmail.com (or your inbox)
+  - From Name: Shomajgori Website
+  - Reply To: {{reply_to}}
+  - Subject: Contact: {{subject}}
+-->
+
+<div style="margin:0;padding:0;background-color:#f4f7f6;font-family:Arial,Helvetica,sans-serif;color:#1a1a1a;">
+  <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="background-color:#f4f7f6;padding:24px 12px;">
+    <tr>
+      <td align="center">
+        <table role="presentation" width="600" cellspacing="0" cellpadding="0" style="max-width:600px;width:100%;background:#ffffff;border-radius:12px;overflow:hidden;border:1px solid #e5ecea;">
+          <tr>
+            <td style="background:#2faaa0;padding:24px 28px;">
+              <p style="margin:0 0 6px;font-size:12px;letter-spacing:0.08em;text-transform:uppercase;color:#e8fffb;">Shomajgori Foundation</p>
+              <h1 style="margin:0;font-size:24px;line-height:1.3;color:#ffffff;">New Contact Form Message</h1>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:28px;">
+              <p style="margin:0 0 20px;font-size:15px;line-height:1.6;color:#4b5563;">
+                Someone submitted the contact form on <strong>shomajgori.org</strong>.
+              </p>
+
+              <table role="presentation" width="100%" cellspacing="0" cellpadding="0" style="border-collapse:collapse;margin-bottom:24px;">
+                <tr>
+                  <td style="padding:12px 14px;background:#f8faf9;border:1px solid #e5ecea;border-radius:8px 8px 0 0;width:140px;font-size:13px;font-weight:700;color:#374151;">Name</td>
+                  <td style="padding:12px 14px;background:#ffffff;border:1px solid #e5ecea;border-left:none;border-radius:0 8px 0 0;font-size:14px;color:#111827;">{{from_name}}</td>
+                </tr>
+                <tr>
+                  <td style="padding:12px 14px;background:#f8faf9;border:1px solid #e5ecea;border-top:none;width:140px;font-size:13px;font-weight:700;color:#374151;">Email</td>
+                  <td style="padding:12px 14px;background:#ffffff;border:1px solid #e5ecea;border-left:none;border-top:none;font-size:14px;color:#111827;">
+                    <a href="mailto:{{from_email}}" style="color:#2faaa0;text-decoration:none;">{{from_email}}</a>
+                  </td>
+                </tr>
+                <tr>
+                  <td style="padding:12px 14px;background:#f8faf9;border:1px solid #e5ecea;border-top:none;width:140px;font-size:13px;font-weight:700;color:#374151;">Subject</td>
+                  <td style="padding:12px 14px;background:#ffffff;border:1px solid #e5ecea;border-left:none;border-top:none;font-size:14px;color:#111827;">{{subject}}</td>
+                </tr>
+                <tr>
+                  <td style="padding:12px 14px;background:#f8faf9;border:1px solid #e5ecea;border-top:none;width:140px;font-size:13px;font-weight:700;color:#374151;">Form Type</td>
+                  <td style="padding:12px 14px;background:#ffffff;border:1px solid #e5ecea;border-left:none;border-top:none;border-radius:0 0 8px 0;font-size:14px;color:#111827;">{{form_type}}</td>
+                </tr>
+              </table>
+
+              <h2 style="margin:0 0 10px;font-size:16px;color:#111827;">Message</h2>
+              <div style="padding:16px;background:#f8faf9;border:1px solid #e5ecea;border-radius:8px;font-size:15px;line-height:1.7;color:#374151;white-space:pre-wrap;">{{message}}</div>
+
+              <p style="margin:24px 0 0;font-size:13px;line-height:1.6;color:#6b7280;">
+                Reply directly to this email to respond to the sender.
+              </p>
+            </td>
+          </tr>
+
+          <tr>
+            <td style="padding:16px 28px;background:#f8faf9;border-top:1px solid #e5ecea;font-size:12px;color:#9ca3af;text-align:center;">
+              Shomajgori Foundation · Website Contact Form
+            </td>
+          </tr>
+        </table>
+      </td>
+    </tr>
+  </table>
+</div>

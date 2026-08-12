@@ -2,18 +2,24 @@ import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Play } from 'lucide-react';
 import { Reveal, SectionHeader } from '@/components/ui/Reveal';
+import { useCmsSection } from '@/lib/cms/useHomepageContent';
+import { getImageUrl } from '@/lib/cms/helpers';
 
-const aboutVideoPreview = '/about-video-preview.png';
+const aboutVideoPreviewFallback = '/about-video-preview.png';
 
 const About = () => {
   const { t, i18n } = useTranslation();
+  const about = useCmsSection('about');
   const fontClass = i18n.language === 'bn' ? 'font-bengali' : 'font-english';
   const [isVideoPlaying, setIsVideoPlaying] = useState(false);
 
-  const videoUrl =
-    i18n.language === 'bn'
-      ? 'https://www.youtube.com/embed/DWB6Bzk9IuQ?autoplay=1&rel=0&modestbranding=1'
-      : 'https://www.youtube.com/embed/ToLHHAl9KVk?autoplay=1&rel=0&modestbranding=1';
+  const videoUrl = String(about.videoUrl || (i18n.language === 'bn'
+    ? 'https://www.youtube.com/embed/DWB6Bzk9IuQ?autoplay=1&rel=0&modestbranding=1'
+    : 'https://www.youtube.com/embed/ToLHHAl9KVk?autoplay=1&rel=0&modestbranding=1'));
+
+  const aboutVideoPreview = getImageUrl(about, 'video-preview', aboutVideoPreviewFallback);
+  const title = String(about.title || t('about.title'));
+  const eyebrow = String(about.eyebrow || (i18n.language === 'bn' ? 'আমাদের পরিচয়' : 'Who we are'));
 
   useEffect(() => {
     const triggerVideoPlay = () => setIsVideoPlaying(true);
@@ -31,8 +37,8 @@ const About = () => {
         <SectionHeader
           align="center"
           fontClass={fontClass}
-          eyebrow={i18n.language === 'bn' ? 'আমাদের পরিচয়' : 'Who we are'}
-          title={t('about.title')}
+          eyebrow={eyebrow}
+          title={title}
         />
 
         <div className="max-w-7xl mx-auto space-y-10 lg:space-y-12">
@@ -76,7 +82,7 @@ const About = () => {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-start">
             <Reveal delay="sm" className={`prose-ngo text-light-text ${fontClass}`}>
-              <p>{t('about.official.statement')}</p>
+              <p>{String(about.statement || t('about.official.statement'))}</p>
             </Reveal>
             <Reveal delay="md" className={`prose-ngo text-light-text ${fontClass}`}>
               <p>{t('about.official.purpose')}</p>

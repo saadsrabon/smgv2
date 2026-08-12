@@ -11,24 +11,27 @@ import OngoingActivities from './components/sections/OngoingActivities';
 import Contact from './components/sections/Contact';
 import Analytics from './components/pages/Analytics';
 import Gallery from './components/pages/Gallery';
+import PreviewHomepage from './pages/PreviewHomepage';
 import FounderModal from './components/ui/FounderModal';
 import { useFounderModal } from './hooks/useFounderModal';
 import './lib/i18n'; // Import i18n configuration
 
 function App() {
   const { isModalOpen, closeModal } = useFounderModal();
+  const isPreview = window.location.pathname.startsWith('/preview');
 
   return (
     <Router>
       <div className="min-h-screen bg-light-bg">
-        <Header />
+        {!isPreview && <Header />}
         <Routes>
           <Route path="/" element={<MainPage />} />
+          <Route path="/preview/homepage" element={<PreviewHomepage />} />
           <Route path="/analytics" element={<Analytics />} />
           <Route path="/gallery" element={<Gallery />} />
         </Routes>
-        <Footer />
-        <FounderModal isOpen={isModalOpen} onClose={closeModal} />
+        {!isPreview && <Footer />}
+        {!isPreview && <FounderModal isOpen={isModalOpen} onClose={closeModal} />}
       </div>
     </Router>
   );

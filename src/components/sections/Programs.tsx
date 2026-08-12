@@ -9,7 +9,8 @@ import {
   SocialProgramIcon,
 } from '@/components/icons/FoundationIcons';
 import { Reveal } from '@/components/ui/Reveal';
-
+import { useCmsSection } from '@/lib/cms/useHomepageContent';
+import { getImageUrl } from '@/lib/cms/helpers';
 import educationImg from '@/assets/hero/education-B1rO235h.jpeg';
 import photo1 from '@/assets/hero/PHOTO-2024-06-09-10-22-25.jpg';
 import photo2 from '@/assets/hero/PHOTO-2024-10-01-08-46-54.jpg';
@@ -43,6 +44,7 @@ function useSlidesPerView() {
 
 const Programs = () => {
   const { t, i18n } = useTranslation();
+  const programsCms = useCmsSection('programs');
   const fontClass = i18n.language === 'bn' ? 'font-bengali' : 'font-english';
   const slidesPerView = useSlidesPerView();
   const [offset, setOffset] = useState(0);
@@ -74,12 +76,12 @@ const Programs = () => {
       <div className="container-custom section-padding relative z-10 !pb-12 md:!pb-14">
         <Reveal className="text-center max-w-3xl mx-auto mb-8 md:mb-10">
           <p className={`section-eyebrow text-base ${fontClass}`}>
-            {i18n.language === 'bn' ? 'আমাদের কাজ' : 'What we do'}
+            {String(programsCms.eyebrow || (i18n.language === 'bn' ? 'আমাদের কাজ' : 'What we do'))}
           </p>
-          <h2 className={`section-title ${fontClass}`}>{t('programs.title')}</h2>
-          <p className={`section-lead mx-auto mt-3 ${fontClass}`}>{t('programs.subtitle')}</p>
+          <h2 className={`section-title ${fontClass}`}>{String(programsCms.title || t('programs.title'))}</h2>
+          <p className={`section-lead mx-auto mt-3 ${fontClass}`}>{String(programsCms.subtitle || t('programs.subtitle'))}</p>
           <p className={`mt-4 text-lg md:text-xl font-semibold text-primary ${fontClass}`}>
-            {i18n.language === 'bn' ? 'চলুন একসাথে পরিবর্তন আনি' : 'Let’s create change together'}
+            {String(programsCms.tagline || (i18n.language === 'bn' ? 'চলুন একসাথে পরিবর্তন আনি' : "Let's create change together"))}
           </p>
         </Reveal>
 
@@ -121,6 +123,7 @@ const Programs = () => {
                   features: string[];
                 };
                 const { Icon, accent, image } = programConfig[key];
+                const imageSrc = getImageUrl(programsCms, key, image);
 
                 return (
                   <article
@@ -130,7 +133,7 @@ const Programs = () => {
                   >
                     <div className="relative h-44 overflow-hidden">
                       <img
-                        src={image}
+                        src={imageSrc}
                         alt={program.title}
                         className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-105"
                         loading="lazy"

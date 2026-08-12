@@ -9,6 +9,8 @@ import {
   StudentsImpactIcon,
 } from '@/components/icons/FoundationIcons';
 import { Reveal, SectionHeader } from '@/components/ui/Reveal';
+import { useCmsSection } from '@/lib/cms/useHomepageContent';
+import { getImageUrl } from '@/lib/cms/helpers';
 import photo2 from '@/assets/hero/PHOTO-2024-10-01-08-46-54.jpg';
 
 const impactMetrics = [
@@ -20,8 +22,10 @@ const impactMetrics = [
 
 const Impact = () => {
   const { t, i18n } = useTranslation();
+  const impact = useCmsSection('impact');
   const fontClass = i18n.language === 'bn' ? 'font-bengali' : 'font-english';
-  const achievements = t('impact.vogdaburi.achievements', { returnObjects: true }) as string[];
+  const achievements = (impact.achievements as string[]) || (t('impact.vogdaburi.achievements', { returnObjects: true }) as string[]);
+  const featuredImg = getImageUrl(impact, 'featured-story', photo2);
 
   return (
     <section id="impact" className="section-band-alt scroll-mt-24 md:scroll-mt-32 relative overflow-hidden">
@@ -32,8 +36,8 @@ const Impact = () => {
           <SectionHeader
             fontClass={fontClass}
             eyebrow={i18n.language === 'bn' ? 'প্রভাব' : 'Impact'}
-            title={t('impact.title')}
-            description={t('impact.subtitle')}
+            title={String(impact.title || t('impact.title'))}
+            description={String(impact.subtitle || t('impact.subtitle'))}
           />
         </Reveal>
 
@@ -41,7 +45,7 @@ const Impact = () => {
           <article className="card-editorial overflow-hidden">
             <div className="grid grid-cols-1 lg:grid-cols-12">
               <div className="lg:col-span-5 media-frame lg:rounded-none lg:border-0 lg:border-r border-light-border min-h-[260px]">
-                <img src={photo2} alt={t('impact.vogdaburi.title')} className="h-full min-h-[260px] w-full object-cover" loading="lazy" />
+                <img src={featuredImg} alt={String(impact.storyTitle || t('impact.vogdaburi.title'))} className="h-full min-h-[260px] w-full object-cover" loading="lazy" />
               </div>
               <div className="lg:col-span-7 p-8 md:p-10 space-y-6">
                 <div className="flex items-center gap-3">

@@ -2,15 +2,10 @@ import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Image, Video, X, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useDocumentMeta } from '@/hooks/useDocumentMeta';
-
-// Import local images
-import educationImg from '@/assets/hero/education-B1rO235h.jpeg';
-import photo1 from '@/assets/hero/PHOTO-2024-06-09-10-22-25.jpg';
-import photo2 from '@/assets/hero/PHOTO-2024-10-01-08-46-54.jpg';
-import tailorImg from '@/assets/hero/tailorMachin-CgXAI2ci.png';
+import { useGalleryCategoriesWithLabels, useGalleryItems } from '@/lib/cms/useGallery';
 
 interface MediaItem {
-  id: number;
+  id: string | number;
   type: 'photo' | 'video';
   src: string;
   videoUrl?: string;
@@ -18,7 +13,6 @@ interface MediaItem {
   description: string;
   category: string;
   categoryId: string;
-  date: string;
   bentoClass: string;
 }
 
@@ -37,78 +31,23 @@ const Gallery = () => {
   const [selectedMedia, setSelectedMedia] = useState<MediaItem | null>(null);
   const [selectedIndex, setSelectedIndex] = useState(0);
 
-  const mediaItems: MediaItem[] = [
-    {
-      id: 1,
-      type: 'photo',
-      src: educationImg,
-      title: i18n.language === 'bn' ? 'শিক্ষা কার্যক্রম' : 'Education Program',
-      description: i18n.language === 'bn' ? 'প্রিস্কুল শিক্ষা কার্যক্রমের একটি মুহূর্ত' : 'A moment from our preschool education program',
-      category: i18n.language === 'bn' ? 'শিক্ষা' : 'Education',
-      categoryId: 'education',
-      date: '2024-10-15',
-      bentoClass: 'lg:col-start-1 lg:row-start-1 lg:col-span-2 lg:row-span-2',
-    },
-    {
-      id: 2,
-      type: 'photo',
-      src: photo1,
-      title: i18n.language === 'bn' ? 'সম্প্রদায় উন্নয়ন' : 'Economic Empowerment',
-      description: i18n.language === 'bn' ? 'কমিউনিটি সদস্যদের সাথে আলোচনা' : 'Discussion with community members',
-      category: i18n.language === 'bn' ? 'সামাজিক' : 'Social',
-      categoryId: 'social',
-      date: '2024-06-09',
-      bentoClass: 'lg:col-start-1 lg:row-start-3 lg:col-span-1 lg:row-span-1',
-    },
-    {
-      id: 3,
-      type: 'photo',
-      src: photo2,
-      title: i18n.language === 'bn' ? 'সামাজিক কার্যক্রম' : 'Social Activities',
-      description: i18n.language === 'bn' ? 'সামাজিক সম্পৃক্ততা কার্যক্রম' : 'Social engagement activities',
-      category: i18n.language === 'bn' ? 'সামাজিক' : 'Social',
-      categoryId: 'social',
-      date: '2024-10-01',
-      bentoClass: 'lg:col-start-2 lg:row-start-3 lg:col-span-1 lg:row-span-1',
-    },
-    {
-      id: 4,
-      type: 'photo',
-      src: tailorImg,
-      title: i18n.language === 'bn' ? 'দক্ষতা উন্নয়ন' : 'Skills Development',
-      description: i18n.language === 'bn' ? 'সেলাই প্রশিক্ষণ কার্যক্রম' : 'Tailoring training program',
-      category: i18n.language === 'bn' ? 'অর্থনৈতিক' : 'Economic',
-      categoryId: 'economic',
-      date: '2024-09-20',
-      bentoClass: 'lg:col-start-3 lg:row-start-3 lg:col-span-2 lg:row-span-1',
-    },
-    {
-      id: 5,
-      type: 'video',
-      src: educationImg,
-      videoUrl: 'https://www.youtube.com/embed/DWB6Bzk9IuQ',
-      title: i18n.language === 'bn' ? 'কমিউনিটি সেন্টার উদ্বোধন' : 'Community Center Inauguration',
-      description: i18n.language === 'bn' ? 'ভোগদাবুরি কমিউনিটি সেন্টারের উদ্বোধনী অনুষ্ঠান' : 'Vogdaburi Community Center inauguration ceremony',
-      category: i18n.language === 'bn' ? 'সামাজিক' : 'Social',
-      categoryId: 'social',
-      date: '2025-02-01',
-      bentoClass: 'lg:col-start-3 lg:row-start-1 lg:col-span-2 lg:row-span-2',
-    },
-  ];
+  const categories = useGalleryCategoriesWithLabels();
+  const { items: rawItems } = useGalleryItems(selectedCategory);
 
-  const categories = [
-    { id: 'all', label: i18n.language === 'bn' ? 'সব' : 'All' },
-    { id: 'education', label: i18n.language === 'bn' ? 'শিক্ষা' : 'Education' },
-    { id: 'health', label: i18n.language === 'bn' ? 'স্বাস্থ্য' : 'Health' },
-    { id: 'social', label: i18n.language === 'bn' ? 'সামাজিক' : 'Social' },
-    { id: 'economic', label: i18n.language === 'bn' ? 'অর্থনৈতিক' : 'Economic' },
-  ];
+  const mediaItems: MediaItem[] = rawItems.map((item) => ({
+    id: item.id,
+    type: item.type,
+    src: item.src,
+    videoUrl: item.videoUrl,
+    title: item.title,
+    description: item.description,
+    category: item.category,
+    categoryId: item.categoryId,
+    bentoClass: item.bentoClass || '',
+  }));
 
-  const filteredMedia = selectedCategory === 'all'
-    ? mediaItems
-    : mediaItems.filter((item) => item.categoryId === selectedCategory);
-
-  const useBentoLayout = selectedCategory === 'all' && filteredMedia.length === mediaItems.length;
+  const filteredMedia = mediaItems;
+  const useBentoLayout = selectedCategory === 'all' && filteredMedia.length >= 5;
 
   const openLightbox = (media: MediaItem, index: number) => {
     setSelectedMedia(media);
@@ -136,7 +75,6 @@ const Gallery = () => {
   return (
     <div className="min-h-screen bg-light-bg pt-[5.25rem]">
       <div className="container-custom section-padding">
-        {/* Header */}
         <div className="text-center mb-12">
           <h1 className={`text-4xl md:text-5xl font-bold text-light-text mb-4 ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
             {i18n.language === 'bn' ? 'ফটো ও ভিডিও গ্যালারি' : 'Photo & Video Gallery'}
@@ -148,7 +86,6 @@ const Gallery = () => {
           </p>
         </div>
 
-        {/* Category Filters */}
         <div className="flex flex-wrap items-center justify-center gap-3 mb-10">
           {categories.map((category) => (
             <button
@@ -165,7 +102,6 @@ const Gallery = () => {
           ))}
         </div>
 
-        {/* Gallery — bento grid (full) or uniform grid (filtered) */}
         <div
           className={
             useBentoLayout
@@ -187,8 +123,6 @@ const Gallery = () => {
                   alt={item.title}
                   className="absolute inset-0 h-full w-full object-cover transform group-hover:scale-105 transition-transform duration-500 ease-[cubic-bezier(0.22,1,0.36,1)]"
                 />
-
-                {/* Media Type Badge */}
                 <div className="absolute top-3 right-3 z-10">
                   {item.type === 'video' ? (
                     <div className="bg-black/70 text-white p-2 rounded-full">
@@ -200,8 +134,6 @@ const Gallery = () => {
                     </div>
                   )}
                 </div>
-
-                {/* Overlay — always show title strip on mobile; full overlay on hover */}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity duration-300">
                   <div className="absolute bottom-0 left-0 right-0 p-4">
                     <h3 className={`text-white font-bold text-lg mb-1 ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
@@ -217,7 +149,6 @@ const Gallery = () => {
           ))}
         </div>
 
-        {/* Empty State */}
         {filteredMedia.length === 0 && (
           <div className="text-center py-16">
             <p className={`text-light-muted text-lg ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
@@ -227,48 +158,24 @@ const Gallery = () => {
         )}
       </div>
 
-      {/* Lightbox */}
       {lightboxOpen && selectedMedia && (
         <div className="fixed inset-0 z-50 bg-black/95 flex items-center justify-center p-4">
-          {/* Close Button */}
-          <button
-            onClick={closeLightbox}
-            className="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors z-10"
-          >
+          <button onClick={closeLightbox} className="absolute top-4 right-4 text-white hover:text-gray-300 transition-colors z-10">
             <X className="w-8 h-8" />
           </button>
-
-          {/* Navigation */}
-          <button
-            onClick={prevMedia}
-            className="absolute left-4 text-white hover:text-gray-300 transition-colors z-10"
-          >
+          <button onClick={prevMedia} className="absolute left-4 text-white hover:text-gray-300 transition-colors z-10">
             <ChevronLeft className="w-12 h-12" />
           </button>
-          <button
-            onClick={nextMedia}
-            className="absolute right-4 text-white hover:text-gray-300 transition-colors z-10"
-          >
+          <button onClick={nextMedia} className="absolute right-4 text-white hover:text-gray-300 transition-colors z-10">
             <ChevronRight className="w-12 h-12" />
           </button>
-
-          {/* Content */}
           <div className="max-w-5xl w-full">
             {selectedMedia.type === 'video' ? (
               <div className="aspect-video">
-                <iframe
-                  src={selectedMedia.videoUrl}
-                  className="w-full h-full rounded-lg"
-                  allowFullScreen
-                  title={selectedMedia.title}
-                />
+                <iframe src={selectedMedia.videoUrl} className="w-full h-full rounded-lg" allowFullScreen title={selectedMedia.title} />
               </div>
             ) : (
-              <img
-                src={selectedMedia.src}
-                alt={selectedMedia.title}
-                className="w-full h-auto max-h-[80vh] object-contain rounded-lg"
-              />
+              <img src={selectedMedia.src} alt={selectedMedia.title} className="w-full h-auto max-h-[80vh] object-contain rounded-lg" />
             )}
             <div className="mt-4 text-center">
               <h3 className={`text-white text-2xl font-bold mb-2 ${i18n.language === 'bn' ? 'font-bengali' : 'font-english'}`}>
@@ -286,8 +193,3 @@ const Gallery = () => {
 };
 
 export default Gallery;
-
-
-
-
-

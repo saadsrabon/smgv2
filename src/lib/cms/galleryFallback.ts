@@ -1,0 +1,81 @@
+import educationImg from '@/assets/hero/education-B1rO235h.jpeg';
+import photo1 from '@/assets/hero/PHOTO-2024-06-09-10-22-25.jpg';
+import photo2 from '@/assets/hero/PHOTO-2024-10-01-08-46-54.jpg';
+import tailorImg from '@/assets/hero/tailorMachin-CgXAI2ci.png';
+
+export const galleryFallbackItems = [
+  {
+    id: '1',
+    type: 'photo' as const,
+    url: educationImg,
+    titleEn: 'Education Program',
+    titleBn: 'শিক্ষা কার্যক্রম',
+    descriptionEn: 'A moment from our preschool education program',
+    descriptionBn: 'প্রিস্কুল শিক্ষা কার্যক্রমের একটি মুহূর্ত',
+    categorySlug: 'education',
+    categoryNameEn: 'Education',
+    categoryNameBn: 'শিক্ষা',
+    bentoClass: 'lg:col-start-1 lg:row-start-1 lg:col-span-2 lg:row-span-2',
+  },
+  {
+    id: '2',
+    type: 'photo' as const,
+    url: photo1,
+    titleEn: 'Economic Empowerment',
+    titleBn: 'অর্থনৈতিক ক্ষমতায়ন',
+    descriptionEn: 'Discussion with community members',
+    descriptionBn: 'কমিউনিটি সদস্যদের সাথে আলোচনা',
+    categorySlug: 'social',
+    categoryNameEn: 'Social',
+    categoryNameBn: 'সামাজিক',
+    bentoClass: 'lg:col-start-1 lg:row-start-3 lg:col-span-1 lg:row-span-1',
+  },
+  {
+    id: '3',
+    type: 'photo' as const,
+    url: photo2,
+    titleEn: 'Social Activities',
+    titleBn: 'সামাজিক কার্যক্রম',
+    descriptionEn: 'Social engagement activities',
+    descriptionBn: 'সামাজিক সম্পৃক্ততা কার্যক্রম',
+    categorySlug: 'social',
+    categoryNameEn: 'Social',
+    categoryNameBn: 'সামাজিক',
+    bentoClass: 'lg:col-start-2 lg:row-start-3 lg:col-span-1 lg:row-span-1',
+  },
+  {
+    id: '4',
+    type: 'photo' as const,
+    url: tailorImg,
+    titleEn: 'Skills Development',
+    titleBn: 'দক্ষতা উন্নয়ন',
+    descriptionEn: 'Tailoring training program',
+    descriptionBn: 'সেলাই প্রশিক্ষণ কার্যক্রম',
+    categorySlug: 'economic',
+    categoryNameEn: 'Economic',
+    categoryNameBn: 'অর্থনৈতিক',
+    bentoClass: 'lg:col-start-3 lg:row-start-3 lg:col-span-2 lg:row-span-1',
+  },
+  {
+    id: '5',
+    type: 'video' as const,
+    url: educationImg,
+    videoUrl: 'https://www.youtube.com/embed/DWB6Bzk9IuQ',
+    titleEn: 'Community Center Inauguration',
+    titleBn: 'কমিউনিটি সেন্টার উদ্বোধন',
+    descriptionEn: 'Vogdaburi Community Center inauguration ceremony',
+    descriptionBn: 'ভোগদাবুরি কমিউনিটি সেন্টারের উদ্বোধনী অনুষ্ঠান',
+    categorySlug: 'social',
+    categoryNameEn: 'Social',
+    categoryNameBn: 'সামাজিক',
+    bentoClass: 'lg:col-start-3 lg:row-start-1 lg:col-span-2 lg:row-span-2',
+  },
+];
+
+export const galleryFallbackCategories = [
+  { id: 'all', slug: 'all', nameEn: 'All', nameBn: 'সব' },
+  { id: 'education', slug: 'education', nameEn: 'Education', nameBn: 'শিক্ষা' },
+  { id: 'health', slug: 'health', nameEn: 'Health', nameBn: 'স্বাস্থ্য' },
+  { id: 'social', slug: 'social', nameEn: 'Social', nameBn: 'সামাজিক' },
+  { id: 'economic', slug: 'economic', nameEn: 'Economic', nameBn: 'অর্থনৈতিক' },
+];

@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { ArrowRight, Play } from 'lucide-react';
+import { useCmsSection } from '@/lib/cms/useHomepageContent';
+import { getImageUrl } from '@/lib/cms/helpers';
 import { Button } from '@/components/ui/button';
 
 import educationImg from '@/assets/hero/education-B1rO235h.jpeg';
@@ -43,14 +45,19 @@ function HeroHeadline({ language, title }: { language: string; title: string }) 
 
 const Hero = () => {
   const { t, i18n } = useTranslation();
+  const hero = useCmsSection('hero');
   const fontClass = i18n.language === 'bn' ? 'font-bengali' : 'font-english';
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  const slides = [
-    { src: educationImg, label: i18n.language === 'bn' ? 'শিক্ষা' : 'Education' },
-    { src: photo1, label: i18n.language === 'bn' ? 'কমিউনিটি' : 'Community' },
-    { src: photo2, label: i18n.language === 'bn' ? 'সম্পৃক্ততা' : 'Engagement' },
-  ];
+  const fallbackSlides = [educationImg, photo1, photo2];
+  const slideLabels = (hero.slideLabels as string[]) || fallbackSlides.map((_, i) =>
+    i18n.language === 'bn' ? ['শিক্ষা', 'কমিউনিটি', 'সম্পৃক্ততা'][i] : ['Education', 'Community', 'Engagement'][i]
+  );
+
+  const slides = fallbackSlides.map((fb, i) => ({
+    src: getImageUrl(hero, `slide-${i}`, fb),
+    label: slideLabels[i] || '',
+  }));
 
   useEffect(() => {
     const id = window.setInterval(() => {
@@ -60,7 +67,8 @@ const Hero = () => {
   }, [slides.length]);
 
   const scrollTo = (id: string) => {
-    document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    const target = id.replace(/^#/, '');
+    document.getElementById(target)?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   const watchStory = () => {
@@ -68,11 +76,19 @@ const Hero = () => {
     window.setTimeout(() => window.dispatchEvent(new Event('about:playVideo')), 650);
   };
 
-  const stats = [
-    { v: '500+', l: i18n.language === 'bn' ? 'পরিবার' : 'Families' },
-    { v: '50+', l: i18n.language === 'bn' ? 'কার্যক্রম' : 'Programs' },
-    { v: '1000+', l: i18n.language === 'bn' ? 'প্রভাব' : 'Lives touched' },
-  ];
+  const cmsStats = (hero.stats as { value: string; label: string }[]) || [];
+  const stats = cmsStats.length
+    ? cmsStats.map((s) => ({ v: s.value, l: s.label }))
+    : [
+        { v: '500+', l: i18n.language === 'bn' ? 'পরিবার' : 'Families' },
+        { v: '50+', l: i18n.language === 'bn' ? 'কার্যক্রম' : 'Programs' },
+        { v: '1000+', l: i18n.language === 'bn' ? 'প্রভাব' : 'Lives touched' },
+      ];
+
+  const title = String(hero.title || t('hero.title'));
+  const subtitle = String(hero.subtitle || t('hero.subtitle'));
+  const ctaText = String(hero.ctaText || t('hero.cta'));
+  const ctaLink = String(hero.ctaLink || '#about');
 
   return (
     <section
@@ -84,17 +100,17 @@ const Hero = () => {
       <div className="container-custom relative z-10 py-10 md:py-12 lg:py-14">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-6 items-center">
           <div className="lg:col-span-6 space-y-5">
-            <HeroHeadline language={i18n.language} title={t('hero.title')} />
+            <HeroHeadline language={i18n.language} title={title} />
 
-            <p className={`text-lg md:text-xl text-light-muted leading-relaxed max-w-md ${fontClass}`}>{t('hero.subtitle')}</p>
+            <p className={`text-lg md:text-xl text-light-muted leading-relaxed max-w-md ${fontClass}`}>{subtitle}</p>
 
             <div className="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-3 pt-1">
               <Button
                 size="lg"
                 className={`btn-primary rounded-full px-6 w-full sm:w-auto justify-center ${fontClass}`}
-                onClick={() => scrollTo('about')}
+                onClick={() => scrollTo(ctaLink)}
               >
-                {t('hero.cta')}
+                {ctaText}
                 <ArrowRight className="ml-2 h-4 w-4 shrink-0" aria-hidden />
               </Button>
               <button

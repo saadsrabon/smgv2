@@ -23,10 +23,6 @@ const Footer = () => {
     { action: 'volunteer' as const, label: t('contact.volunteer') },
   ];
 
-  const otherLinks = [
-    { href: `mailto:${t('contact.email')}`, label: i18n.language === 'bn' ? 'ইমেইল' : 'Email' },
-    { href: 'https://shomajgori.org', label: t('about.official.domain'), external: true },
-  ];
 
   return (
     <footer className="relative mt-16 md:mt-20">
@@ -136,7 +132,17 @@ const Footer = () => {
               <ul className={`space-y-3 text-sm text-white/75 ${fontClass}`}>
                 <li className="flex gap-2">
                   <MapPin className="w-4 h-4 text-white/90 shrink-0 mt-0.5" aria-hidden />
-                  <span>{t('contact.address')}</span>
+                  <div>
+                    <p className="font-semibold text-white/90 text-xs mb-0.5">{t('contact.usOfficeTitle')}</p>
+                    <span className="whitespace-pre-line">{t('contact.usOfficeAddress')}</span>
+                  </div>
+                </li>
+                <li className="flex gap-2">
+                  <MapPin className="w-4 h-4 text-white/90 shrink-0 mt-0.5" aria-hidden />
+                  <div>
+                    <p className="font-semibold text-white/90 text-xs mb-0.5">{t('contact.bangladeshAddressLabel')}</p>
+                    <span>{t('contact.address')}</span>
+                  </div>
                 </li>
                 <li className="flex gap-2">
                   <Mail className="w-4 h-4 text-white/90 shrink-0 mt-0.5" aria-hidden />
@@ -146,21 +152,12 @@ const Footer = () => {
                 </li>
                 <li className="flex gap-2">
                   <Phone className="w-4 h-4 text-white/90 shrink-0 mt-0.5" aria-hidden />
-                  <span>{t('contact.phone')}</span>
+                  <div>
+                    <p className="font-semibold text-white/90 text-xs mb-0.5">{t('contact.bangladeshPhoneLabel')}</p>
+                    <span>{t('contact.phone')}</span>
+                  </div>
                 </li>
               </ul>
-              <div className="pt-2 flex flex-col gap-2">
-                {otherLinks.map((link) => (
-                  <a
-                    key={link.label}
-                    href={link.href}
-                    className={`text-sm text-white/60 hover:text-white ${fontClass}`}
-                    {...(link.external ? { target: '_blank', rel: 'noopener noreferrer' } : {})}
-                  >
-                    {link.label}
-                  </a>
-                ))}
-              </div>
             </div>
           </div>
 

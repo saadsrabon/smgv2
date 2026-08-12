@@ -109,6 +109,59 @@
     "formSuccess": "Your message has been sent successfully. We will get back to you soon.",
     "formError": "Something went wrong sending your message. Please try again or email us directly."
   },
+  "photos": {
+    "eyebrow": "In the field",
+    "title": "Our Programs in Pictures",
+    "subtitle": "Glimpses of our community development programs in Vogdaburi",
+    "viewGallery": "View Full Gallery",
+    "items": [
+      { "title": "Education Program", "category": "Education" },
+      { "title": "Economic Empowerment", "category": "Social" },
+      { "title": "Social Activities", "category": "Social" },
+      { "title": "Skills Development", "category": "Economic" }
+    ]
+  },
+  "activities": {
+    "eyebrow": "Running now",
+    "title": "Ongoing Activities",
+    "subtitle": "Community development programs currently running in Vogdaburi",
+    "activePrograms": "active programs",
+    "participants": "participants",
+    "items": [
+      {
+        "title": "Preschool Education Program",
+        "description": "73 children receive quality early education daily",
+        "location": "Vogdaburi Community Center",
+        "schedule": "Sunday - Wednesday, 8:00 AM - 10:00 AM",
+        "category": "Education",
+        "participants": 73
+      },
+      {
+        "title": "Tutoring Program",
+        "description": "Specialized academic support for student improvement",
+        "location": "Vogdaburi Community Center",
+        "schedule": "Saturday - Wednesday, 4:00 PM - 6:00 PM",
+        "category": "Education",
+        "participants": 57
+      },
+      {
+        "title": "Digital Literacy Training",
+        "description": "Computer and internet skills training for youth",
+        "location": "Computer Lab, Vogdaburi",
+        "schedule": "Saturday - Thursday, 10:00 AM - 5:00 PM",
+        "category": "Digital",
+        "participants": 25
+      },
+      {
+        "title": "Community Health Camp",
+        "description": "Monthly health checkups and awareness programs",
+        "location": "Vogdaburi Community Center",
+        "schedule": "Every 2nd, 3rd, and 4th Sunday of each month, 9:00 AM – 12:30 PM",
+        "category": "Health",
+        "participants": 150
+      }
+    ]
+  },
   "footer": {
     "name": "Shomajgori Foundation",
     "description": "Empowering communities through education, health, social engagement, and economic empowerment",
