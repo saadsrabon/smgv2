@@ -3,6 +3,11 @@ import { useTranslation } from 'react-i18next';
 import { fetchGalleryCategories, fetchGalleryItems } from './api';
 import { galleryFallbackCategories, galleryFallbackItems } from './galleryFallback';
 
+function fallbackItemsForCategory(category: string) {
+  if (category === 'all') return galleryFallbackItems;
+  return galleryFallbackItems.filter((item) => item.categorySlug === category);
+}
+
 export function useGalleryCategories() {
   return useQuery({
     queryKey: ['gallery-categories'],
@@ -20,18 +25,19 @@ export function useGalleryItems(category: string) {
   const query = useQuery({
     queryKey: ['gallery-items', category],
     queryFn: () => fetchGalleryItems(category),
-    placeholderData: category === 'all'
-      ? galleryFallbackItems
-      : galleryFallbackItems.filter((i) => i.categorySlug === category),
+    placeholderData: fallbackItemsForCategory(category),
     staleTime: 5 * 60 * 1000,
     retry: 1,
   });
 
-  const items = (query.data?.length ? query.data : (
-    category === 'all'
-      ? galleryFallbackItems
-      : galleryFallbackItems.filter((i) => i.categorySlug === category)
-  )).map((item) => ({
+  const source =
+    query.isSuccess && Array.isArray(query.data)
+      ? query.data
+      : query.isError
+        ? fallbackItemsForCategory(category)
+        : fallbackItemsForCategory(category);
+
+  const items = source.map((item) => ({
     ...item,
     title: isBn ? item.titleBn : item.titleEn,
     description: isBn ? item.descriptionBn : item.descriptionEn,

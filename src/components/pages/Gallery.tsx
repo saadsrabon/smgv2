@@ -46,7 +46,10 @@ const Gallery = () => {
     bentoClass: item.bentoClass || '',
   }));
 
-  const filteredMedia = mediaItems;
+  const filteredMedia =
+    selectedCategory === 'all'
+      ? mediaItems
+      : mediaItems.filter((item) => item.categoryId === selectedCategory);
   const useBentoLayout = selectedCategory === 'all' && filteredMedia.length >= 5;
 
   const openLightbox = (media: MediaItem, index: number) => {

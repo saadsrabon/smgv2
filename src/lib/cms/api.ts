@@ -24,14 +24,9 @@ export async function fetchGalleryCategories(): Promise<GalleryCategory[]> {
 }
 
 export async function fetchGalleryItems(category?: string): Promise<GalleryItem[]> {
-  try {
-    const q = category && category !== 'all' ? `?category=${category}` : '';
-    const res = await fetch(`${API_BASE}/api/v1/public/gallery${q}`);
-    if (!res.ok) throw new Error('Failed');
-    const items = await res.json();
-    if (!items?.length) throw new Error('Empty');
-    return items;
-  } catch {
-    return [];
-  }
+  const q = category && category !== 'all' ? `?category=${encodeURIComponent(category)}` : '';
+  const res = await fetch(`${API_BASE}/api/v1/public/gallery${q}`);
+  if (!res.ok) throw new Error('Failed to load gallery items');
+  const items = await res.json();
+  return Array.isArray(items) ? items : [];
 }
