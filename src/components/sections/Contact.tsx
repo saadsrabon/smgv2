@@ -13,10 +13,11 @@ const Contact = () => {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    const formEl = e.currentTarget;
     setIsSubmitting(true);
     setStatus('idle');
 
-    const form = new FormData(e.currentTarget);
+    const form = new FormData(formEl);
 
     try {
       await sendContactEmail({
@@ -26,7 +27,7 @@ const Contact = () => {
         message: String(form.get('message') ?? ''),
       });
       setStatus('success');
-      e.currentTarget.reset();
+      formEl.reset();
     } catch (error) {
       const detail = getEmailJsErrorMessage(error);
       console.error('Contact form error:', detail, error);
