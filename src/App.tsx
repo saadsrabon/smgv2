@@ -2,6 +2,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useEffect } from 'react';
 import Header from './components/layout/Header';
 import Footer from './components/layout/Footer';
+import ScrollToTop from './components/layout/ScrollToTop';
 import Hero from './components/sections/Hero';
 import About from './components/sections/About';
 import Programs from './components/sections/Programs';
@@ -22,6 +23,7 @@ function App() {
 
   return (
     <Router>
+      <ScrollToTop />
       <div className="min-h-screen bg-light-bg">
         {!isPreview && <Header />}
         <Routes>

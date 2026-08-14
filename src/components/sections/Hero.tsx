@@ -8,6 +8,11 @@ import { Button } from '@/components/ui/button';
 import educationImg from '@/assets/hero/education-B1rO235h.jpeg';
 import photo1 from '@/assets/hero/PHOTO-2024-06-09-10-22-25.jpg';
 import photo2 from '@/assets/hero/PHOTO-2024-10-01-08-46-54.jpg';
+import tailorImg from '@/assets/hero/tailorMachin-CgXAI2ci.png';
+
+const HERO_SLIDE_FALLBACKS = [educationImg, photo1, photo2, tailorImg];
+const HERO_LABELS_EN = ['Education', 'Community', 'Engagement', 'Economic'];
+const HERO_LABELS_BN = ['শিক্ষা', 'কমিউনিটি', 'সম্পৃক্ততা', 'অর্থনৈতিক'];
 
 function HeroHeadline({ language, title }: { language: string; title: string }) {
   const fontClass = language === 'bn' ? 'font-bengali' : 'font-english hero-headline-en';
@@ -49,14 +54,13 @@ const Hero = () => {
   const fontClass = i18n.language === 'bn' ? 'font-bengali' : 'font-english';
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
-  const fallbackSlides = [educationImg, photo1, photo2];
-  const slideLabels = (hero.slideLabels as string[]) || fallbackSlides.map((_, i) =>
-    i18n.language === 'bn' ? ['শিক্ষা', 'কমিউনিটি', 'সম্পৃক্ততা'][i] : ['Education', 'Community', 'Engagement'][i]
-  );
+  const fallbackSlides = HERO_SLIDE_FALLBACKS;
+  const defaultLabels = i18n.language === 'bn' ? HERO_LABELS_BN : HERO_LABELS_EN;
+  const slideLabels = (hero.slideLabels as string[]) || defaultLabels;
 
   const slides = fallbackSlides.map((fb, i) => ({
     src: getImageUrl(hero, `slide-${i}`, fb),
-    label: slideLabels[i] || '',
+    label: slideLabels[i] || defaultLabels[i] || '',
   }));
 
   useEffect(() => {
@@ -142,7 +146,7 @@ const Hero = () => {
               <div className="hero-photo-main relative aspect-[5/4] max-h-[min(54vh,420px)] overflow-hidden rounded-2xl border border-light-border shadow-[0_12px_40px_rgba(47,170,160,0.12)]">
                 {slides.map((slide, i) => (
                   <img
-                    key={slide.src}
+                    key={`slide-${i}`}
                     src={slide.src}
                     alt=""
                     className={`absolute inset-0 h-full w-full object-cover transition-opacity duration-700 ${
@@ -162,7 +166,7 @@ const Hero = () => {
               <div className="absolute -bottom-3 right-4 flex gap-2 lg:-bottom-4 lg:right-6">
                 {slides.map((slide, i) => (
                   <button
-                    key={slide.src}
+                    key={`thumb-${i}`}
                     type="button"
                     onClick={() => setCurrentImageIndex(i)}
                     className={`h-14 w-14 overflow-hidden rounded-xl border-2 transition-all ${

@@ -8,12 +8,14 @@ import tailorImg from '@/assets/hero/tailorMachin-CgXAI2ci.png';
 
 import type { HomepageSections } from './types';
 
-const heroSlideFallbacks = [educationImg, photo1, photo2];
+const heroSlideFallbacks = [educationImg, photo1, photo2, tailorImg];
 const programImages = { education: educationImg, health: photo2, social: photo1, economic: tailorImg };
 
 function heroSection(locale: 'en' | 'bn') {
   const h = locale === 'bn' ? bn.hero : en.hero;
-  const slideLabels = locale === 'bn' ? ['শিক্ষা', 'কমিউনিটি', 'সম্পৃক্ততা'] : ['Education', 'Community', 'Engagement'];
+  const slideLabels = locale === 'bn'
+    ? ['শিক্ষা', 'কমিউনিটি', 'সম্পৃক্ততা', 'অর্থনৈতিক']
+    : ['Education', 'Community', 'Engagement', 'Economic'];
   const statsLabels = locale === 'bn' ? ['পরিবার', 'কার্যক্রম', 'প্রভাব'] : ['Families', 'Programs', 'Lives touched'];
   return {
     title: h.title,
