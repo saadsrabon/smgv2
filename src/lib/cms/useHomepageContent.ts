@@ -3,7 +3,7 @@ import { useQuery } from '@tanstack/react-query';
 import { fetchHomepage } from './api';
 import { getFallbackResponse, homepageFallback } from './homepageFallback';
 import { mergeSection } from './helpers';
-import type { ImpactSectionContent } from './sections/impact';
+import type { ImpactSectionContent, ImpactTestimonialContent } from './sections/impact';
 import { resolveImpactTestimonials } from './sections/impact';
 
 export function useHomepageContent() {
@@ -14,7 +14,7 @@ export function useHomepageContent() {
     queryKey: ['homepage', locale],
     queryFn: () => fetchHomepage(locale),
     placeholderData: getFallbackResponse(locale),
-    staleTime: 5 * 60 * 1000,
+    staleTime: 60 * 1000,
     retry: 1,
   });
 }
@@ -35,9 +35,21 @@ export function useFounderModalContent() {
 }
 
 export function useImpactSection(): ImpactSectionContent {
-  const section = useCmsSection('impact') as Record<string, unknown>;
+  const { i18n } = useTranslation();
+  const locale = (i18n.language === 'bn' ? 'bn' : 'en') as 'en' | 'bn';
+  const { data, isFetched } = useHomepageContent();
+
+  const fallback = homepageFallback[locale].impact as ImpactSectionContent;
+  const apiSection = data?.sections?.impact as Record<string, unknown> | undefined;
+  const merged = mergeSection(fallback as Record<string, unknown>, apiSection) as ImpactSectionContent;
+
+  const testimonials: ImpactTestimonialContent[] =
+    isFetched && apiSection
+      ? resolveImpactTestimonials(apiSection)
+      : fallback.testimonials;
+
   return {
-    ...(section as ImpactSectionContent),
-    testimonials: resolveImpactTestimonials(section),
+    ...merged,
+    testimonials,
   };
 }

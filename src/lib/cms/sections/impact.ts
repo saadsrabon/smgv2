@@ -95,9 +95,10 @@ export const impactSectionFallbackBn: ImpactSectionContent = {
 };
 
 export function resolveImpactTestimonials(section: Record<string, unknown>): ImpactTestimonialContent[] {
-  const testimonials = section.testimonials;
-  if (Array.isArray(testimonials) && testimonials.length > 0) {
-    return (testimonials as ImpactTestimonialContent[]).filter((item) => String(item.quote ?? '').trim());
+  if (Array.isArray(section.testimonials)) {
+    return (section.testimonials as ImpactTestimonialContent[]).filter((item) =>
+      String(item.quote ?? '').trim()
+    );
   }
 
   const legacy = section.testimonial;

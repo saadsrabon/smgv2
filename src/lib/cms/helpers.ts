@@ -6,6 +6,17 @@ export function mergeSection<T extends Record<string, unknown>>(
 ): T {
   if (!api || Object.keys(api).length === 0) return fallback;
   const merged = { ...fallback, ...api } as T;
+
+  if (Array.isArray(api.testimonials)) {
+    (merged as Record<string, unknown>).testimonials = api.testimonials;
+  } else if ('testimonial' in api) {
+    delete (merged as Record<string, unknown>).testimonials;
+  }
+
+  if (Array.isArray(api.achievements)) {
+    (merged as Record<string, unknown>).achievements = api.achievements;
+  }
+
   if (api.images && Array.isArray(api.images)) {
     (merged as Record<string, unknown>).images = mergeImages(
       (fallback.images as CmsImage[]) || [],

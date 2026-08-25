@@ -63,7 +63,7 @@ function TestimonialSlider({
 
   useEffect(() => {
     setIndex(0);
-  }, [items]);
+  }, [items.map((item) => `${item.quote}|${item.author}|${item.role ?? ''}`).join(';;')]);
 
   useEffect(() => {
     if (items.length <= 1) return;
