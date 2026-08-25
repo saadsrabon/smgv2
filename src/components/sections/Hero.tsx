@@ -3,6 +3,8 @@ import { useTranslation } from 'react-i18next';
 import { ArrowRight, Play } from 'lucide-react';
 import { useCmsSection } from '@/lib/cms/useHomepageContent';
 import { getImageUrl } from '@/lib/cms/helpers';
+import { usePublicImpactMetrics } from '@/lib/usePublicImpactMetrics';
+import type { PublicImpactMetrics } from '@/lib/googleSheets';
 import { Button } from '@/components/ui/button';
 
 import educationImg from '@/assets/hero/education-B1rO235h.jpeg';
@@ -13,6 +15,24 @@ import tailorImg from '@/assets/hero/tailorMachin-CgXAI2ci.png';
 const HERO_SLIDE_FALLBACKS = [educationImg, photo1, photo2, tailorImg];
 const HERO_LABELS_EN = ['Education', 'Community', 'Engagement', 'Economic'];
 const HERO_LABELS_BN = ['শিক্ষা', 'কমিউনিটি', 'সম্পৃক্ততা', 'অর্থনৈতিক'];
+
+const heroStatConfig = [
+  {
+    key: 'familiesServed' as const,
+    labelEn: 'Families served',
+    labelBn: 'পরিবার',
+  },
+  {
+    key: 'communityPrograms' as const,
+    labelEn: 'Programs',
+    labelBn: 'কার্যক্রম',
+  },
+  {
+    key: 'livesImpacted' as const,
+    labelEn: 'Lives impacted',
+    labelBn: 'প্রভাব',
+  },
+] as const;
 
 function HeroHeadline({ language, title }: { language: string; title: string }) {
   const fontClass = language === 'bn' ? 'font-bengali' : 'font-english hero-headline-en';
@@ -51,6 +71,7 @@ function HeroHeadline({ language, title }: { language: string; title: string }) 
 const Hero = () => {
   const { t, i18n } = useTranslation();
   const hero = useCmsSection('hero');
+  const { data: publicMetrics } = usePublicImpactMetrics();
   const fontClass = i18n.language === 'bn' ? 'font-bengali' : 'font-english';
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
@@ -80,14 +101,12 @@ const Hero = () => {
     window.setTimeout(() => window.dispatchEvent(new Event('about:playVideo')), 650);
   };
 
-  const cmsStats = (hero.stats as { value: string; label: string }[]) || [];
-  const stats = cmsStats.length
-    ? cmsStats.map((s) => ({ v: s.value, l: s.label }))
-    : [
-        { v: '500+', l: i18n.language === 'bn' ? 'পরিবার' : 'Families' },
-        { v: '50+', l: i18n.language === 'bn' ? 'কার্যক্রম' : 'Programs' },
-        { v: '1000+', l: i18n.language === 'bn' ? 'প্রভাব' : 'Lives touched' },
-      ];
+  const getMetricValue = (key: keyof PublicImpactMetrics) => publicMetrics?.[key] ?? '—';
+
+  const stats = heroStatConfig.map((stat) => ({
+    v: getMetricValue(stat.key),
+    l: i18n.language === 'bn' ? stat.labelBn : stat.labelEn,
+  }));
 
   const title = String(hero.title || t('hero.title'));
   const subtitle = String(hero.subtitle || t('hero.subtitle'));
