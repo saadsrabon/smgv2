@@ -30,8 +30,8 @@ const impactMetricConfig = [
   },
   {
     key: 'tutoringEnrollment' as const,
-    labelBn: 'শিক্ষার্থী',
-    labelEn: 'Students Trained',
+    labelBn: 'শিক্ষার্থী তালিকাভুক্তি',
+    labelEn: 'Student Enrollment',
     Icon: StudentsImpactIcon,
     accent: '#0d9488',
   },
