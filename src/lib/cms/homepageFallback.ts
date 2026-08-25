@@ -7,6 +7,11 @@ import photo2 from '@/assets/hero/PHOTO-2024-10-01-08-46-54.jpg';
 import tailorImg from '@/assets/hero/tailorMachin-CgXAI2ci.png';
 
 import type { HomepageSections } from './types';
+import {
+  impactSectionFallbackBn,
+  impactSectionFallbackEn,
+  type ImpactSectionContent,
+} from './sections/impact';
 
 const heroSlideFallbacks = [educationImg, photo1, photo2, tailorImg];
 const programImages = { education: educationImg, health: photo2, social: photo1, economic: tailorImg };
@@ -74,25 +79,10 @@ function programsSection(locale: 'en' | 'bn') {
   };
 }
 
-function impactSection(locale: 'en' | 'bn') {
-  const imp = locale === 'bn' ? bn.impact : en.impact;
-  const metrics = locale === 'bn'
-    ? [{ value: '500+', label: 'পরিবার' }, { value: '200+', label: 'শিক্ষার্থী' }, { value: '50+', label: 'কার্যক্রম' }, { value: '1000+', label: 'প্রভাব' }]
-    : [{ value: '500+', label: 'Families served' }, { value: '200+', label: 'Students trained' }, { value: '50+', label: 'Programs launched' }, { value: '1000+', label: 'Lives touched' }];
+function impactSection(locale: 'en' | 'bn'): ImpactSectionContent {
+  const base = locale === 'bn' ? impactSectionFallbackBn : impactSectionFallbackEn;
   return {
-    title: imp.title,
-    subtitle: imp.subtitle,
-    storyTitle: imp.vogdaburi.title,
-    storyDescription: imp.vogdaburi.description,
-    storyBody: imp.vogdaburi.story,
-    achievements: imp.vogdaburi.achievements,
-    metrics,
-    testimonial: {
-      quote: locale === 'bn'
-        ? 'এই সেন্টার আমাদের গ্রামকে রূপান্তরিত করেছে।'
-        : 'This center has transformed our village. Our children have access to education and our community has a place to gather and grow together.',
-      author: locale === 'bn' ? 'কমিউনিটি সদস্য, ভোগদাবুরি' : 'Community Member, Vogdaburi',
-    },
+    ...base,
     images: [{ key: 'featured-story', url: photo2, sortOrder: 0 }],
   };
 }
