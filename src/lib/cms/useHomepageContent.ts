@@ -5,6 +5,7 @@ import { getFallbackResponse, homepageFallback } from './homepageFallback';
 import { mergeSection } from './helpers';
 import type { ImpactSectionContent, ImpactTestimonialContent } from './sections/impact';
 import { resolveImpactTestimonials } from './sections/impact';
+import type { PhotosSectionContent } from './sections/photos';
 
 export function useHomepageContent() {
   const { i18n } = useTranslation();
@@ -52,4 +53,15 @@ export function useImpactSection(): ImpactSectionContent {
     ...merged,
     testimonials,
   };
+}
+
+export function usePhotosSection(): PhotosSectionContent {
+  const { i18n } = useTranslation();
+  const locale = (i18n.language === 'bn' ? 'bn' : 'en') as 'en' | 'bn';
+  const { data } = useHomepageContent();
+
+  const fallback = homepageFallback[locale].photos as PhotosSectionContent;
+  const apiSection = data?.sections?.photos as Record<string, unknown> | undefined;
+
+  return mergeSection(fallback as Record<string, unknown>, apiSection) as PhotosSectionContent;
 }

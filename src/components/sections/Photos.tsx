@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Reveal, SectionHeader } from '@/components/ui/Reveal';
-import { useCmsSection } from '@/lib/cms/useHomepageContent';
+import { usePhotosSection } from '@/lib/cms/useHomepageContent';
 import { getImageUrl } from '@/lib/cms/helpers';
 
 import educationImg from '@/assets/hero/education-B1rO235h.jpeg';
@@ -15,7 +15,7 @@ type PhotoItem = { title: string; category: string };
 
 const Photos = () => {
   const { t, i18n } = useTranslation();
-  const photosCms = useCmsSection('photos');
+  const photosCms = usePhotosSection();
   const fontClass = i18n.language === 'bn' ? 'font-bengali' : 'font-english';
 
   const localeItems = t('photos.items', { returnObjects: true }) as PhotoItem[];
@@ -31,10 +31,10 @@ const Photos = () => {
     };
   });
 
-  const eyebrow = String(photosCms.eyebrow || t('photos.eyebrow'));
-  const title = String(photosCms.title || t('photos.title'));
-  const subtitle = String(photosCms.subtitle || t('photos.subtitle'));
-  const viewGallery = String(photosCms.viewGalleryText || t('photos.viewGallery'));
+  const eyebrow = photosCms.eyebrow;
+  const title = photosCms.title;
+  const subtitle = photosCms.subtitle;
+  const viewGallery = photosCms.viewGalleryText;
 
   return (
     <section id="photos" className="bg-light-bg scroll-mt-24 md:scroll-mt-32">
