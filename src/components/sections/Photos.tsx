@@ -11,18 +11,15 @@ import photo1 from '@/assets/hero/PHOTO-2024-06-09-10-22-25.jpg';
 import photo2 from '@/assets/hero/PHOTO-2024-10-01-08-46-54.jpg';
 import tailorImg from '@/assets/hero/tailorMachin-CgXAI2ci.png';
 
-type PhotoItem = { title: string; category: string };
-
 const Photos = () => {
-  const { t, i18n } = useTranslation();
+  const { i18n } = useTranslation();
   const photosCms = usePhotosSection();
   const fontClass = i18n.language === 'bn' ? 'font-bengali' : 'font-english';
 
-  const localeItems = t('photos.items', { returnObjects: true }) as PhotoItem[];
   const fallbacks = [educationImg, photo1, photo2, tailorImg];
 
   const photos = fallbacks.map((fb, i) => {
-    const item = localeItems[i] ?? { title: '', category: '' };
+    const item = photosCms.items[i] ?? { title: '', category: '' };
     return {
       id: i + 1,
       src: getImageUrl(photosCms, `photo-${i}`, fb),

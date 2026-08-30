@@ -17,6 +17,10 @@ export function mergeSection<T extends Record<string, unknown>>(
     (merged as Record<string, unknown>).achievements = api.achievements;
   }
 
+  if (Array.isArray(api.items)) {
+    (merged as Record<string, unknown>).items = api.items;
+  }
+
   if (api.images && Array.isArray(api.images)) {
     (merged as Record<string, unknown>).images = mergeImages(
       (fallback.images as CmsImage[]) || [],

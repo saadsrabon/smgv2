@@ -89,12 +89,14 @@ function impactSection(locale: 'en' | 'bn'): ImpactSectionContent {
 
 function photosSection(locale: 'en' | 'bn') {
   const p = locale === 'bn' ? bn.photos : en.photos;
+  const items = (p.items as { title: string; category: string }[]) ?? [];
   return {
     title: p.title,
     subtitle: p.subtitle,
     eyebrow: p.eyebrow,
     viewGalleryText: p.viewGallery,
     viewGalleryLink: '/gallery',
+    items,
     images: [educationImg, photo1, photo2, tailorImg].map((url, i) => ({ key: `photo-${i}`, url, sortOrder: i })),
   };
 }

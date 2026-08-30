@@ -5,7 +5,7 @@ import { getFallbackResponse, homepageFallback } from './homepageFallback';
 import { mergeSection } from './helpers';
 import type { ImpactSectionContent, ImpactTestimonialContent } from './sections/impact';
 import { resolveImpactTestimonials } from './sections/impact';
-import type { PhotosSectionContent } from './sections/photos';
+import { resolvePhotoItems, type PhotoItemContent, type PhotosSectionContent } from './sections/photos';
 
 export function useHomepageContent() {
   const { i18n } = useTranslation();
@@ -58,10 +58,19 @@ export function useImpactSection(): ImpactSectionContent {
 export function usePhotosSection(): PhotosSectionContent {
   const { i18n } = useTranslation();
   const locale = (i18n.language === 'bn' ? 'bn' : 'en') as 'en' | 'bn';
-  const { data } = useHomepageContent();
+  const { data, isFetched } = useHomepageContent();
 
   const fallback = homepageFallback[locale].photos as PhotosSectionContent;
   const apiSection = data?.sections?.photos as Record<string, unknown> | undefined;
+  const merged = mergeSection(fallback as Record<string, unknown>, apiSection) as PhotosSectionContent;
 
-  return mergeSection(fallback as Record<string, unknown>, apiSection) as PhotosSectionContent;
+  const items: PhotoItemContent[] =
+    isFetched && apiSection
+      ? resolvePhotoItems(apiSection)
+      : fallback.items;
+
+  return {
+    ...merged,
+    items: items.length > 0 ? items : fallback.items,
+  };
 }
