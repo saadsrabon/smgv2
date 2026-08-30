@@ -45,24 +45,10 @@ const Photos = () => {
           />
         </Reveal>
 
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-4 md:gap-5 mb-10">
-          <Reveal className="sm:col-span-2 lg:col-span-6 lg:row-span-2">
-            <figure className="group media-frame aspect-[4/3] lg:aspect-auto lg:h-full min-h-[240px] relative">
-              <img
-                src={photos[0].src}
-                alt={photos[0].title}
-                className="h-full w-full object-cover transition-transform duration-500 group-hover:scale-[1.02]"
-                loading="lazy"
-              />
-              <figcaption className="absolute bottom-0 left-0 right-0 bg-light-text/75 px-4 py-3 text-white">
-                <span className={`text-xs uppercase tracking-wide opacity-90 ${fontClass}`}>{photos[0].category}</span>
-                <p className={`font-semibold ${fontClass}`}>{photos[0].title}</p>
-              </figcaption>
-            </figure>
-          </Reveal>
-          {photos.slice(1).map((photo, i) => (
-            <Reveal key={photo.id} delay={i === 0 ? 'sm' : i === 1 ? 'md' : 'lg'} className="lg:col-span-6">
-              <figure className="group media-frame aspect-[16/10] relative h-full">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-5 mb-10">
+          {photos.map((photo, i) => (
+            <Reveal key={photo.id} delay={i === 0 ? 'none' : i === 1 ? 'sm' : i === 2 ? 'md' : 'lg'}>
+              <figure className="group media-frame aspect-[4/3] relative h-full">
                 <img
                   src={photo.src}
                   alt={photo.title}
